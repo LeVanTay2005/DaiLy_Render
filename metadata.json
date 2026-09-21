@@ -1,0 +1,6 @@
+{
+  "name": "Maison Fashion - Cửa Hàng Thời Trang & Quản Trị",
+  "description": "Website bán quần áo thời trang cao cấp full-stack với trải nghiệm khách hàng tối ưu và hệ thống quản trị Admin riêng biệt, an toàn.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
