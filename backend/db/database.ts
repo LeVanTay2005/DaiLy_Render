@@ -118,7 +118,8 @@ export const poolPromise = new sql.ConnectionPool(sqlConfig)
   })
   .catch(err => {
     console.error('Lỗi kết nối SQL Server:', err);
-    throw err;
+    // throw err;
+    return null;
   });
 
 class DatabaseEngine {
