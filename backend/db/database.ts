@@ -1,6 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 import bcrypt from 'bcryptjs';
+import sql from 'mssql';
 import {
   CategoryData,
   ProductData,
@@ -95,6 +96,30 @@ interface DatabaseState {
 
 const DATA_DIR = path.join(process.cwd(), 'data');
 const DATA_FILE = path.join(DATA_DIR, 'store.json');
+
+const sqlConfig: sql.config = {
+  user: process.env.DB_USER || 'sa',
+  password: process.env.DB_PASSWORD || '123123', // ⚠️ Thay mật khẩu sa của bạn vào đây
+  server: process.env.DB_SERVER || 'localhost',
+  options: {
+    instanceName: 'SQLEXPRESS2025',
+    database: 'maison_fashion',
+    encrypt: false,
+    trustServerCertificate: true,
+  },
+  port: 1433,
+};
+
+export const poolPromise = new sql.ConnectionPool(sqlConfig)
+  .connect()
+  .then(pool => {
+    console.log('[Maison Fashion] Kết nối SQL Server (SQLEXPRESS2025) thành công!');
+    return pool;
+  })
+  .catch(err => {
+    console.error('Lỗi kết nối SQL Server:', err);
+    throw err;
+  });
 
 class DatabaseEngine {
   private state: DatabaseState;
