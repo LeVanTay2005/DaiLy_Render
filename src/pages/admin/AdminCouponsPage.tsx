@@ -152,7 +152,7 @@ export const AdminCouponsPage: React.FC = () => {
                 </div>
 
                 <p className="text-sm font-semibold text-zinc-200 mb-1">
-                  {coupon.description || 'Ưu đãi mua sắm thời trang'}
+                  {coupon.description || 'Ưu đãi mua sắm thiết bị spa'}
                 </p>
 
                 <div className="text-2xl font-extrabold text-emerald-400 my-2">
@@ -217,7 +217,7 @@ export const AdminCouponsPage: React.FC = () => {
                   required
                   value={formData.code}
                   onChange={e => setFormData({ ...formData, code: e.target.value.toUpperCase() })}
-                  placeholder="VÍ DỤ: MAISON20, TET2025"
+                  placeholder="VÍ DỤ: DAILY20, TET2025"
                   className="w-full px-3.5 py-2.5 bg-zinc-950 border border-zinc-800 rounded-xl text-xs text-white uppercase font-mono tracking-wider focus:outline-none focus:ring-1 focus:ring-white"
                 />
               </div>

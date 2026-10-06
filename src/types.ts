@@ -6,6 +6,7 @@ export interface User {
   name: string;
   email: string;
   phone?: string;
+  address?: string;
   avatar?: string;
   role: UserRole;
   status?: UserStatus;
@@ -62,6 +63,7 @@ export interface CartItem {
   productId: string;
   variantId?: string;
   productName: string;
+  name?: string; // alias for productName
   slug: string;
   size: string;
   color: string;

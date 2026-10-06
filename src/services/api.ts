@@ -77,6 +77,8 @@ export const api = {
     me: () => fetchWithAuth('/api/auth/me'),
     updateProfile: (data: { name?: string; phone?: string; avatar?: string; address?: string }) =>
       fetchWithAuth('/api/auth/profile', { method: 'PUT', body: JSON.stringify(data) }),
+    changePassword: (data: { currentPassword: string; newPassword: string; confirmPassword?: string }) =>
+      fetchWithAuth('/api/auth/change-password', { method: 'POST', body: JSON.stringify(data) }),
   },
 
   // Storefront Products
@@ -109,6 +111,10 @@ export const api = {
     getMyOrders: () => fetchWithAuth('/api/orders'),
     getById: (id: string) => fetchWithAuth(`/api/orders/${id}`),
     getByCode: (orderCode: string) => fetchWithAuth(`/api/orders/${orderCode}`),
+    track: (orderCode: string, phone?: string) =>
+      fetchWithAuth(`/api/orders/track/${encodeURIComponent(orderCode)}${phone ? `?phone=${encodeURIComponent(phone)}` : ''}`),
+    cancel: (id: string) =>
+      fetchWithAuth(`/api/orders/${id}/cancel`, { method: 'PUT' }),
   },
 
   // Coupons

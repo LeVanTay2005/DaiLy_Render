@@ -310,7 +310,7 @@ export const CheckoutPage: React.FC = () => {
                         Số tài khoản: <strong className="font-mono text-zinc-900 font-bold">19036888999888</strong>
                       </p>
                       <p>
-                        Chủ tài khoản: <strong>CONG TY TNHH MAISON VIETNAM</strong>
+                        Chủ tài khoản: <strong>CONG TY TNHH DAILY GIUONG SPA</strong>
                       </p>
                       <p className="text-[11px] text-zinc-500 italic pt-1">
                         * Bạn sẽ nhận được mã QR quét nhanh tại trang hoàn tất đơn hàng.

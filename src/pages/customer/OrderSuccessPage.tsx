@@ -58,7 +58,7 @@ export const OrderSuccessPage: React.FC = () => {
     );
   }
 
-  const qrUrl = `https://api.vietqr.io/image/970407-19036888999888-06F7q7i.jpg?accountName=CONG%20TY%20TNHH%20MAISON%20VIETNAM&amount=${order.totalAmount}&addInfo=MAISON%20${order.orderCode}`;
+  const qrUrl = `https://api.vietqr.io/image/970407-19036888999888-06F7q7i.jpg?accountName=CONG%20TY%20TNHH%20DAILY%20GIUONG%20SPA&amount=${order.totalAmount}&addInfo=DAILY%20${order.orderCode}`;
 
   return (
     <div className="max-w-3xl mx-auto px-4 sm:px-6 py-12 sm:py-16 space-y-8">
@@ -71,7 +71,7 @@ export const OrderSuccessPage: React.FC = () => {
           Đặt Hàng Thành Công!
         </h1>
         <p className="text-xs sm:text-sm text-zinc-500 max-w-md mx-auto">
-          Cảm ơn bạn đã tin tưởng lựa chọn Maison. Mã đơn hàng của bạn là{' '}
+          Cảm ơn bạn đã tin tưởng lựa chọn DaiLy Giường Spa. Mã đơn hàng của bạn là{' '}
           <strong className="text-zinc-950 font-mono">#{order.orderCode}</strong>
         </p>
       </div>
@@ -127,7 +127,7 @@ export const OrderSuccessPage: React.FC = () => {
 
               <div>
                 <span className="text-zinc-500 block text-[11px]">Chủ tài khoản:</span>
-                <strong className="text-white">CONG TY TNHH MAISON VIETNAM</strong>
+                <strong className="text-white">CONG TY TNHH DAILY GIUONG SPA</strong>
               </div>
 
               <div>
@@ -140,7 +140,7 @@ export const OrderSuccessPage: React.FC = () => {
               <div>
                 <span className="text-zinc-500 block text-[11px]">Nội dung chuyển khoản (bắt buộc):</span>
                 <strong className="font-mono text-xs bg-zinc-900 px-2 py-1 rounded text-amber-300 border border-zinc-700 inline-block">
-                  MAISON {order.orderCode}
+                  DAILY {order.orderCode}
                 </strong>
               </div>
             </div>

@@ -18,10 +18,10 @@ export const ContactPage: React.FC = () => {
     <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-20 space-y-12">
       <div className="text-center space-y-3 max-w-xl mx-auto">
         <h1 className="font-serif-title text-3xl sm:text-4xl font-bold text-zinc-950">
-          Liên Hệ Maison
+          Tư Vấn & Báo Giá Setup Spa
         </h1>
         <p className="text-xs sm:text-sm text-zinc-500">
-          Chúng tôi luôn sẵn sàng lắng nghe mọi thắc mắc và đóng góp ý kiến từ quý khách
+          Chuyên gia tư vấn kỹ thuật giường spa sẵn sàng hỗ trợ thiết kế không gian & báo giá dự toán 24/7
         </p>
       </div>
 
@@ -29,40 +29,48 @@ export const ContactPage: React.FC = () => {
         {/* Contact Info */}
         <div className="bg-zinc-950 text-white rounded-3xl p-8 space-y-8 shadow-xl">
           <div>
-            <h3 className="font-serif-title text-xl font-bold">Maison Flagship Showroom</h3>
-            <p className="text-xs text-zinc-400 mt-1">Trải nghiệm không gian mua sắm trực tiếp</p>
+            <h3 className="font-serif-title text-xl font-bold">DAILY GIƯỜNG SPA Showroom & Factory</h3>
+            <p className="text-xs text-zinc-400 mt-1">Trải nghiệm trực tiếp 50+ mẫu giường spa và thiết bị</p>
           </div>
 
           <div className="space-y-4 text-xs">
             <div className="flex items-start gap-3">
               <MapPin className="w-4 h-4 text-zinc-400 mt-0.5" />
               <div>
-                <strong className="text-white block">Địa chỉ showroom:</strong>
+                <strong className="text-white block">Showroom trưng bày:</strong>
                 <p className="text-zinc-300">158 Đồng Khởi, Phường Bến Nghé, Quận 1, TP. Hồ Chí Minh</p>
+              </div>
+            </div>
+
+            <div className="flex items-start gap-3">
+              <MapPin className="w-4 h-4 text-zinc-400 mt-0.5" />
+              <div>
+                <strong className="text-white block">Xưởng mộc & bọc đệm da:</strong>
+                <p className="text-zinc-300">KCN Tân Bình, Tây Thạnh, Quận Tân Phú, TP. Hồ Chí Minh</p>
               </div>
             </div>
 
             <div className="flex items-start gap-3">
               <Phone className="w-4 h-4 text-zinc-400 mt-0.5" />
               <div>
-                <strong className="text-white block">Hotline tư vấn:</strong>
-                <p className="text-zinc-300">1900 6868 (08:30 - 22:00)</p>
+                <strong className="text-white block">Hotline kỹ thuật & báo giá:</strong>
+                <p className="text-zinc-300">1900 6868 (08:30 - 22:00 hàng ngày)</p>
               </div>
             </div>
 
             <div className="flex items-start gap-3">
               <Mail className="w-4 h-4 text-zinc-400 mt-0.5" />
               <div>
-                <strong className="text-white block">Email chăm sóc khách hàng:</strong>
-                <p className="text-zinc-300">contact@maisonfashion.vn</p>
+                <strong className="text-white block">Email nhận hồ sơ dự thầu & báo giá:</strong>
+                <p className="text-zinc-300">contact@dailygiuongspa.vn</p>
               </div>
             </div>
 
             <div className="flex items-start gap-3">
               <Clock className="w-4 h-4 text-zinc-400 mt-0.5" />
               <div>
-                <strong className="text-white block">Thời gian mở cửa:</strong>
-                <p className="text-zinc-300">08:30 - 22:00 hàng ngày (kể cả Thứ 7, CN & Ngày lễ)</p>
+                <strong className="text-white block">Giờ mở cửa đón tiếp:</strong>
+                <p className="text-zinc-300">08:30 - 20:30 hàng ngày (Kể cả Thứ 7 & Chủ Nhật)</p>
               </div>
             </div>
           </div>

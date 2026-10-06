@@ -51,13 +51,13 @@ export const AdminLoginPage: React.FC = () => {
         {/* Logo & Header */}
         <div className="text-center">
           <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-white text-zinc-950 font-serif-title text-2xl font-bold mb-4 shadow-xl">
-            M
+            D
           </div>
           <h1 className="font-serif-title text-3xl font-bold tracking-tight text-white uppercase">
             ADMIN LOGIN
           </h1>
           <p className="mt-2 text-xs text-zinc-400 font-medium tracking-wide uppercase">
-            Cổng Đăng Nhập Quản Trị Hệ Thống Maison Fashion
+            Cổng Đăng Nhập Quản Trị Hệ Thống DaiLy Giường Spa
           </p>
         </div>
 

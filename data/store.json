@@ -1,1083 +1,908 @@
 {
   "users": [
     {
+      "id": "usr-1791268844060-fck2",
+      "name": "Lê Văn Tây",
+      "email": "levantay1812005@gmail.com",
+      "passwordHash": "$2b$10$EG6DaaWpPgWoS01D8Onm0.tNnhqOmbgkTy2fK9IXYW6OoFpEattMu",
+      "phone": "0932436080",
+      "address": "",
+      "avatar": "",
+      "role": "CUSTOMER",
+      "status": "ACTIVE",
+      "createdAt": "2026-10-06T06:40:44.060Z",
+      "updatedAt": "2026-10-06T07:16:49.876Z"
+    },
+    {
       "id": "usr-admin-1",
       "name": "Trần Văn Quản Trị",
       "email": "admin@example.com",
-      "passwordHash": "$2b$10$xhe2bdmKtkymROozxxkfcuf9ZeTcHZTzoteqcGjzaCC4jl7pIawiG",
+      "passwordHash": "$2b$10$EG6DaaWpPgWoS01D8Onm0.6tLfe3hSYhSrkY89h6g0PPWh0pH.lQ6",
       "phone": "0909123456",
+      "address": "158 Đồng Khởi, Bến Nghé, Quận 1, TP. Hồ Chí Minh",
       "avatar": "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80",
       "role": "ADMIN",
       "status": "ACTIVE",
-      "createdAt": "2025-01-01T00:00:00Z"
+      "createdAt": "2025-01-01T00:00:00.000Z",
+      "updatedAt": "2026-10-06T07:16:49.852Z"
     },
     {
       "id": "usr-cust-1",
-      "name": "Nguyễn Thúy Vy",
+      "name": "Nguyễn Thúy Vy (Aesthetic Clinic)",
       "email": "khachhang@example.com",
-      "passwordHash": "$2b$10$xhe2bdmKtkymROozxxkfcuI1ozPY4rJQ.3RuCDnwDz8dVXDlxqR/u",
+      "passwordHash": "$2b$10$EG6DaaWpPgWoS01D8Onm0.tNnhqOmbgkTy2fK9IXYW6OoFpEattMu",
       "phone": "0918765432",
+      "address": "Tòa nhà Landmark 81, 720A Điện Biên Phủ, Phường 22, Quận Bình Thạnh, TP. Hồ Chí Minh",
       "avatar": "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=150&auto=format&fit=crop&q=80",
       "role": "CUSTOMER",
       "status": "ACTIVE",
-      "createdAt": "2025-01-05T10:00:00Z",
-      "totalOrders": 3,
-      "totalSpent": 1847000
+      "createdAt": "2025-01-05T10:00:00.000Z",
+      "updatedAt": "2026-10-06T07:16:49.871Z"
     },
     {
       "id": "usr-cust-2",
-      "name": "Lê Minh Tuấn",
+      "name": "Lê Minh Tuấn (Spa Dưỡng Sinh)",
       "email": "minhtuan@gmail.com",
-      "passwordHash": "$2b$10$xhe2bdmKtkymROozxxkfcuI1ozPY4rJQ.3RuCDnwDz8dVXDlxqR/u",
+      "passwordHash": "$2b$10$EG6DaaWpPgWoS01D8Onm0.tNnhqOmbgkTy2fK9IXYW6OoFpEattMu",
       "phone": "0987654321",
+      "address": "Số 45 Tràng Tiền, Phường Tràng Tiền, Quận Hoàn Kiếm, Hà Nội",
       "avatar": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&auto=format&fit=crop&q=80",
       "role": "CUSTOMER",
       "status": "ACTIVE",
-      "createdAt": "2025-01-08T14:30:00Z",
-      "totalOrders": 2,
-      "totalSpent": 1240000
+      "createdAt": "2025-01-08T14:30:00.000Z",
+      "updatedAt": "2026-10-06T07:16:49.874Z"
     },
     {
       "id": "usr-cust-3",
-      "name": "Phạm Phương Linh",
+      "name": "Phạm Phương Linh (Resort Spa)",
       "email": "phuonglinh@gmail.com",
-      "passwordHash": "$2b$10$xhe2bdmKtkymROozxxkfcuI1ozPY4rJQ.3RuCDnwDz8dVXDlxqR/u",
+      "passwordHash": "$2b$10$EG6DaaWpPgWoS01D8Onm0.tNnhqOmbgkTy2fK9IXYW6OoFpEattMu",
       "phone": "0933221100",
+      "address": "124 Nguyễn Văn Linh, Phường Nam Dương, Quận Hải Châu, Đà Nẵng",
       "avatar": "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=150&auto=format&fit=crop&q=80",
       "role": "CUSTOMER",
       "status": "ACTIVE",
-      "createdAt": "2025-01-12T09:15:00Z",
-      "totalOrders": 1,
-      "totalSpent": 590000
+      "createdAt": "2025-01-12T09:15:00.000Z",
+      "updatedAt": "2026-10-06T07:16:49.875Z"
+    },
+    {
+      "id": "usr-cust-demo",
+      "name": "Khách Hàng Demo",
+      "email": "customer@example.com",
+      "passwordHash": "$2b$10$EG6DaaWpPgWoS01D8Onm0.tNnhqOmbgkTy2fK9IXYW6OoFpEattMu",
+      "phone": "0901234567",
+      "address": "Quận 1, TP. Hồ Chí Minh",
+      "avatar": "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=150&auto=format&fit=crop&q=80",
+      "role": "CUSTOMER",
+      "status": "ACTIVE",
+      "createdAt": "2025-01-01T10:00:00.000Z",
+      "updatedAt": "2026-10-06T07:16:49.873Z"
     }
   ],
   "categories": [
     {
       "id": "cat-1",
-      "name": "Áo Nam & Nữ",
-      "slug": "ao",
-      "description": "Bộ sưu tập áo thun, sơ mi, polo cao cấp chất liệu cotton thoáng mát",
-      "image": "https://images.unsplash.com/photo-1521572267360-ee0c2909d518?w=800&auto=format&fit=crop&q=80"
+      "name": "Giường Tiêm Thẩm Mỹ & Phẫu Thuật",
+      "slug": "giuong-tiem-tham-my",
+      "description": "Giường thẩm mỹ cao cấp 1 - 4 động cơ điện tử, bọc da PU y tế kháng khuẩn, ngả lưng và nâng chân đa góc mượt mà.",
+      "image": "/images/products/giuong-tiem-dien.jpg"
     },
     {
       "id": "cat-2",
-      "name": "Quần Thời Trang",
-      "slug": "quan",
-      "description": "Quần jeans, quần âu, kaki form chuẩn tôn dáng thời thượng",
-      "image": "https://images.unsplash.com/photo-1542272604-780c96856592?w=800&auto=format&fit=crop&q=80"
+      "name": "Giường Gội Đầu Dưỡng Sinh Tai Thỏ",
+      "slug": "giuong-goi-duong-sinh",
+      "description": "Giường gội dưỡng sinh 2 trong 1 tích hợp bồn sứ / bồn tai thỏ, vòm tuần hoàn nước nóng ấm và thùng xông thảo dược.",
+      "image": "/images/products/giuong-goi-duong-sinh.jpg"
     },
     {
       "id": "cat-3",
-      "name": "Váy & Đầm Nữ",
-      "slug": "vay",
-      "description": "Thiết kế váy midi, đầm suông thanh lịch cho nàng công sở và dạo phố",
-      "image": "https://images.unsplash.com/photo-1595777457583-95e059d581b8?w=800&auto=format&fit=crop&q=80"
+      "name": "Giường Massage Body Gỗ Tự Nhiên",
+      "slug": "giuong-massage-go",
+      "description": "Khung gỗ sồi, gỗ tràm tự nhiên chịu tải 350kg, đệm mút D40 chống xẹp lún, khoét lỗ thở chuẩn kỹ thuật spa trị liệu.",
+      "image": "/images/products/giuong-massage-go.png"
     },
     {
       "id": "cat-4",
-      "name": "Áo Khoác & Blazer",
-      "slug": "ao-khoac",
-      "description": "Blazer may đo tinh tế, áo khoác bomber ấm áp và phong cách",
-      "image": "https://images.unsplash.com/photo-1591047139829-d91aecb6caea?w=800&auto=format&fit=crop&q=80"
+      "name": "Giường Spa Khung Kim Loại & Inox",
+      "slug": "giuong-spa-kim-loai",
+      "description": "Khung thép sơn tĩnh điện chống rỉ và inox 304 sáng bóng, tích hợp tầng kệ khăn và cơ chế nâng đầu tiện dụng.",
+      "image": "/images/products/giuong-spa-inox.jpg"
     },
     {
       "id": "cat-5",
-      "name": "Hoodie & Sweater",
-      "slug": "hoodie",
-      "description": "Áo nỉ phong cách streetwear trẻ trung năng động giữ ấm mùa thu đông",
-      "image": "https://images.unsplash.com/photo-1556905055-8f358a7a47b2?w=800&auto=format&fit=crop&q=80"
+      "name": "Giường Vali Gấp Gọn Di Động",
+      "slug": "giuong-vali-gap-gon",
+      "description": "Giường gấp vali chân nhôm siêu nhẹ 12kg, dễ dàng xếp gọn mang đi trị liệu, phun xăm, nối mi tận nơi khách hàng.",
+      "image": "/images/products/giuong-vali-gap.jpg"
     },
     {
       "id": "cat-6",
-      "name": "Phụ Kiện Cao Cấp",
-      "slug": "phu-kien",
-      "description": "Túi xách da, thắt lưng, nón và phụ kiện thời trang tạo điểm nhấn phong cách",
-      "image": "https://images.unsplash.com/photo-1584917865442-de89df76afd3?w=800&auto=format&fit=crop&q=80"
+      "name": "Ghế & Giường Phun Xăm, Nối Mi",
+      "slug": "giuong-phun-xam-noi-mi",
+      "description": "Ghế giường xoay 360 độ ngả phẳng, tựa tay và gối rời giúp kỹ thuật viên thao tác chuẩn xác, chống mỏi lưng.",
+      "image": "/images/products/ghe-phun-xam.jpg"
     }
   ],
   "products": [
     {
       "id": "prod-1",
-      "name": "Áo Thun Basic Heavyweight Cotton",
-      "slug": "ao-thun-basic-heavyweight-cotton",
+      "name": "Giường Tiêm Thẩm Mỹ Chỉnh Điện 3 Động Cơ Cao Cấp Hi-Tech S3",
+      "slug": "giuong-tiem-tham-my-chinh-dien-3-dong-co-hi-tech-s3",
       "categoryId": "cat-1",
-      "brand": "Maison Studio",
-      "price": 320000,
-      "salePrice": 249000,
-      "description": "Áo thun form relaxed-fit từ chất liệu 100% cotton định lượng 260gsm dày dặn, thấm hút mồ hôi tốt, giữ form dáng hoàn hảo sau nhiều lần giặt.",
+      "brand": "DaiLy Spa",
+      "price": 15800000,
+      "salePrice": 13900000,
+      "description": "Mẫu giường tiêm filler, botox và phẫu thuật thẩm mỹ bán chạy số 1. Trang bị 3 động cơ điện tử tiêu chuẩn CE độc lập nâng hạ chiều cao, tựa lưng và phần chân cực êm ái. Bọc da PU y tế kháng khuẩn, đệm mút D40 đúc nguyên khối chống lún bền bỉ.",
       "details": [
-        "100% Cotton chải kỹ cao cấp",
-        "Định lượng 260gsm dày dặn",
-        "Cổ bo dệt chắc chắn, không bai nhão",
-        "Công nghệ nhuộm reactive bền màu"
+        "3 động cơ điện tử độc lập siêu êm tiêu chuẩn CE Châu Âu",
+        "Điều khiển remote cầm tay đa chức năng linh hoạt",
+        "Tải trọng tĩnh 300kg, tải trọng nâng động 200kg",
+        "Da PU y tế cao cấp kháng khuẩn, chống thấm cồn sát khuẩn",
+        "Gối đầu tháo rời để lộ lỗ thở silicon khi úp mặt",
+        "Bảo hành động cơ chính hãng 24 tháng tận nơi"
       ],
       "images": [
-        "https://images.unsplash.com/photo-1521572267360-ee0c2909d518?w=800&auto=format&fit=crop&q=80",
-        "https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?w=800&auto=format&fit=crop&q=80",
-        "https://images.unsplash.com/photo-1618354691373-d851c5c3a990?w=800&auto=format&fit=crop&q=80"
+        "/images/products/giuong-tiem-dien.jpg",
+        "/images/products/giuong-spa-inox.jpg"
       ],
       "variants": [
         {
-          "id": "v1-1",
+          "id": "v-101",
           "productId": "prod-1",
-          "size": "S",
-          "color": "Trắng",
-          "colorCode": "#ffffff",
-          "stock": 25,
-          "sku": "TSHIRT-WHT-S"
-        },
-        {
-          "id": "v1-2",
-          "productId": "prod-1",
-          "size": "M",
-          "color": "Trắng",
-          "colorCode": "#ffffff",
-          "stock": 34,
-          "sku": "TSHIRT-WHT-M"
-        },
-        {
-          "id": "v1-3",
-          "productId": "prod-1",
-          "size": "L",
-          "color": "Trắng",
-          "colorCode": "#ffffff",
-          "stock": 18,
-          "sku": "TSHIRT-WHT-L"
-        },
-        {
-          "id": "v1-4",
-          "productId": "prod-1",
-          "size": "M",
-          "color": "Đen",
-          "colorCode": "#111827",
-          "stock": 28,
-          "sku": "TSHIRT-BLK-M"
-        },
-        {
-          "id": "v1-5",
-          "productId": "prod-1",
-          "size": "L",
-          "color": "Đen",
-          "colorCode": "#111827",
-          "stock": 12,
-          "sku": "TSHIRT-BLK-L"
-        },
-        {
-          "id": "v1-6",
-          "productId": "prod-1",
-          "size": "XL",
-          "color": "Xám Khói",
-          "colorCode": "#6b7280",
-          "stock": 7,
-          "sku": "TSHIRT-GRY-XL"
-        }
-      ],
-      "rating": 4.9,
-      "reviewCount": 48,
-      "soldCount": 320,
-      "isFeatured": true,
-      "isNewArrival": false,
-      "isFlashSale": true,
-      "status": "ACTIVE",
-      "createdAt": "2025-01-10T10:00:00Z"
-    },
-    {
-      "id": "prod-2",
-      "name": "Áo Sơ Mi Oxford Slimfit Dài Tay",
-      "slug": "ao-so-mi-oxford-slimfit-dai-tay",
-      "categoryId": "cat-1",
-      "brand": "Maison Bespoke",
-      "price": 490000,
-      "salePrice": 389000,
-      "description": "Áo sơ mi vải Oxford dệt thoi dầy dặn, thoáng khí, cổ áo đứng form chuẩn phong cách lịch lãm, phù hợp môi trường công sở lẫn các sự kiện thường nhật.",
-      "details": [
-        "Vải Oxford Cotton 100%",
-        "Nút cài ngọc trai cao cấp",
-        "Đường may chỉ đôi tinh tế",
-        "Chống nhăn tự nhiên khi ủi nhẹ"
-      ],
-      "images": [
-        "https://images.unsplash.com/photo-1596755094514-f87e34085b2c?w=800&auto=format&fit=crop&q=80",
-        "https://images.unsplash.com/photo-1602810318383-e386cc2a3ccf?w=800&auto=format&fit=crop&q=80"
-      ],
-      "variants": [
-        {
-          "id": "v2-1",
-          "productId": "prod-2",
-          "size": "M",
-          "color": "Xanh Nhạt",
-          "colorCode": "#93c5fd",
-          "stock": 15,
-          "sku": "OXFORD-BLU-M"
-        },
-        {
-          "id": "v2-2",
-          "productId": "prod-2",
-          "size": "L",
-          "color": "Xanh Nhạt",
-          "colorCode": "#93c5fd",
-          "stock": 8,
-          "sku": "OXFORD-BLU-L"
-        },
-        {
-          "id": "v2-3",
-          "productId": "prod-2",
-          "size": "M",
+          "size": "190x65cm",
           "color": "Trắng Sữa",
-          "colorCode": "#f8fafc",
-          "stock": 22,
-          "sku": "OXFORD-WHT-M"
-        },
-        {
-          "id": "v2-4",
-          "productId": "prod-2",
-          "size": "L",
-          "color": "Trắng Sữa",
-          "colorCode": "#f8fafc",
-          "stock": 16,
-          "sku": "OXFORD-WHT-L"
-        }
-      ],
-      "rating": 4.8,
-      "reviewCount": 36,
-      "soldCount": 195,
-      "isFeatured": true,
-      "isNewArrival": true,
-      "isFlashSale": false,
-      "status": "ACTIVE",
-      "createdAt": "2025-01-14T09:30:00Z"
-    },
-    {
-      "id": "prod-3",
-      "name": "Quần Tây Âu May Đo Classic Tapered",
-      "slug": "quan-tay-au-may-do-classic-tapered",
-      "categoryId": "cat-2",
-      "brand": "Maison Tailored",
-      "price": 580000,
-      "salePrice": 479000,
-      "description": "Quần âu xếp ly nhẹ, dáng tapered ôm dần xuống cổ chân tạo nét hiện đại. Vải wool pha co giãn nhẹ, giữ ly phẳng phiu suốt cả ngày dài.",
-      "details": [
-        "Poly Rayon pha Spandex 5%",
-        "Cạp quần tăng đơ co giãn ẩn 3cm",
-        "Túi chéo sâu tiện lợi",
-        "Khóa kéo YKK kim loại"
-      ],
-      "images": [
-        "https://images.unsplash.com/photo-1624378439575-d8705ad7ae80?w=800&auto=format&fit=crop&q=80",
-        "https://images.unsplash.com/photo-1542272604-780c96856592?w=800&auto=format&fit=crop&q=80"
-      ],
-      "variants": [
-        {
-          "id": "v3-1",
-          "productId": "prod-3",
-          "size": "29",
-          "color": "Đen Tuyển",
-          "colorCode": "#0f172a",
-          "stock": 14,
-          "sku": "PANTS-BLK-29"
-        },
-        {
-          "id": "v3-2",
-          "productId": "prod-3",
-          "size": "30",
-          "color": "Đen Tuyển",
-          "colorCode": "#0f172a",
-          "stock": 19,
-          "sku": "PANTS-BLK-30"
-        },
-        {
-          "id": "v3-3",
-          "productId": "prod-3",
-          "size": "31",
-          "color": "Xám Đậm",
-          "colorCode": "#334155",
-          "stock": 9,
-          "sku": "PANTS-GRY-31"
-        },
-        {
-          "id": "v3-4",
-          "productId": "prod-3",
-          "size": "32",
-          "color": "Beige",
-          "colorCode": "#d6c7b2",
-          "stock": 6,
-          "sku": "PANTS-BEI-32"
-        }
-      ],
-      "rating": 4.7,
-      "reviewCount": 29,
-      "soldCount": 140,
-      "isFeatured": true,
-      "isNewArrival": false,
-      "status": "ACTIVE",
-      "createdAt": "2025-01-08T14:20:00Z"
-    },
-    {
-      "id": "prod-4",
-      "name": "Quần Jeans Denim Vintage Straight Leg",
-      "slug": "quan-jeans-denim-vintage-straight-leg",
-      "categoryId": "cat-2",
-      "brand": "Maison Denim",
-      "price": 650000,
-      "salePrice": 539000,
-      "description": "Chất liệu vải denim 13.5oz dệt thoi mộc mạc, wash màu thủ công tạo hiệu ứng vintage tự nhiên. Form ống đứng tôn chân và cực kỳ dễ phối đồ.",
-      "details": [
-        "100% Cotton Denim 13.5oz",
-        "Wash màu axit thủ công",
-        "Đinh tán đồng chống rách góc túi",
-        "Đường chỉ vàng nổi bật"
-      ],
-      "images": [
-        "https://images.unsplash.com/photo-1541099649105-f69ad21f3246?w=800&auto=format&fit=crop&q=80",
-        "https://images.unsplash.com/photo-1542272604-780c96856592?w=800&auto=format&fit=crop&q=80"
-      ],
-      "variants": [
-        {
-          "id": "v4-1",
-          "productId": "prod-4",
-          "size": "29",
-          "color": "Xanh Chàm",
-          "colorCode": "#1e3a8a",
-          "stock": 11,
-          "sku": "JEANS-IND-29"
-        },
-        {
-          "id": "v4-2",
-          "productId": "prod-4",
-          "size": "30",
-          "color": "Xanh Chàm",
-          "colorCode": "#1e3a8a",
-          "stock": 24,
-          "sku": "JEANS-IND-30"
-        },
-        {
-          "id": "v4-3",
-          "productId": "prod-4",
-          "size": "31",
-          "color": "Xanh Nhạt Wash",
-          "colorCode": "#60a5fa",
-          "stock": 17,
-          "sku": "JEANS-LGT-31"
-        },
-        {
-          "id": "v4-4",
-          "productId": "prod-4",
-          "size": "32",
-          "color": "Xanh Nhạt Wash",
-          "colorCode": "#60a5fa",
-          "stock": 8,
-          "sku": "JEANS-LGT-32"
-        }
-      ],
-      "rating": 4.9,
-      "reviewCount": 52,
-      "soldCount": 280,
-      "isFeatured": true,
-      "isNewArrival": true,
-      "isFlashSale": true,
-      "status": "ACTIVE",
-      "createdAt": "2025-01-16T11:00:00Z"
-    },
-    {
-      "id": "prod-5",
-      "name": "Đầm Midi Linen Thắt Eo Thanh Lịch",
-      "slug": "dam-midi-linen-that-eo-thanh-lich",
-      "categoryId": "cat-3",
-      "brand": "Maison Femme",
-      "price": 720000,
-      "salePrice": 590000,
-      "description": "Thiết kế đầm dáng xòe nhẹ nhàng từ sợi lanh tự nhiên cao cấp, thoáng khí và thân thiện với làn da. Đai thắt eo tôn dáng hoàn hảo cho phái đẹp.",
-      "details": [
-        "100% Linen dệt tự nhiên",
-        "Đai thắt eo rời tùy chỉnh",
-        "Túi sườn giấu kín tiện lợi",
-        "Khóa giọt lệ sau lưng mượt mà"
-      ],
-      "images": [
-        "https://images.unsplash.com/photo-1595777457583-95e059d581b8?w=800&auto=format&fit=crop&q=80",
-        "https://images.unsplash.com/photo-1572804013309-59a88b7e92f1?w=800&auto=format&fit=crop&q=80"
-      ],
-      "variants": [
-        {
-          "id": "v5-1",
-          "productId": "prod-5",
-          "size": "S",
-          "color": "Trắng Ngà",
-          "colorCode": "#fef3c7",
-          "stock": 18,
-          "sku": "DRESS-IVY-S"
-        },
-        {
-          "id": "v5-2",
-          "productId": "prod-5",
-          "size": "M",
-          "color": "Trắng Ngà",
-          "colorCode": "#fef3c7",
-          "stock": 12,
-          "sku": "DRESS-IVY-M"
-        },
-        {
-          "id": "v5-3",
-          "productId": "prod-5",
-          "size": "S",
-          "color": "Xanh Olive",
-          "colorCode": "#65a30d",
-          "stock": 9,
-          "sku": "DRESS-OLV-S"
-        },
-        {
-          "id": "v5-4",
-          "productId": "prod-5",
-          "size": "M",
-          "color": "Xanh Olive",
-          "colorCode": "#65a30d",
-          "stock": 5,
-          "sku": "DRESS-OLV-M"
-        }
-      ],
-      "rating": 4.9,
-      "reviewCount": 41,
-      "soldCount": 160,
-      "isFeatured": true,
-      "isNewArrival": true,
-      "status": "ACTIVE",
-      "createdAt": "2025-01-18T16:00:00Z"
-    },
-    {
-      "id": "prod-6",
-      "name": "Chân Váy Chữ A Xếp Ly Tinh Tế",
-      "slug": "chan-vay-chu-a-xep-ly-tinh-te",
-      "categoryId": "cat-3",
-      "brand": "Maison Femme",
-      "price": 450000,
-      "salePrice": 359000,
-      "description": "Chân váy chữ A midi xếp ly chuẩn mực, dễ phối cùng áo sơ mi hoặc áo thun cho phong cách thanh lịch hàng ngày.",
-      "details": [
-        "Chất liệu Tuyết Mưa cao cấp",
-        "Không nhăn, giữ nếp ly vĩnh viễn",
-        "Lớp lót quần bảo hộ bên trong"
-      ],
-      "images": [
-        "https://images.unsplash.com/photo-1583496661160-fb5886a0aaaa?w=800&auto=format&fit=crop&q=80",
-        "https://images.unsplash.com/photo-1595777457583-95e059d581b8?w=800&auto=format&fit=crop&q=80"
-      ],
-      "variants": [
-        {
-          "id": "v6-1",
-          "productId": "prod-6",
-          "size": "S",
-          "color": "Đen",
-          "colorCode": "#000000",
-          "stock": 20,
-          "sku": "SKIRT-BLK-S"
-        },
-        {
-          "id": "v6-2",
-          "productId": "prod-6",
-          "size": "M",
-          "color": "Đen",
-          "colorCode": "#000000",
+          "colorCode": "#F5F5F0",
           "stock": 15,
-          "sku": "SKIRT-BLK-M"
+          "sku": "MS-S3-WHT"
         },
         {
-          "id": "v6-3",
-          "productId": "prod-6",
-          "size": "S",
-          "color": "Beige Kem",
-          "colorCode": "#f5ebe0",
-          "stock": 14,
-          "sku": "SKIRT-BEI-S"
-        },
-        {
-          "id": "v6-4",
-          "productId": "prod-6",
-          "size": "M",
-          "color": "Beige Kem",
-          "colorCode": "#f5ebe0",
-          "stock": 8,
-          "sku": "SKIRT-BEI-M"
-        }
-      ],
-      "rating": 4.7,
-      "reviewCount": 22,
-      "soldCount": 110,
-      "isFeatured": false,
-      "isNewArrival": false,
-      "status": "ACTIVE",
-      "createdAt": "2025-01-05T08:00:00Z"
-    },
-    {
-      "id": "prod-7",
-      "name": "Áo Blazer Relaxed-Fit Unisex",
-      "slug": "ao-blazer-relaxed-fit-unisex",
-      "categoryId": "cat-4",
-      "brand": "Maison Studio",
-      "price": 990000,
-      "salePrice": 849000,
-      "description": "Áo khoác blazer phom rộng phóng khoáng, ve áo cổ điển, lót lụa mềm mượt bên trong mang đến cảm giác thoải mái và diện mạo chuẩn thời trang cao cấp.",
-      "details": [
-        "Wool Blend cao cấp nhẹ",
-        "Lót lụa habutai êm ái",
-        "Đệm vai mỏng tạo phom chuẩn",
-        "2 túi có nắp ngoài và 1 túi ngực"
-      ],
-      "images": [
-        "https://images.unsplash.com/photo-1591047139829-d91aecb6caea?w=800&auto=format&fit=crop&q=80",
-        "https://images.unsplash.com/photo-1507679799987-c73779587ccf?w=800&auto=format&fit=crop&q=80"
-      ],
-      "variants": [
-        {
-          "id": "v7-1",
-          "productId": "prod-7",
-          "size": "M",
-          "color": "Nâu Cà Phê",
-          "colorCode": "#78350f",
-          "stock": 8,
-          "sku": "BLAZER-BRN-M"
-        },
-        {
-          "id": "v7-2",
-          "productId": "prod-7",
-          "size": "L",
-          "color": "Nâu Cà Phê",
-          "colorCode": "#78350f",
-          "stock": 5,
-          "sku": "BLAZER-BRN-L"
-        },
-        {
-          "id": "v7-3",
-          "productId": "prod-7",
-          "size": "M",
-          "color": "Đen Than",
-          "colorCode": "#18181b",
+          "id": "v-102",
+          "productId": "prod-1",
+          "size": "190x65cm",
+          "color": "Đen Sang Trọng",
+          "colorCode": "#1E1E1E",
           "stock": 12,
-          "sku": "BLAZER-BLK-M"
+          "sku": "MS-S3-BLK"
         },
         {
-          "id": "v7-4",
-          "productId": "prod-7",
-          "size": "L",
-          "color": "Đen Than",
-          "colorCode": "#18181b",
-          "stock": 10,
-          "sku": "BLAZER-BLK-L"
-        }
-      ],
-      "rating": 5,
-      "reviewCount": 38,
-      "soldCount": 145,
-      "isFeatured": true,
-      "isNewArrival": true,
-      "status": "ACTIVE",
-      "createdAt": "2025-01-20T12:00:00Z"
-    },
-    {
-      "id": "prod-8",
-      "name": "Áo Khoác Bomber Minimalist Lót Gió",
-      "slug": "ao-khoac-bomber-minimalist-lot-gio",
-      "categoryId": "cat-4",
-      "brand": "Maison Sport",
-      "price": 790000,
-      "salePrice": 650000,
-      "description": "Bomber jacket chất liệu trượt nước nhẹ, bo chun cổ và tay áo co giãn êm ái, thích hợp cho thời tiết se lạnh và những chuyến vi vu dạo phố.",
-      "details": [
-        "Nylon trượt nước DWR",
-        "Khóa kéo kim loại 2 chiều trơn tru",
-        "Lớp lót chống tĩnh điện",
-        "Bo cổ dệt kim dày dặn"
-      ],
-      "images": [
-        "https://images.unsplash.com/photo-1548883354-7622d03aca27?w=800&auto=format&fit=crop&q=80",
-        "https://images.unsplash.com/photo-1591047139829-d91aecb6caea?w=800&auto=format&fit=crop&q=80"
-      ],
-      "variants": [
-        {
-          "id": "v8-1",
-          "productId": "prod-8",
-          "size": "M",
-          "color": "Xanh Rêu Đậm",
-          "colorCode": "#365314",
-          "stock": 16,
-          "sku": "BOMBER-GRN-M"
-        },
-        {
-          "id": "v8-2",
-          "productId": "prod-8",
-          "size": "L",
-          "color": "Xanh Rêu Đậm",
-          "colorCode": "#365314",
-          "stock": 11,
-          "sku": "BOMBER-GRN-L"
-        },
-        {
-          "id": "v8-3",
-          "productId": "prod-8",
-          "size": "XL",
-          "color": "Đen Mờ",
-          "colorCode": "#27272a",
-          "stock": 7,
-          "sku": "BOMBER-BLK-XL"
-        }
-      ],
-      "rating": 4.8,
-      "reviewCount": 19,
-      "soldCount": 92,
-      "isFeatured": false,
-      "isNewArrival": true,
-      "status": "ACTIVE",
-      "createdAt": "2025-01-15T09:00:00Z"
-    },
-    {
-      "id": "prod-9",
-      "name": "Áo Hoodie Oversize Nỉ Bông Cotton",
-      "slug": "ao-hoodie-oversize-ni-bong-cotton",
-      "categoryId": "cat-5",
-      "brand": "Maison Street",
-      "price": 550000,
-      "salePrice": 429000,
-      "description": "Áo hoodie phom rộng đường phố chất vải nỉ chân cua 380gsm siêu dày dặn, lớp lót mịn màng giữ ấm cơ thể trong những ngày mùa đông.",
-      "details": [
-        "Vải nỉ chân cua 380gsm dầy",
-        "Mũ trùm đầu 2 lớp đứng form",
-        "Túi kangaroo rộng rãi",
-        "Dây rút cotton dẹt cùng màu"
-      ],
-      "images": [
-        "https://images.unsplash.com/photo-1556905055-8f358a7a47b2?w=800&auto=format&fit=crop&q=80",
-        "https://images.unsplash.com/photo-1509967419530-da38b4704bc6?w=800&auto=format&fit=crop&q=80"
-      ],
-      "variants": [
-        {
-          "id": "v9-1",
-          "productId": "prod-9",
-          "size": "M",
-          "color": "Xám Tiêu",
-          "colorCode": "#9ca3af",
-          "stock": 20,
-          "sku": "HOODIE-GRY-M"
-        },
-        {
-          "id": "v9-2",
-          "productId": "prod-9",
-          "size": "L",
-          "color": "Xám Tiêu",
-          "colorCode": "#9ca3af",
-          "stock": 14,
-          "sku": "HOODIE-GRY-L"
-        },
-        {
-          "id": "v9-3",
-          "productId": "prod-9",
-          "size": "M",
-          "color": "Beige Ấm",
-          "colorCode": "#f5ebe0",
-          "stock": 18,
-          "sku": "HOODIE-BEI-M"
-        },
-        {
-          "id": "v9-4",
-          "productId": "prod-9",
-          "size": "L",
-          "color": "Beige Ấm",
-          "colorCode": "#f5ebe0",
-          "stock": 9,
-          "sku": "HOODIE-BEI-L"
+          "id": "v-103",
+          "productId": "prod-1",
+          "size": "190x65cm",
+          "color": "Xám Ghi",
+          "colorCode": "#808080",
+          "stock": 8,
+          "sku": "MS-S3-GRY"
         }
       ],
       "rating": 4.9,
-      "reviewCount": 65,
-      "soldCount": 410,
+      "reviewCount": 42,
+      "soldCount": 86,
       "isFeatured": true,
-      "isNewArrival": false,
+      "isNewArrival": true,
       "isFlashSale": true,
       "status": "ACTIVE",
-      "createdAt": "2025-01-02T10:00:00Z"
+      "createdAt": "2025-01-10T00:00:00.000Z"
     },
     {
       "id": "prod-10",
-      "name": "Áo Sweater Cổ Tròn Dệt Kim Tối Giản",
-      "slug": "ao-sweater-co-tron-det-kim-toi-gian",
+      "name": "Giường Vali Chân Gỗ Gấp Gọn 3 Khúc Kèm Tựa Tay & Tựa Đầu Rời",
+      "slug": "giuong-vali-chan-go-gap-gon-3-khuc",
       "categoryId": "cat-5",
-      "brand": "Maison Studio",
-      "price": 480000,
-      "salePrice": 390000,
-      "description": "Sweater dệt kim sợi len pha cotton mềm mượt, không ngứa, phom dáng thanh mảnh thích hợp mặc đơn hoặc mặc layer bên trong áo sơ mi/blazer.",
+      "brand": "DaiLy Spa",
+      "price": 2400000,
+      "salePrice": 2050000,
+      "description": "Giường vali chân gỗ sồi sang trọng có thể nâng phần chân tạo tư thế nằm thư giãn, trang bị đầy đủ bộ tựa tay bên hông, giá đỡ mặt rời và túi xách vải dù cao cấp chống bám bụi.",
       "details": [
-        "Sợi dệt 50% Cotton, 50% Acrylic mềm mại",
-        "Cổ tròn co giãn linh hoạt",
-        "Đường dệt rib ở gấu và tay áo"
+        "Khung chân gỗ sồi sang trọng tự nhiên",
+        "Thiết kế 3 khúc nâng đầu và nâng chân linh hoạt",
+        "Tặng kèm bộ giá đỡ mặt, gối chữ U và tựa tay rời",
+        "Gấp lại thành vali có khóa chốt cài an toàn"
       ],
       "images": [
-        "https://images.unsplash.com/photo-1576566588028-4147f3842f27?w=800&auto=format&fit=crop&q=80",
-        "https://images.unsplash.com/photo-1556905055-8f358a7a47b2?w=800&auto=format&fit=crop&q=80"
+        "/images/products/giuong-vali-gap.jpg"
       ],
       "variants": [
         {
-          "id": "v10-1",
+          "id": "v-1001",
           "productId": "prod-10",
-          "size": "M",
-          "color": "Xanh Navy",
-          "colorCode": "#172554",
-          "stock": 15,
-          "sku": "SWEATER-NVY-M"
+          "size": "185x70cm",
+          "color": "Nâu Gỗ",
+          "colorCode": "#A0522D",
+          "stock": 25,
+          "sku": "MS-VALI3-BRN"
         },
         {
-          "id": "v10-2",
+          "id": "v-1002",
           "productId": "prod-10",
-          "size": "L",
-          "color": "Xanh Navy",
-          "colorCode": "#172554",
-          "stock": 10,
-          "sku": "SWEATER-NVY-L"
-        },
-        {
-          "id": "v10-3",
-          "productId": "prod-10",
-          "size": "M",
-          "color": "Trắng Sữa",
-          "colorCode": "#fafaf9",
-          "stock": 22,
-          "sku": "SWEATER-CRM-M"
-        },
-        {
-          "id": "v10-4",
-          "productId": "prod-10",
-          "size": "L",
-          "color": "Trắng Sữa",
-          "colorCode": "#fafaf9",
-          "stock": 6,
-          "sku": "SWEATER-CRM-L"
-        }
-      ],
-      "rating": 4.8,
-      "reviewCount": 28,
-      "soldCount": 175,
-      "isFeatured": false,
-      "isNewArrival": true,
-      "status": "ACTIVE",
-      "createdAt": "2025-01-17T15:00:00Z"
-    },
-    {
-      "id": "prod-11",
-      "name": "Túi Xách Da Minimalist Tote Bag",
-      "slug": "tui-xach-da-minimalist-tote-bag",
-      "categoryId": "cat-6",
-      "brand": "Maison Leather",
-      "price": 850000,
-      "salePrice": 699000,
-      "description": "Túi tote da PU vi sợi hạt mịn chống trầy cao cấp, ngăn chứa rộng đựng vừa laptop 14 inch cùng sổ tay, tài liệu cho ngày làm việc năng động.",
-      "details": [
-        "Da tổng hợp sợi siêu mịn Microfiber",
-        "Ngăn chống sốc đựng laptop 14\"",
-        "Khóa nam châm hít chắc chắn",
-        "Quai đeo chịu lực 8kg"
-      ],
-      "images": [
-        "https://images.unsplash.com/photo-1584917865442-de89df76afd3?w=800&auto=format&fit=crop&q=80",
-        "https://images.unsplash.com/photo-1590874103328-eac38a683ce7?w=800&auto=format&fit=crop&q=80"
-      ],
-      "variants": [
-        {
-          "id": "v11-1",
-          "productId": "prod-11",
-          "size": "FreeSize",
-          "color": "Nâu Da Bò",
-          "colorCode": "#78350f",
-          "stock": 15,
-          "sku": "TOTE-BRN"
-        },
-        {
-          "id": "v11-2",
-          "productId": "prod-11",
-          "size": "FreeSize",
-          "color": "Đen Huyền",
-          "colorCode": "#000000",
-          "stock": 20,
-          "sku": "TOTE-BLK"
+          "size": "185x70cm",
+          "color": "Trắng Kem",
+          "colorCode": "#FFF8DC",
+          "stock": 30,
+          "sku": "MS-VALI3-WHT"
         }
       ],
       "rating": 4.9,
-      "reviewCount": 33,
-      "soldCount": 150,
-      "isFeatured": true,
-      "isNewArrival": false,
+      "reviewCount": 31,
+      "soldCount": 88,
+      "isFeatured": false,
+      "isNewArrival": true,
+      "isFlashSale": false,
       "status": "ACTIVE",
-      "createdAt": "2025-01-12T13:00:00Z"
+      "createdAt": "2025-01-15T00:00:00.000Z"
     },
     {
-      "id": "prod-12",
-      "name": "Thắt Lưng Da Bò Khóa Kim Loại Phay Xước",
-      "slug": "that-lung-da-bo-khoa-kim-loai-phay-xuoc",
+      "id": "prod-11",
+      "name": "Ghế Giường Xoay Phun Xăm & Nối Mi Đa Năng Chỉnh Cơ Tattoo-Bed 360",
+      "slug": "ghe-giuong-xoay-phun-xam-noi-mi-da-nang-tattoo-bed-360",
       "categoryId": "cat-6",
-      "brand": "Maison Leather",
-      "price": 350000,
-      "salePrice": 280000,
-      "description": "Dây nịt da bò thật 100% nguyên tấm bền bỉ, mặt khóa hợp kim mạ titan phay xước chống gỉ tạo phong cách nam tính sang trọng.",
+      "brand": "DaiLy Spa",
+      "price": 3500000,
+      "salePrice": 2990000,
+      "description": "Mẫu ghế giường xoay 360 độ chuyên dụng cho tiệm phun xăm thẩm mỹ, nối mi và chăm sóc da mặt. Chân trụ mâm mạ crom sáng bóng, nâng hạ ben hơi thủy lực êm ru, tựa lưng ngả phẳng 180 độ.",
       "details": [
-        "100% Da bò thật nguyên tấm",
-        "Bản rộng 3.4cm tiêu chuẩn",
-        "Khóa kim loại chống hoen gỉ"
+        "Xoay tròn 360 độ có khóa hãm cố định vị trí",
+        "Ben hơi thủy lực nâng hạ độ cao bằng bàn đạp chân",
+        "Ngả lưng và nâng chân độc lập từ ghế ngồi thành giường phẳng",
+        "Đệm mút đúc dày 12cm không xẹp lún",
+        "Tay vịn tháo lắp dễ dàng"
       ],
       "images": [
-        "https://images.unsplash.com/photo-1624222247344-550fb60583dc?w=800&auto=format&fit=crop&q=80",
-        "https://images.unsplash.com/photo-1584917865442-de89df76afd3?w=800&auto=format&fit=crop&q=80"
+        "/images/products/ghe-phun-xam.jpg"
       ],
       "variants": [
         {
-          "id": "v12-1",
-          "productId": "prod-12",
-          "size": "110cm",
-          "color": "Đen Mờ",
-          "colorCode": "#18181b",
-          "stock": 30,
-          "sku": "BELT-BLK-110"
+          "id": "v-1101",
+          "productId": "prod-11",
+          "size": "180x65cm",
+          "color": "Đen Da Mờ",
+          "colorCode": "#1F1F1F",
+          "stock": 18,
+          "sku": "MS-TAT-BLK"
         },
         {
-          "id": "v12-2",
+          "id": "v-1102",
+          "productId": "prod-11",
+          "size": "180x65cm",
+          "color": "Trắng Tinh Khôi",
+          "colorCode": "#FDFDFD",
+          "stock": 14,
+          "sku": "MS-TAT-WHT"
+        }
+      ],
+      "rating": 4.8,
+      "reviewCount": 45,
+      "soldCount": 96,
+      "isFeatured": true,
+      "isNewArrival": false,
+      "isFlashSale": false,
+      "status": "ACTIVE",
+      "createdAt": "2025-01-09T00:00:00.000Z"
+    },
+    {
+      "id": "prod-12",
+      "name": "Giường Tiêm Thẩm Mỹ Chỉnh Điện 1 Động Cơ Nâng Hạ Chiều Cao",
+      "slug": "giuong-tiem-tham-my-chinh-dien-1-dong-co",
+      "categoryId": "cat-1",
+      "brand": "DaiLy Spa",
+      "price": 9800000,
+      "salePrice": 8600000,
+      "description": "Giường tiêm giá tốt trang bị 1 động cơ điện tử nâng hạ chiều cao tự động từ 60cm đến 85cm bằng remote, tựa lưng và chân chỉnh bằng cơ tay tiện dụng, tiết kiệm điện năng và kinh tế.",
+      "details": [
+        "1 động cơ điện tử nâng hạ độ cao nhẹ nhàng",
+        "Tựa lưng chỉnh góc từ 0 đến 75 độ",
+        "Chân đế sắt bọc ốp nhựa ABS thẩm mỹ",
+        "Bọc da PU cao cấp chống thấm"
+      ],
+      "images": [
+        "/images/products/giuong-tiem-dien.jpg",
+        "/images/products/giuong-spa-inox.jpg"
+      ],
+      "variants": [
+        {
+          "id": "v-1201",
           "productId": "prod-12",
-          "size": "115cm",
-          "color": "Nâu Đậm",
-          "colorCode": "#451a03",
-          "stock": 18,
-          "sku": "BELT-BRN-115"
+          "size": "185x65cm",
+          "color": "Trắng Sữa",
+          "colorCode": "#F5F5F0",
+          "stock": 16,
+          "sku": "MS-1M-WHT"
+        },
+        {
+          "id": "v-1202",
+          "productId": "prod-12",
+          "size": "185x65cm",
+          "color": "Đen",
+          "colorCode": "#000000",
+          "stock": 12,
+          "sku": "MS-1M-BLK"
         }
       ],
       "rating": 4.8,
       "reviewCount": 17,
-      "soldCount": 95,
+      "soldCount": 62,
       "isFeatured": false,
       "isNewArrival": false,
+      "isFlashSale": true,
       "status": "ACTIVE",
-      "createdAt": "2025-01-09T10:00:00Z"
+      "createdAt": "2025-01-11T00:00:00.000Z"
     },
     {
       "id": "prod-13",
-      "name": "Áo Polo Pique Cotton Dệt Tổ Ong",
-      "slug": "ao-polo-pique-cotton-det-to-ong",
-      "categoryId": "cat-1",
-      "brand": "Maison Studio",
-      "price": 390000,
-      "salePrice": 320000,
-      "description": "Polo pique mắt chim dệt tổ ong thấm hút mồ hôi tối đa, cổ dệt jacquard bền đẹp giúp giữ vẻ lịch sự trong cả công việc lẫn các buổi gặp gỡ bạn bè.",
+      "name": "Giường Massage Trị Liệu Đá Muối Himalaya Đèn Hồng Ngoại",
+      "slug": "giuong-massage-tri-lieu-da-muoi-himalaya",
+      "categoryId": "cat-3",
+      "brand": "DaiLy Spa",
+      "price": 8500000,
+      "salePrice": 7500000,
+      "description": "Thiết kế cao cấp lót 24 viên đá muối Himalaya nguyên khối dưới lưng nằm, tích hợp hệ thống gia nhiệt đèn hồng ngoại sưởi ấm lưu thông khí huyết cho spa Đông Y và trung tâm chăm sóc sức khỏe.",
       "details": [
-        "Vải pique cá sấu dệt tổ ong",
-        "Thành phần 95% cotton 5% spandex",
-        "Cúc áo khắc laser thương hiệu"
+        "24 viên đá muối khoáng Himalaya nguyên khối tự nhiên",
+        "Hệ thống điều khiển nhiệt độ điện tử an toàn tuyệt đối",
+        "Khung gỗ thông tự nhiên cách nhiệt tốt",
+        "Tác dụng đào thải độc tố và xoa dịu đau mỏi cột sống"
       ],
       "images": [
-        "https://images.unsplash.com/photo-1625910513413-568393527a20?w=800&auto=format&fit=crop&q=80",
-        "https://images.unsplash.com/photo-1521572267360-ee0c2909d518?w=800&auto=format&fit=crop&q=80"
+        "/images/products/giuong-massage-go.png"
       ],
       "variants": [
         {
-          "id": "v13-1",
+          "id": "v-1301",
           "productId": "prod-13",
-          "size": "M",
-          "color": "Trắng",
-          "colorCode": "#ffffff",
-          "stock": 18,
-          "sku": "POLO-WHT-M"
-        },
-        {
-          "id": "v13-2",
-          "productId": "prod-13",
-          "size": "L",
-          "color": "Trắng",
-          "colorCode": "#ffffff",
-          "stock": 12,
-          "sku": "POLO-WHT-L"
-        },
-        {
-          "id": "v13-3",
-          "productId": "prod-13",
-          "size": "M",
-          "color": "Xanh Rêu",
-          "colorCode": "#365314",
-          "stock": 14,
-          "sku": "POLO-GRN-M"
-        },
-        {
-          "id": "v13-4",
-          "productId": "prod-13",
-          "size": "L",
-          "color": "Xanh Rêu",
-          "colorCode": "#365314",
+          "size": "190x75cm",
+          "color": "Nâu Trầm Sang Trọng",
+          "colorCode": "#4E3629",
           "stock": 8,
-          "sku": "POLO-GRN-L"
+          "sku": "MS-HIMA-BRN"
         }
       ],
-      "rating": 4.7,
-      "reviewCount": 25,
-      "soldCount": 140,
-      "isFeatured": false,
+      "rating": 5,
+      "reviewCount": 14,
+      "soldCount": 30,
+      "isFeatured": true,
       "isNewArrival": true,
+      "isFlashSale": false,
       "status": "ACTIVE",
-      "createdAt": "2025-01-19T08:00:00Z"
+      "createdAt": "2025-01-16T00:00:00.000Z"
     },
     {
       "id": "prod-14",
-      "name": "Quần Khaki Chino Dáng Suông Hiện Đại",
-      "slug": "quan-khaki-chino-dang-suong-hien-dai",
+      "name": "Giường Gội Đầu Dưỡng Sinh Mini Tiết Kiệm Diện Tích Bồn Nhựa ABS",
+      "slug": "giuong-goi-dau-duong-sinh-mini-bon-nhua-abs",
       "categoryId": "cat-2",
-      "brand": "Maison Casual",
-      "price": 490000,
-      "salePrice": 410000,
-      "description": "Chino chất vải kaki cotton chéo dầy, co giãn nhẹ. Thiết kế phom suông vừa vặn, dễ dàng phối cùng sneaker và áo thun hoặc áo sơ mi.",
+      "brand": "DaiLy Spa",
+      "price": 3200000,
+      "salePrice": 2750000,
+      "description": "Giải pháp cho salon tóc và spa diện tích nhỏ. Chiều dài chỉ 175cm, bồn gội nhựa ABS siêu bền chống nứt vỡ, đệm êm ái xả nước nhanh chóng, dễ dàng lắp đặt.",
       "details": [
-        "Kaki dệt chéo 100% cotton",
-        "Wash mềm chống nhăn và chống co rút",
-        "Túi mổ sau có khuy gài thanh lịch"
+        "Chiều dài tối ưu 175cm vừa vặn phòng nhỏ",
+        "Bồn gội nhựa ABS đúc nguyên khối chống va đập",
+        "Ống thoát nước ren xoắn thoát nước cực nhanh",
+        "Đệm simili cao cấp không đọng nước"
       ],
       "images": [
-        "https://images.unsplash.com/photo-1473966968600-fa801b869a1a?w=800&auto=format&fit=crop&q=80",
-        "https://images.unsplash.com/photo-1624378439575-d8705ad7ae80?w=800&auto=format&fit=crop&q=80"
+        "/images/products/giuong-goi-duong-sinh.jpg"
       ],
       "variants": [
         {
-          "id": "v14-1",
+          "id": "v-1401",
           "productId": "prod-14",
-          "size": "30",
-          "color": "Beige Cát",
-          "colorCode": "#e7d8c9",
-          "stock": 15,
-          "sku": "CHINO-BEI-30"
+          "size": "175x65cm",
+          "color": "Đen",
+          "colorCode": "#111111",
+          "stock": 22,
+          "sku": "MS-MINI-BLK"
         },
         {
-          "id": "v14-2",
+          "id": "v-1402",
           "productId": "prod-14",
-          "size": "31",
-          "color": "Beige Cát",
-          "colorCode": "#e7d8c9",
-          "stock": 11,
-          "sku": "CHINO-BEI-31"
-        },
-        {
-          "id": "v14-3",
-          "productId": "prod-14",
-          "size": "32",
-          "color": "Xanh Đen",
-          "colorCode": "#0f172a",
-          "stock": 16,
-          "sku": "CHINO-NVY-32"
+          "size": "175x65cm",
+          "color": "Xám Tro",
+          "colorCode": "#708090",
+          "stock": 18,
+          "sku": "MS-MINI-GRY"
         }
       ],
-      "rating": 4.8,
-      "reviewCount": 31,
-      "soldCount": 180,
+      "rating": 4.6,
+      "reviewCount": 20,
+      "soldCount": 78,
       "isFeatured": false,
       "isNewArrival": false,
+      "isFlashSale": true,
       "status": "ACTIVE",
-      "createdAt": "2025-01-11T11:00:00Z"
+      "createdAt": "2025-01-07T00:00:00.000Z"
     },
     {
       "id": "prod-15",
-      "name": "Áo Khoác Trench Coat Dáng Dài Thu Đông",
-      "slug": "ao-khoac-trench-coat-dang-dai-thu-dong",
-      "categoryId": "cat-4",
-      "brand": "Maison Bespoke",
-      "price": 1450000,
-      "salePrice": 1190000,
-      "description": "Chiếc áo khoác trench coat kinh điển với đai thắt eo và ve cổ lớn sang trọng. Vải gabardine cản gió và chống thấm nước mưa nhẹ xuất sắc.",
+      "name": "Giường Chỉnh Hình Trị Liệu Chiropractic Thả Đoạn Tự Động",
+      "slug": "giuong-chinh-hinh-tri-lieu-chiropractic",
+      "categoryId": "cat-3",
+      "brand": "DaiLy Spa",
+      "price": 22000000,
+      "salePrice": 19800000,
+      "description": "Giường nắn chỉnh xương khớp chuyên sâu chuẩn y khoa Chiropractic. Cơ chế thả đoạn Drop Piece chính xác hỗ trợ trị liệu thoái hóa cột sống cổ, ngực và thắt lưng hiệu quả cao.",
       "details": [
-        "Vải cotton gabardine tráng cản gió",
-        "Khuy cài sừng tự nhiên",
-        "Đai lưng và đai cổ tay điều chỉnh linh hoạt"
+        "Cơ chế thả đoạn Drop Piece chuẩn y khoa Hoa Kỳ",
+        "Điều chỉnh lực căng lò xo theo cân nặng từng bệnh nhân",
+        "Khung thép đặc đúc chịu lực tải trên 400kg",
+        "Đệm mút chuyên dụng y tế không gây tổn thương mô mềm"
       ],
       "images": [
-        "https://images.unsplash.com/photo-1544441893-675973e31985?w=800&auto=format&fit=crop&q=80",
-        "https://images.unsplash.com/photo-1591047139829-d91aecb6caea?w=800&auto=format&fit=crop&q=80"
+        "/images/products/giuong-massage-go.png"
       ],
       "variants": [
         {
-          "id": "v15-1",
+          "id": "v-1501",
           "productId": "prod-15",
-          "size": "M",
-          "color": "Beige Cổ Điển",
-          "colorCode": "#d4b996",
-          "stock": 6,
-          "sku": "TRENCH-BEI-M"
-        },
-        {
-          "id": "v15-2",
-          "productId": "prod-15",
-          "size": "L",
-          "color": "Beige Cổ Điển",
-          "colorCode": "#d4b996",
-          "stock": 4,
-          "sku": "TRENCH-BEI-L"
-        },
-        {
-          "id": "v15-3",
-          "productId": "prod-15",
-          "size": "M",
-          "color": "Đen Quý Phái",
-          "colorCode": "#111827",
+          "size": "180x55cm",
+          "color": "Đen Y Tế",
+          "colorCode": "#1A1A1A",
           "stock": 5,
-          "sku": "TRENCH-BLK-M"
+          "sku": "MS-CHIRO-BLK"
         }
       ],
-      "rating": 4.9,
-      "reviewCount": 16,
-      "soldCount": 55,
+      "rating": 5,
+      "reviewCount": 9,
+      "soldCount": 18,
       "isFeatured": true,
       "isNewArrival": true,
+      "isFlashSale": false,
       "status": "ACTIVE",
-      "createdAt": "2025-01-21T10:00:00Z"
+      "createdAt": "2025-01-18T00:00:00.000Z"
     },
     {
       "id": "prod-16",
-      "name": "Mũ Beanie Len Dệt Kim Ấm Áp",
-      "slug": "mu-beanie-len-det-kim-am-ap",
+      "name": "Ghế Spa Thư Giãn Pedicure Bồn Ngâm Chân Massage Thủy Lực",
+      "slug": "ghe-spa-pedicure-ngam-chan-thuy-luc",
       "categoryId": "cat-6",
-      "brand": "Maison Street",
-      "price": 190000,
-      "salePrice": 149000,
-      "description": "Nón len dệt kim gân co giãn 4 chiều vừa vặn mọi cỡ đầu, giữ ấm đầu và tạo điểm nhấn cực chất cho outfit mùa lạnh.",
+      "brand": "DaiLy Spa",
+      "price": 12500000,
+      "salePrice": 11200000,
+      "description": "Ghế làm móng và ngâm chân dưỡng sinh thư giãn cao cấp cho tiệm nail & spa. Bồn ngâm sục massage nước nam châm từ tính, đèn LED đổi màu, ghế ngả lưng có con lăn massage lưng thư giãn.",
       "details": [
-        "Len Merino pha acrylic cao cấp không xù",
-        "Logo dệt tag Maison dập nổi"
+        "Bồn sục thủy lực nam châm chống tràn nước",
+        "Hệ thống con lăn massage lưng đa điểm",
+        "Đèn LED 7 màu trị liệu ánh sáng trong bồn ngâm",
+        "Bọc da PU cao cấp chống bám hóa chất acetone"
       ],
       "images": [
-        "https://images.unsplash.com/photo-1576871337632-b9aef4c17ab9?w=800&auto=format&fit=crop&q=80",
-        "https://images.unsplash.com/photo-1584917865442-de89df76afd3?w=800&auto=format&fit=crop&q=80"
+        "/images/products/ghe-phun-xam.jpg"
       ],
       "variants": [
         {
-          "id": "v16-1",
+          "id": "v-1601",
           "productId": "prod-16",
-          "size": "FreeSize",
-          "color": "Đen",
-          "colorCode": "#000000",
-          "stock": 25,
-          "sku": "BEANIE-BLK"
+          "size": "140x70cm",
+          "color": "Trắng Vàng Gold",
+          "colorCode": "#F5E6D3",
+          "stock": 7,
+          "sku": "MS-PEDI-GLD"
         },
         {
-          "id": "v16-2",
+          "id": "v-1602",
           "productId": "prod-16",
-          "size": "FreeSize",
-          "color": "Xám Ghi",
-          "colorCode": "#6b7280",
-          "stock": 22,
-          "sku": "BEANIE-GRY"
+          "size": "140x70cm",
+          "color": "Đen Sang Trọng",
+          "colorCode": "#1C1C1C",
+          "stock": 6,
+          "sku": "MS-PEDI-BLK"
+        }
+      ],
+      "rating": 4.9,
+      "reviewCount": 19,
+      "soldCount": 42,
+      "isFeatured": false,
+      "isNewArrival": false,
+      "isFlashSale": false,
+      "status": "ACTIVE",
+      "createdAt": "2025-01-13T00:00:00.000Z"
+    },
+    {
+      "id": "prod-2",
+      "name": "Giường Tiêm Thẩm Mỹ Chỉnh Điện 4 Động Cơ Luxury Master 4M",
+      "slug": "giuong-tiem-tham-my-chinh-dien-4-dong-co-luxury-master-4m",
+      "categoryId": "cat-1",
+      "brand": "DaiLy Spa",
+      "price": 19500000,
+      "salePrice": 17500000,
+      "description": "Dòng giường phẫu thuật tạo hình và tiêm thẩm mỹ 5 sao. Tích hợp 4 động cơ điện tử công nghệ Đức hỗ trợ nghiêng toàn thân góc Trendelenburg 15 độ, bọc da Microfiber cao cấp mềm mại như da thật.",
+      "details": [
+        "4 động cơ điện tử mạnh mẽ đạt chuẩn phòng mổ quốc tế",
+        "Chức năng nghiêng toàn thân Trendelenburg hỗ trợ tuần hoàn máu",
+        "Đệm bọt biển mật độ cao đàn hồi tuyệt hảo không xẹp lún",
+        "Tay vịn hạ tự động theo góc ngả lưng",
+        "Tải trọng tối đa 350kg"
+      ],
+      "images": [
+        "/images/products/giuong-tiem-dien.jpg",
+        "/images/products/giuong-spa-inox.jpg"
+      ],
+      "variants": [
+        {
+          "id": "v-201",
+          "productId": "prod-2",
+          "size": "195x70cm",
+          "color": "Trắng Sữa",
+          "colorCode": "#F5F5F0",
+          "stock": 10,
+          "sku": "MS-4M-WHT"
         },
         {
-          "id": "v16-3",
-          "productId": "prod-16",
-          "size": "FreeSize",
-          "color": "Vàng Mù Tạt",
-          "colorCode": "#ca8a04",
-          "stock": 14,
-          "sku": "BEANIE-YEL"
+          "id": "v-202",
+          "productId": "prod-2",
+          "size": "195x70cm",
+          "color": "Nâu Bò Cao Cấp",
+          "colorCode": "#8B4513",
+          "stock": 6,
+          "sku": "MS-4M-BRN"
+        }
+      ],
+      "rating": 5,
+      "reviewCount": 28,
+      "soldCount": 45,
+      "isFeatured": true,
+      "isNewArrival": true,
+      "isFlashSale": false,
+      "status": "ACTIVE",
+      "createdAt": "2025-01-12T00:00:00.000Z"
+    },
+    {
+      "id": "prod-3",
+      "name": "Giường Gội Đầu Dưỡng Sinh Tai Thỏ Bồn Sứ Vòm Tuần Hoàn Nước",
+      "slug": "giuong-goi-dau-duong-sinh-tai-tho-bon-su-vom-tuan-hoan",
+      "categoryId": "cat-2",
+      "brand": "DaiLy Spa",
+      "price": 5800000,
+      "salePrice": 4950000,
+      "description": "Giường gội đầu dưỡng sinh 2 trong 1 tích hợp vòm tuần hoàn nước ấm massage da đầu thư giãn trị liệu. Bồn gội tai thỏ chất liệu sứ tráng men nano chống ố vàng, kèm kệ để dầu gội và đệm bọc da chống thấm nước.",
+      "details": [
+        "Bồn sứ tai thỏ cao cấp tráng men tuyết chống ố vàng",
+        "Vòm tuần hoàn nước massage da đầu bằng inox 304 không rỉ",
+        "Gối đỡ cổ silicon mềm mại không gây đau mỏi gáy",
+        "Hệ thống vòi sen nóng lạnh tăng áp tiện dụng",
+        "Nắp đậy bồn gội biến thành giường massage body phẳng tiện lợi"
+      ],
+      "images": [
+        "/images/products/giuong-goi-duong-sinh.jpg"
+      ],
+      "variants": [
+        {
+          "id": "v-301",
+          "productId": "prod-3",
+          "size": "200x68cm",
+          "color": "Nâu Cà Phê",
+          "colorCode": "#4A2E18",
+          "stock": 20,
+          "sku": "MS-GDS-CFE"
+        },
+        {
+          "id": "v-302",
+          "productId": "prod-3",
+          "size": "200x68cm",
+          "color": "Đen Nhám",
+          "colorCode": "#222222",
+          "stock": 15,
+          "sku": "MS-GDS-BLK"
+        },
+        {
+          "id": "v-303",
+          "productId": "prod-3",
+          "size": "200x68cm",
+          "color": "Be Kem",
+          "colorCode": "#D2B48C",
+          "stock": 18,
+          "sku": "MS-GDS-BGE"
         }
       ],
       "rating": 4.8,
-      "reviewCount": 24,
-      "soldCount": 188,
+      "reviewCount": 35,
+      "soldCount": 110,
+      "isFeatured": true,
+      "isNewArrival": false,
+      "isFlashSale": true,
+      "status": "ACTIVE",
+      "createdAt": "2025-01-08T00:00:00.000Z"
+    },
+    {
+      "id": "prod-4",
+      "name": "Giường Gội Dưỡng Sinh Thùng Xông Đầu Gỗ Tuyết Tùng Thảo Dược",
+      "slug": "giuong-goi-duong-sinh-thung-xong-dau-go-tuyet-tung",
+      "categoryId": "cat-2",
+      "brand": "DaiLy Spa",
+      "price": 7200000,
+      "salePrice": 6400000,
+      "description": "Thiết kế cao cấp độc quyền kết hợp thùng xông đầu thảo dược bằng gỗ tuyết tùng tỏa hương thơm ngát tự nhiên. Hỗ trợ giảm đau nửa đầu, lưu thông khí huyết và trị liệu chứng mất ngủ cho khách hàng.",
+      "details": [
+        "Thùng xông hơi đầu gỗ tuyết tùng nguyên khối tự nhiên",
+        "Nồi xông hơi thông minh 2L điều chỉnh nhiệt độ và thời gian",
+        "Bồn gội tai thỏ phủ nano chống trầy xước",
+        "Khung giường gỗ tràm chịu lực 300kg"
+      ],
+      "images": [
+        "/images/products/giuong-goi-duong-sinh.jpg"
+      ],
+      "variants": [
+        {
+          "id": "v-401",
+          "productId": "prod-4",
+          "size": "205x70cm",
+          "color": "Gỗ Tự Nhiên",
+          "colorCode": "#8B5A2B",
+          "stock": 10,
+          "sku": "MS-XONG-NAT"
+        },
+        {
+          "id": "v-402",
+          "productId": "prod-4",
+          "size": "205x70cm",
+          "color": "Nâu Trầm",
+          "colorCode": "#3E2723",
+          "stock": 8,
+          "sku": "MS-XONG-DK"
+        }
+      ],
+      "rating": 4.9,
+      "reviewCount": 22,
+      "soldCount": 54,
+      "isFeatured": false,
+      "isNewArrival": true,
+      "isFlashSale": false,
+      "status": "ACTIVE",
+      "createdAt": "2025-01-14T00:00:00.000Z"
+    },
+    {
+      "id": "prod-5",
+      "name": "Giường Massage Body Khung Gỗ Sồi Tự Nhiên Cao Cấp Oak-Royal",
+      "slug": "giuong-massage-body-khung-go-soi-tu-nhien-oak-royal",
+      "categoryId": "cat-3",
+      "brand": "DaiLy Spa",
+      "price": 4200000,
+      "salePrice": 3690000,
+      "description": "Khung giường gỗ sồi tự nhiên nhập khẩu sấy tẩm công nghệ cao chống co ngót cong vênh. Mộng ghép khóa đôi vững chãi, đệm mút D40 dày 10cm êm ái bọc da PU bóng bẩy, có lỗ thở chuẩn spa massage trị liệu.",
+      "details": [
+        "Khung 100% gỗ sồi tự nhiên chịu tải 350kg",
+        "Mộng gỗ truyền thống không rung lắc khi thao tác lực mạnh",
+        "Đệm mút D40 đúc nguyên khối chống xẹp lún",
+        "Khoét lỗ thở úp mặt bọc viền da êm ái",
+        "Kệ đan nan gỗ bên dưới để khăn và dầu massage"
+      ],
+      "images": [
+        "/images/products/giuong-massage-go.png"
+      ],
+      "variants": [
+        {
+          "id": "v-501",
+          "productId": "prod-5",
+          "size": "190x80cm",
+          "color": "Nâu Cà Phê",
+          "colorCode": "#5C4033",
+          "stock": 25,
+          "sku": "MS-OAK-CFE"
+        },
+        {
+          "id": "v-502",
+          "productId": "prod-5",
+          "size": "190x80cm",
+          "color": "Trắng Kem",
+          "colorCode": "#FFF8DC",
+          "stock": 20,
+          "sku": "MS-OAK-WHT"
+        },
+        {
+          "id": "v-503",
+          "productId": "prod-5",
+          "size": "190x80cm",
+          "color": "Đen Huyền",
+          "colorCode": "#1A1A1A",
+          "stock": 18,
+          "sku": "MS-OAK-BLK"
+        }
+      ],
+      "rating": 4.9,
+      "reviewCount": 51,
+      "soldCount": 140,
+      "isFeatured": true,
+      "isNewArrival": false,
+      "isFlashSale": true,
+      "status": "ACTIVE",
+      "createdAt": "2025-01-05T00:00:00.000Z"
+    },
+    {
+      "id": "prod-6",
+      "name": "Giường Massage Gỗ Tràm Sơn PU Đệm Dày 10cm Chuyên Dụng Spa",
+      "slug": "giuong-massage-go-tram-son-pu-dem-day-10cm",
+      "categoryId": "cat-3",
+      "brand": "DaiLy Spa",
+      "price": 2800000,
+      "salePrice": 2450000,
+      "description": "Lựa chọn tiết kiệm chi phí số 1 cho các spa, thẩm mỹ viện mới setup. Khung gỗ tràm chắc nịch sơn PU 3 lớp bóng bẩy, chân vuông 10x10cm có thanh giằng ngang chịu lực cao, độ bền trên 10 năm.",
+      "details": [
+        "Khung gỗ tràm tự nhiên sơn PU màu cánh gián / đen",
+        "Chân vuông 10x10cm cứng cáp",
+        "Đệm mút xốp ép tỷ trọng cao bọc simili chống thấm",
+        "Kích thước chuẩn nhân trắc học Á Đông"
+      ],
+      "images": [
+        "/images/products/giuong-massage-go.png"
+      ],
+      "variants": [
+        {
+          "id": "v-601",
+          "productId": "prod-6",
+          "size": "185x75cm",
+          "color": "Nâu Cánh Gián",
+          "colorCode": "#8B3A3A",
+          "stock": 30,
+          "sku": "MS-TRAM-CG"
+        },
+        {
+          "id": "v-602",
+          "productId": "prod-6",
+          "size": "185x75cm",
+          "color": "Đen",
+          "colorCode": "#000000",
+          "stock": 25,
+          "sku": "MS-TRAM-BLK"
+        }
+      ],
+      "rating": 4.7,
+      "reviewCount": 38,
+      "soldCount": 95,
       "isFeatured": false,
       "isNewArrival": false,
+      "isFlashSale": false,
       "status": "ACTIVE",
-      "createdAt": "2025-01-07T12:00:00Z"
+      "createdAt": "2025-01-06T00:00:00.000Z"
+    },
+    {
+      "id": "prod-7",
+      "name": "Giường Spa Khung Sắt Sơn Tĩnh Điện Chân Tròn Kệ Khăn Pro-Iron",
+      "slug": "giuong-spa-khung-sat-son-tinh-dien-pro-iron",
+      "categoryId": "cat-4",
+      "brand": "DaiLy Spa",
+      "price": 1850000,
+      "salePrice": 1590000,
+      "description": "Khung sắt ống phi 42 dày 1.4mm sơn tĩnh điện chống rỉ sét, có tầng để khăn và dụng cụ thẩm mỹ bên dưới. Đệm bọc da simili cao cấp có lỗ úp mặt thoáng khí, gọn gàng và bền bỉ.",
+      "details": [
+        "Khung sắt ống tròn phi 42 sơn tĩnh điện bền màu",
+        "Tầng kệ lưới để đồ rộng rãi tiện dụng",
+        "Đệm dày 8cm bọc da chống trầy xước",
+        "Chân bọc nút cao su chống trơn trượt sàn gạch"
+      ],
+      "images": [
+        "/images/products/giuong-spa-inox.jpg"
+      ],
+      "variants": [
+        {
+          "id": "v-701",
+          "productId": "prod-7",
+          "size": "180x60cm",
+          "color": "Trắng Sữa",
+          "colorCode": "#FAFAFA",
+          "stock": 40,
+          "sku": "MS-IRON-WHT"
+        },
+        {
+          "id": "v-702",
+          "productId": "prod-7",
+          "size": "180x60cm",
+          "color": "Đen Mờ",
+          "colorCode": "#282828",
+          "stock": 35,
+          "sku": "MS-IRON-BLK"
+        }
+      ],
+      "rating": 4.7,
+      "reviewCount": 19,
+      "soldCount": 120,
+      "isFeatured": false,
+      "isNewArrival": false,
+      "isFlashSale": true,
+      "status": "ACTIVE",
+      "createdAt": "2025-01-07T00:00:00.000Z"
+    },
+    {
+      "id": "prod-8",
+      "name": "Giường Spa Khung Inox 304 Nâng Đầu Cơ Học Chống Gỉ Tuyệt Đối",
+      "slug": "giuong-spa-khung-inox-304-nang-dau-co-hoc",
+      "categoryId": "cat-4",
+      "brand": "DaiLy Spa",
+      "price": 2600000,
+      "salePrice": 2290000,
+      "description": "Khung inox 304 sáng bóng vĩnh viễn không hoen rỉ, đầu giường trang bị thanh răng trợ lực nâng gập từ 0 đến 60 độ, phù hợp chăm sóc da mặt, nối mi, tiêm filler và massage cổ vai gáy.",
+      "details": [
+        "Inox 304 chuẩn y tế dày 1.2mm sáng bóng",
+        "Cơ cấu nâng đầu cơ học 5 nấc điều chỉnh",
+        "Đệm mút êm ái chống thấm nước và dung dịch sát khuẩn",
+        "Dễ dàng vệ sinh lau chùi"
+      ],
+      "images": [
+        "/images/products/giuong-spa-inox.jpg"
+      ],
+      "variants": [
+        {
+          "id": "v-801",
+          "productId": "prod-8",
+          "size": "185x70cm",
+          "color": "Trắng",
+          "colorCode": "#FFFFFF",
+          "stock": 22,
+          "sku": "MS-INX-WHT"
+        },
+        {
+          "id": "v-802",
+          "productId": "prod-8",
+          "size": "185x70cm",
+          "color": "Hồng Pastel",
+          "colorCode": "#FFB6C1",
+          "stock": 15,
+          "sku": "MS-INX-PNK"
+        }
+      ],
+      "rating": 4.8,
+      "reviewCount": 26,
+      "soldCount": 88,
+      "isFeatured": false,
+      "isNewArrival": true,
+      "isFlashSale": false,
+      "status": "ACTIVE",
+      "createdAt": "2025-01-11T00:00:00.000Z"
+    },
+    {
+      "id": "prod-9",
+      "name": "Giường Vali Gấp Gọn Chân Hợp Kim Nhôm Siêu Nhẹ 12kg Mobile-Bed",
+      "slug": "giuong-vali-gap-gon-chan-nhom-sieu-nhe-12kg-mobile-bed",
+      "categoryId": "cat-5",
+      "brand": "DaiLy Spa",
+      "price": 1950000,
+      "salePrice": 1650000,
+      "description": "Giường spa xếp gọn dạng vali tiện lợi nhất cho thợ làm đẹp di động. Chân hợp kim nhôm máy bay siêu nhẹ chỉ nặng 12kg nhưng chịu tải trọng tới 200kg, gập lại chỉ bằng một chiếc vali du lịch.",
+      "details": [
+        "Chân hợp kim nhôm siêu nhẹ, trọng lượng toàn giường chỉ 12kg",
+        "Xếp gọn 2 khúc nhanh chóng trong 30 giây",
+        "Chịu tải trọng tĩnh lên đến 200kg",
+        "Dây cáp chịu lực bằng thép không gỉ gia cường",
+        "Tặng kèm túi xách dù có quai đeo vai tiện lợi"
+      ],
+      "images": [
+        "/images/products/giuong-vali-gap.jpg"
+      ],
+      "variants": [
+        {
+          "id": "v-901",
+          "productId": "prod-9",
+          "size": "180x60cm",
+          "color": "Đen Tuyền",
+          "colorCode": "#111111",
+          "stock": 50,
+          "sku": "MS-VALI-BLK"
+        },
+        {
+          "id": "v-902",
+          "productId": "prod-9",
+          "size": "180x60cm",
+          "color": "Hồng Baby",
+          "colorCode": "#FFC0CB",
+          "stock": 35,
+          "sku": "MS-VALI-PNK"
+        },
+        {
+          "id": "v-903",
+          "productId": "prod-9",
+          "size": "180x60cm",
+          "color": "Xanh Dương Nhạt",
+          "colorCode": "#ADD8E6",
+          "stock": 20,
+          "sku": "MS-VALI-BLU"
+        }
+      ],
+      "rating": 4.8,
+      "reviewCount": 64,
+      "soldCount": 230,
+      "isFeatured": true,
+      "isNewArrival": false,
+      "isFlashSale": true,
+      "status": "ACTIVE",
+      "createdAt": "2025-01-04T00:00:00.000Z"
     }
   ],
   "orders": [
@@ -1085,20 +910,20 @@
       "id": "ord-1001",
       "orderCode": "ORD-250101",
       "userId": "usr-cust-1",
-      "customerName": "Nguyễn Thúy Vy",
+      "customerName": "Nguyễn Thúy Vy (Aesthetic Clinic)",
       "customerEmail": "khachhang@example.com",
       "customerPhone": "0918765432",
-      "shippingAddress": "Tòa nhà Landmark 81, 720A Điện Biên Phủ",
+      "shippingAddress": "Tòa nhà Landmark 81, 720A Điện Biên Phủ, Phường 22",
       "province": "Hồ Chí Minh",
       "district": "Quận Bình Thạnh",
       "ward": "Phường 22",
-      "note": "Giao trong giờ hành chính giúp mình",
-      "subtotal": 728000,
-      "shippingFee": 30000,
-      "discountAmount": 50000,
-      "totalAmount": 708000,
-      "couponCode": "WELCOME50",
-      "paymentMethod": "COD",
+      "note": "Giao tầng 12, có thang máy chuyển hàng, lắp đặt hoàn thiện giúp mình",
+      "subtotal": 13900000,
+      "shippingFee": 0,
+      "discountAmount": 500000,
+      "totalAmount": 13400000,
+      "couponCode": "SETUP500",
+      "paymentMethod": "BANK_TRANSFER",
       "paymentStatus": "PAID",
       "orderStatus": "DELIVERED",
       "items": [
@@ -1106,78 +931,54 @@
           "id": "item-1",
           "orderId": "ord-1001",
           "productId": "prod-1",
-          "productName": "Áo Thun Basic Heavyweight Cotton",
-          "size": "M",
-          "color": "Trắng",
-          "price": 249000,
-          "quantity": 2,
-          "total": 498000,
-          "imageUrl": "https://images.unsplash.com/photo-1521572267360-ee0c2909d518?w=400&auto=format&fit=crop&q=80"
-        },
-        {
-          "id": "item-2",
-          "orderId": "ord-1001",
-          "productId": "prod-13",
-          "productName": "Áo Polo Pique Cotton Dệt Tổ Ong",
-          "size": "M",
-          "color": "Trắng",
-          "price": 320000,
+          "productName": "Giường Tiêm Thẩm Mỹ Chỉnh Điện 3 Động Cơ Cao Cấp Hi-Tech S3",
+          "size": "190x65cm",
+          "color": "Trắng Sữa",
+          "price": 13900000,
           "quantity": 1,
-          "total": 320000,
-          "imageUrl": "https://images.unsplash.com/photo-1625910513413-568393527a20?w=400&auto=format&fit=crop&q=80"
+          "total": 13900000,
+          "imageUrl": "/images/products/giuong-tiem-dien.jpg"
         }
       ],
-      "createdAt": "2025-01-18T10:30:00Z",
-      "updatedAt": "2025-01-20T15:00:00Z"
+      "createdAt": "2025-01-18T10:30:00.000Z",
+      "updatedAt": "2025-01-20T15:00:00.000Z"
     },
     {
       "id": "ord-1002",
       "orderCode": "ORD-250102",
       "userId": "usr-cust-2",
-      "customerName": "Lê Minh Tuấn",
+      "customerName": "Lê Minh Tuấn (Spa Dưỡng Sinh)",
       "customerEmail": "minhtuan@gmail.com",
       "customerPhone": "0987654321",
-      "shippingAddress": "Số 45 Tràng Tiền",
+      "shippingAddress": "Số 45 Tràng Tiền, Phường Tràng Tiền",
       "province": "Hà Nội",
       "district": "Quận Hoàn Kiếm",
       "ward": "Phường Tràng Tiền",
-      "note": "Gọi trước khi giao",
-      "subtotal": 1388000,
+      "note": "Gọi trước 30 phút để chuẩn bị phòng lắp ráp",
+      "subtotal": 9900000,
       "shippingFee": 0,
-      "discountAmount": 138800,
-      "totalAmount": 1249200,
-      "couponCode": "MAISON10",
+      "discountAmount": 990000,
+      "totalAmount": 8910000,
+      "couponCode": "SPA10",
       "paymentMethod": "BANK_TRANSFER",
       "paymentStatus": "PAID",
       "orderStatus": "PROCESSING",
       "items": [
         {
-          "id": "item-3",
+          "id": "item-2",
           "orderId": "ord-1002",
-          "productId": "prod-7",
-          "productName": "Áo Blazer Relaxed-Fit Unisex",
-          "size": "L",
-          "color": "Đen Than",
-          "price": 849000,
-          "quantity": 1,
-          "total": 849000,
-          "imageUrl": "https://images.unsplash.com/photo-1591047139829-d91aecb6caea?w=400&auto=format&fit=crop&q=80"
-        },
-        {
-          "id": "item-4",
-          "orderId": "ord-1002",
-          "productId": "prod-4",
-          "productName": "Quần Jeans Denim Vintage Straight Leg",
-          "size": "31",
-          "color": "Xanh Chàm",
-          "price": 539000,
-          "quantity": 1,
-          "total": 539000,
-          "imageUrl": "https://images.unsplash.com/photo-1541099649105-f69ad21f3246?w=400&auto=format&fit=crop&q=80"
+          "productId": "prod-3",
+          "productName": "Giường Gội Đầu Dưỡng Sinh Tai Thỏ Bồn Sứ Vòm Tuần Hoàn Nước",
+          "size": "200x68cm",
+          "color": "Nâu Cà Phê",
+          "price": 4950000,
+          "quantity": 2,
+          "total": 9900000,
+          "imageUrl": "/images/products/giuong-goi-duong-sinh.jpg"
         }
       ],
-      "createdAt": "2025-01-21T09:15:00Z",
-      "updatedAt": "2025-01-21T11:00:00Z"
+      "createdAt": "2025-01-21T09:15:00.000Z",
+      "updatedAt": "2025-01-21T11:00:00.000Z"
     },
     {
       "id": "ord-1003",
@@ -1186,73 +987,75 @@
       "customerName": "Phạm Phương Linh",
       "customerEmail": "phuonglinh@gmail.com",
       "customerPhone": "0933221100",
-      "shippingAddress": "124 Nguyễn Văn Linh",
+      "shippingAddress": "124 Nguyễn Văn Linh, Phường Nam Dương",
       "province": "Đà Nẵng",
       "district": "Quận Hải Châu",
       "ward": "Phường Nam Dương",
-      "note": "",
-      "subtotal": 590000,
-      "shippingFee": 30000,
+      "note": "Giao giờ hành chính",
+      "subtotal": 3690000,
+      "shippingFee": 0,
       "discountAmount": 0,
-      "totalAmount": 620000,
+      "totalAmount": 3690000,
       "paymentMethod": "COD",
       "paymentStatus": "PENDING",
       "orderStatus": "PENDING",
       "items": [
         {
-          "id": "item-5",
+          "id": "item-3",
           "orderId": "ord-1003",
           "productId": "prod-5",
-          "productName": "Đầm Midi Linen Thắt Eo Thanh Lịch",
-          "size": "M",
-          "color": "Trắng Ngà",
-          "price": 590000,
+          "productName": "Giường Massage Body Khung Gỗ Sồi Tự Nhiên Cao Cấp Oak-Royal",
+          "size": "190x80cm",
+          "color": "Trắng Kem",
+          "price": 3690000,
           "quantity": 1,
-          "total": 590000,
-          "imageUrl": "https://images.unsplash.com/photo-1595777457583-95e059d581b8?w=400&auto=format&fit=crop&q=80"
+          "total": 3690000,
+          "imageUrl": "/images/products/giuong-massage-go.png"
         }
       ],
-      "createdAt": "2025-01-22T14:40:00Z",
-      "updatedAt": "2025-01-22T14:40:00Z"
+      "createdAt": "2025-01-22T14:40:00.000Z",
+      "updatedAt": "2025-01-22T14:40:00.000Z"
     }
   ],
   "coupons": [
     {
       "id": "coup-1",
-      "code": "WELCOME50",
-      "description": "Giảm 50.000đ cho đơn hàng đầu tiên từ 399.000đ",
+      "code": "SETUP500",
+      "description": "Giảm ngay 500.000đ cho đơn hàng mua giường từ 5.000.000đ",
       "discountType": "FIXED",
-      "discountValue": 50000,
-      "minOrderValue": 399000,
-      "usageLimit": 500,
-      "usedCount": 84,
+      "discountValue": 500000,
+      "minOrderValue": 5000000,
+      "maxDiscount": 500000,
+      "usageLimit": 200,
+      "usedCount": 38,
       "startDate": "2025-01-01",
       "endDate": "2026-12-31",
       "status": "ACTIVE"
     },
     {
       "id": "coup-2",
-      "code": "MAISON10",
-      "description": "Giảm 10% cho toàn bộ giỏ hàng từ 600.000đ",
+      "code": "SPA10",
+      "description": "Giảm 10% tối đa 1.500.000đ cho đơn hàng setup từ 10.000.000đ",
       "discountType": "PERCENT",
       "discountValue": 10,
-      "minOrderValue": 600000,
-      "maxDiscount": 150000,
-      "usageLimit": 300,
-      "usedCount": 42,
+      "minOrderValue": 10000000,
+      "maxDiscount": 1500000,
+      "usageLimit": 100,
+      "usedCount": 19,
       "startDate": "2025-01-01",
       "endDate": "2026-12-31",
       "status": "ACTIVE"
     },
     {
       "id": "coup-3",
-      "code": "VIP100",
-      "description": "Giảm ngay 100.000đ cho đơn hàng từ 1.000.000đ",
+      "code": "FREESHIP",
+      "description": "Miễn phí vận chuyển và lắp đặt giường spa toàn quốc",
       "discountType": "FIXED",
-      "discountValue": 100000,
-      "minOrderValue": 1000000,
-      "usageLimit": 100,
-      "usedCount": 19,
+      "discountValue": 150000,
+      "minOrderValue": 3000000,
+      "maxDiscount": 150000,
+      "usageLimit": 500,
+      "usedCount": 92,
       "startDate": "2025-01-01",
       "endDate": "2026-12-31",
       "status": "ACTIVE"
@@ -1261,37 +1064,37 @@
   "banners": [
     {
       "id": "ban-1",
-      "title": "BỘ SƯU TẬP THU ĐÔNG 2025",
-      "subtitle": "Đẳng cấp thời trang tối giản với chất liệu Organic Cotton và Linen cao cấp.",
-      "badge": "NEW ARRIVALS",
+      "title": "BST GIƯỜNG SPA & THIẾT BỊ THẨM MỸ CAO CẤP 2025",
+      "subtitle": "Đỉnh cao thư giãn & chuẩn mực an toàn y khoa cho spa, viện thẩm mỹ và clinic 5 sao trên toàn quốc.",
+      "badge": "CHÍNH HÃNG DAILY SPA",
       "link": "/products",
-      "image": "https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=1600&auto=format&fit=crop&q=80",
-      "buttonText": "Khám Phá Ngay",
+      "image": "/images/products/giuong-tiem-dien.jpg",
+      "buttonText": "Khám Phá Danh Mục Giường",
       "position": "HERO",
       "order": 1,
       "active": true
     },
     {
       "id": "ban-2",
-      "title": "FLASH SALE CUỐI TUẦN",
-      "subtitle": "Giảm giá lên đến 40% cho các dòng sản phẩm Áo Khoác & Blazer độc quyền.",
-      "badge": "GIẢM ĐẾN 40%",
-      "link": "/products?sale=true",
-      "image": "https://images.unsplash.com/photo-1445205170230-053b83016050?w=1600&auto=format&fit=crop&q=80",
-      "buttonText": "Săn Deal Ngay",
+      "title": "GIƯỜNG TIÊM ĐIỆN 3 - 4 ĐỘNG CƠ: NÂNG TẦM ĐẲNG CẤP CLINIC",
+      "subtitle": "Động cơ siêu êm chuẩn CE, bọc da PU y tế kháng khuẩn, ngả nghiêng đa góc, bảo hành 24 tháng tận giường.",
+      "badge": "BÁN CHẠY NHẤT",
+      "link": "/category/giuong-tiem-tham-my",
+      "image": "/images/products/giuong-goi-duong-sinh.jpg",
+      "buttonText": "Xem Giường Tiêm Điện",
       "position": "HERO",
       "order": 2,
       "active": true
     },
     {
       "id": "ban-3",
-      "title": "MINIMALIST ELEGANCE",
-      "subtitle": "Phong cách tối giản vượt thời gian dành cho người yêu thích sự tinh tế.",
-      "badge": "EDITOR'S PICK",
-      "link": "/category/ao",
-      "image": "https://images.unsplash.com/photo-1469334031218-e382a71b716b?w=1600&auto=format&fit=crop&q=80",
-      "buttonText": "Xem Chi Tiết",
-      "position": "MIDDLE",
+      "title": "COMBO GIƯỜNG GỘI DƯỠNG SINH TAI THỎ VÒM NƯỚC TUẦN HOÀN",
+      "subtitle": "Tặng kèm trọn bộ phụ kiện xông đầu thảo dược và vòi vòm massage nước nóng khi đặt hàng trong tuần này.",
+      "badge": "ƯU ĐÃI SETUP TRỌN GÓI",
+      "link": "/category/giuong-goi-duong-sinh",
+      "image": "/images/products/giuong-massage-go.png",
+      "buttonText": "Xem Giường Gội Dưỡng Sinh",
+      "position": "HERO",
       "order": 3,
       "active": true
     }
@@ -1300,58 +1103,62 @@
     {
       "id": "rev-1",
       "productId": "prod-1",
-      "productName": "Áo Thun Basic Heavyweight Cotton",
-      "userId": "user-2",
-      "userName": "Minh Hoàng",
+      "userId": "usr-cust-1",
+      "userName": "Bác sĩ Thúy Vy (Aesthetic Clinic Q1)",
+      "userAvatar": "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=150&auto=format&fit=crop&q=80",
       "rating": 5,
-      "comment": "Chất vải thun rất dày dặn, giặt máy 3 lần rồi vẫn không hề bị giãn cổ. Form áo mặc lên rất đứng dáng!",
+      "comment": "Phòng khám mình vừa setup 4 chiếc giường tiêm điện S3 của DaiLy Giường Spa. Động cơ nâng hạ cực êm không hề rung lắc, da PU lau cồn thoải mái không sợ bong tróc. Khách hàng khen nằm rất êm lưng!",
+      "images": [],
       "status": "APPROVED",
-      "createdAt": "2025-01-15T14:20:00Z"
+      "createdAt": "2025-01-18T10:00:00.000Z"
     },
     {
       "id": "rev-2",
-      "productId": "prod-1",
-      "productName": "Áo Thun Basic Heavyweight Cotton",
-      "userId": "user-3",
-      "userName": "Thùy Trang",
+      "productId": "prod-3",
+      "userId": "usr-cust-2",
+      "userName": "Chị Minh Tuấn (Chủ Spa Dưỡng Sinh Hà Nội)",
+      "userAvatar": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&auto=format&fit=crop&q=80",
       "rating": 5,
-      "comment": "Giao hàng siêu nhanh, đóng gói hộp cứng rất sang xịn mịn. Màu đen rất tuyền, vải mát không bị nóng.",
+      "comment": "Bồn sứ trắng sáng bóng, vòm tuần hoàn nước chảy đều và êm ru. Khách đến gội đầu dưỡng sinh ngủ say sưa luôn. Giao hàng lắp đặt tận nơi rất nhiệt tình.",
+      "images": [],
       "status": "APPROVED",
-      "createdAt": "2025-01-18T10:15:00Z"
+      "createdAt": "2025-01-20T14:30:00.000Z"
     },
     {
       "id": "rev-3",
-      "productId": "prod-4",
-      "productName": "Quần Jeans Denim Vintage Straight Leg",
-      "userId": "user-2",
-      "userName": "Minh Hoàng",
+      "productId": "prod-5",
+      "userId": "usr-cust-3",
+      "userName": "Phương Linh (Quản Lý Resort & Spa Đà Nẵng)",
+      "userAvatar": "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=150&auto=format&fit=crop&q=80",
       "rating": 5,
-      "comment": "Quần lên dáng chuẩn straight leg che khuyết điểm chân tốt, màu wash chàm cực kỳ thời trang.",
+      "comment": "Gỗ sồi nặng trịch và chắc chắn tuyệt đối, kỹ thuật viên nhấn lực body mạnh mà giường không hề kêu cót két. Đệm dày nằm rất thích. Đáng tiền!",
+      "images": [],
       "status": "APPROVED",
-      "createdAt": "2025-01-20T16:45:00Z"
+      "createdAt": "2025-01-22T09:15:00.000Z"
     },
     {
       "id": "rev-4",
-      "productId": "prod-7",
-      "productName": "Áo Blazer Relaxed-Fit Unisex",
-      "userId": "user-4",
-      "userName": "Thanh Nhã",
+      "productId": "prod-9",
+      "userId": "usr-cust-1",
+      "userName": "Hồng Ánh (Master Phun Xăm)",
+      "userAvatar": "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80",
       "rating": 5,
-      "comment": "Mặc đi làm hay đi tiệc nhẹ đều rất sang. Lớp lót lụa mềm mượt, ve áo sắc nét chuẩn may đo.",
+      "comment": "Mình hay đi làm phun xăm tận nhà cho khách VIP, chiếc giường vali chân nhôm này nhẹ tênh xách lên cốp xe ô tô gọn gàng. Mở ra trong 30 giây là xong.",
+      "images": [],
       "status": "APPROVED",
-      "createdAt": "2025-01-22T08:30:00Z"
+      "createdAt": "2025-01-25T11:20:00.000Z"
     }
   ],
   "settings": {
-    "storeName": "Maison Fashion Studio",
+    "storeName": "DaiLy Giường Spa - Hệ Thống Giường Spa & Thiết Bị Thẩm Mỹ",
     "phone": "1900 6868",
-    "email": "contact@maisonfashion.vn",
+    "email": "contact@dailygiuongspa.vn",
     "address": "158 Đồng Khởi, Bến Nghé, Quận 1, TP. Hồ Chí Minh",
-    "openingHours": "08:30 - 22:00 (Tất cả các ngày trong tuần)",
-    "shippingFeeStandard": 30000,
-    "freeShippingThreshold": 500000,
-    "bankName": "Vietcombank - Chi nhánh TP.HCM",
-    "bankAccountNumber": "0071001234567",
-    "bankAccountName": "CONG TY TNHH MAISON FASHION VIET NAM"
+    "openingHours": "08:00 - 21:00 (Mở cửa tất cả các ngày trong tuần)",
+    "shippingFeeStandard": 150000,
+    "freeShippingThreshold": 5000000,
+    "bankName": "Techcombank (Ngân hàng TMCP Kỹ thương Việt Nam)",
+    "bankAccountNumber": "19036888999888",
+    "bankAccountName": "CONG TY TNHH DAILY GIUONG SPA"
   }
 }

@@ -91,14 +91,14 @@ export const ProductListPage: React.FC = () => {
 
   const currentCategoryObj = categories.find(c => c.slug === selectedCategory || c.id === selectedCategory);
 
-  const availableSizes = ['S', 'M', 'L', 'XL', '2XL', 'FreeSize'];
+  const availableSizes = ['190x65cm', '200x68cm', '180x60cm', '185x70cm', '3 Động cơ', '4 Động cơ'];
   const availableColors = [
-    { name: 'Đen', hex: '#000000' },
-    { name: 'Trắng', hex: '#FFFFFF' },
-    { name: 'Xám', hex: '#6B7280' },
-    { name: 'Xanh Navy', hex: '#1E3A8A' },
-    { name: 'Be', hex: '#D2B48C' },
-    { name: 'Nâu', hex: '#78350F' },
+    { name: 'Trắng Sữa', hex: '#F8FAFC' },
+    { name: 'Nâu Cà Phê', hex: '#5C4033' },
+    { name: 'Đen Nhám', hex: '#1C1917' },
+    { name: 'Xám Ghi', hex: '#6B7280' },
+    { name: 'Hồng Pastel', hex: '#F472B6' },
+    { name: 'Vàng Gỗ', hex: '#D97706' },
   ];
 
   return (
@@ -111,7 +111,7 @@ export const ProductListPage: React.FC = () => {
         <p className="text-xs sm:text-sm text-zinc-500 mt-1.5">
           {currentCategoryObj
             ? currentCategoryObj.description
-            : `Khám phá hơn ${total} thiết kế thời trang hiện đại, thanh lịch và cao cấp`}
+            : `Khám phá hơn ${total} mẫu giường spa & thiết bị thẩm mỹ chuyên nghiệp chất lượng cao`}
         </p>
       </div>
 
@@ -197,7 +197,7 @@ export const ProductListPage: React.FC = () => {
           {/* Size Filter */}
           <div className="pt-6 border-t border-zinc-200">
             <h3 className="font-bold text-xs uppercase tracking-wider text-zinc-950 mb-3">
-              Kích Cỡ (Size)
+              Kích Thước / Cấu Hình
             </h3>
             <div className="grid grid-cols-3 gap-2">
               <button
@@ -304,9 +304,12 @@ export const ProductListPage: React.FC = () => {
                     <div className="relative aspect-[3/4] bg-zinc-100 overflow-hidden">
                       <Link to={`/products/${prod.slug}`}>
                         <img
-                          src={prod.images[0]}
+                          src={prod.images?.[0] || '/images/products/giuong-massage-go.png'}
                           alt={prod.name}
                           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                          onError={e => {
+                            (e.currentTarget as HTMLImageElement).src = '/images/products/giuong-massage-go.png';
+                          }}
                         />
                       </Link>
                       {discount && (

@@ -169,9 +169,12 @@ export const ProductDetailPage: React.FC = () => {
         <div className="space-y-4">
           <div className="relative aspect-[3/4] rounded-3xl overflow-hidden bg-zinc-100 border border-zinc-200 shadow-sm">
             <img
-              src={selectedImage}
+              src={selectedImage || '/images/products/giuong-massage-go.png'}
               alt={product.name}
               className="w-full h-full object-cover object-center"
+              onError={e => {
+                (e.currentTarget as HTMLImageElement).src = '/images/products/giuong-massage-go.png';
+              }}
             />
             {discount && (
               <span className="absolute top-4 left-4 bg-rose-600 text-white font-extrabold text-xs px-3 py-1.5 rounded-full shadow-lg">
@@ -193,7 +196,14 @@ export const ProductDetailPage: React.FC = () => {
                       : 'border-transparent opacity-70 hover:opacity-100'
                   }`}
                 >
-                  <img src={img} alt="Thumbnail" className="w-full h-full object-cover" />
+                  <img
+                    src={img || '/images/products/giuong-massage-go.png'}
+                    alt="Thumbnail"
+                    className="w-full h-full object-cover"
+                    onError={e => {
+                      (e.currentTarget as HTMLImageElement).src = '/images/products/giuong-massage-go.png';
+                    }}
+                  />
                 </button>
               ))}
             </div>
@@ -275,24 +285,24 @@ export const ProductDetailPage: React.FC = () => {
             </div>
           </div>
 
-          {/* Size Selector */}
+          {/* Size / Specs Selector */}
           <div>
             <div className="flex items-center justify-between mb-2.5">
               <span className="text-xs font-bold uppercase tracking-wider text-zinc-900">
-                Kích thước (Size): <strong className="text-zinc-600 font-normal">{selectedVariant?.size}</strong>
+                Kích thước / Cấu hình: <strong className="text-zinc-600 font-normal">{selectedVariant?.size}</strong>
               </span>
               <span className="text-xs text-zinc-500 hover:underline cursor-pointer">
-                Bảng quy đổi size
+                Thông số kỹ thuật chuẩn y khoa
               </span>
             </div>
-            <div className="flex items-center gap-2">
+            <div className="flex flex-wrap items-center gap-2">
               {uniqueSizes.map(size => {
                 const isSelected = selectedVariant?.size === size;
                 return (
                   <button
                     key={size}
                     onClick={() => handleSizeClick(size)}
-                    className={`w-12 h-11 rounded-xl text-xs font-bold border transition-all ${
+                    className={`px-3.5 h-11 min-w-[56px] rounded-xl text-xs font-bold border transition-all ${
                       isSelected
                         ? 'border-zinc-950 bg-zinc-950 text-white shadow-md'
                         : 'border-zinc-200 bg-white text-zinc-800 hover:border-zinc-400'
@@ -370,7 +380,7 @@ export const ProductDetailPage: React.FC = () => {
             </h3>
             <p className="text-xs sm:text-sm text-zinc-600 leading-relaxed">
               {product.description ||
-                'Thiết kế chuẩn may đo phong cách Haute Couture hiện đại. Đường may tinh tế, chất liệu cao cấp mang lại sự thoải mái tối ưu cả ngày dài.'}
+                'Sản phẩm giường spa cao cấp được thiết kế chuẩn nhân trắc học và y khoa thẩm mỹ. Khung chịu tải 350kg, da PU y tế kháng khuẩn êm ái, bảo hành chính hãng 24 tháng.'}
             </p>
 
             {product.details && product.details.length > 0 && (

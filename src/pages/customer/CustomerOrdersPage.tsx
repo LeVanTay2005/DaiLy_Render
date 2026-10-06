@@ -88,7 +88,7 @@ export const CustomerOrdersPage: React.FC = () => {
           <Package className="w-12 h-12 text-zinc-300 mx-auto" />
           <h3 className="font-bold text-base text-zinc-800">Bạn chưa có đơn hàng nào</h3>
           <p className="text-xs text-zinc-500">
-            Khám phá bộ sưu tập thời trang cao cấp và đặt đơn hàng đầu tiên của bạn ngay hôm nay.
+            Khám phá danh mục giường spa & thiết bị thẩm mỹ cao cấp và đặt đơn hàng đầu tiên của bạn ngay hôm nay.
           </p>
           <Link
             to="/products"

@@ -40,14 +40,14 @@ export const CustomerLayout: React.FC = () => {
 
   const navLinks = [
     { label: 'Trang chủ', path: '/' },
-    { label: 'Sản phẩm', path: '/products' },
-    { label: 'Áo', path: '/category/ao' },
-    { label: 'Quần', path: '/category/quan' },
-    { label: 'Váy & Đầm', path: '/category/vay' },
-    { label: 'Áo Khoác', path: '/category/ao-khoac' },
-    { label: 'Khuyến mãi', path: '/products?sale=true', highlight: true },
-    { label: 'Về chúng tôi', path: '/about' },
-    { label: 'Liên hệ', path: '/contact' },
+    { label: 'Tất cả sản phẩm', path: '/products' },
+    { label: 'Giường Tiêm Điện', path: '/category/giuong-tiem-tham-my' },
+    { label: 'Giường Gội Dưỡng Sinh', path: '/category/giuong-goi-duong-sinh' },
+    { label: 'Giường Massage Gỗ', path: '/category/giuong-massage-go' },
+    { label: 'Giường Vali Gấp', path: '/category/giuong-vali-gap-gon' },
+    { label: 'Ưu đãi setup', path: '/products?sale=true', highlight: true },
+    { label: 'Giới thiệu', path: '/about' },
+    { label: 'Tư vấn & Báo giá', path: '/contact' },
   ];
 
   return (
@@ -57,14 +57,14 @@ export const CustomerLayout: React.FC = () => {
         <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-1 text-center sm:text-left">
           <div className="flex items-center gap-2">
             <span className="inline-block w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-            <span>Miễn phí vận chuyển toàn quốc cho đơn hàng từ 500.000đ</span>
+            <span>Hỗ trợ vận chuyển & lắp đặt tận nơi cho cơ sở Spa & Thẩm mỹ viện toàn quốc</span>
           </div>
           <div className="hidden sm:flex items-center gap-4 text-zinc-400">
             <span className="flex items-center gap-1.5 hover:text-white transition-colors">
-              <PhoneCall className="w-3.5 h-3.5" /> Hotline: 1900 6868
+              <PhoneCall className="w-3.5 h-3.5" /> Hotline tư vấn: 1900 6868
             </span>
             <span>•</span>
-            <span>Đổi hàng trong 15 ngày</span>
+            <span>Bảo hành chính hãng 24 tháng</span>
           </div>
         </div>
       </div>
@@ -86,17 +86,17 @@ export const CustomerLayout: React.FC = () => {
           {/* Brand Logo */}
           <div className="flex-1 lg:flex-initial flex items-center justify-center lg:justify-start">
             <Link to="/" className="flex flex-col items-center lg:items-start group">
-              <span className="font-serif-title text-2xl sm:text-3xl tracking-[0.2em] font-bold text-zinc-950 uppercase group-hover:tracking-[0.22em] transition-all">
-                MAISON
+              <span className="font-serif-title text-xl sm:text-2xl tracking-[0.14em] font-extrabold text-zinc-950 uppercase group-hover:tracking-[0.16em] transition-all leading-tight">
+                DAILY GIƯỜNG SPA
               </span>
-              <span className="text-[10px] tracking-[0.3em] font-medium text-zinc-400 uppercase -mt-1">
-                HAUTE COUTURE
+              <span className="text-[9px] tracking-[0.14em] font-semibold text-zinc-500 uppercase mt-0.5">
+                CHUYÊN CÁC LOẠI GIƯỜNG SPA & CLINIC
               </span>
             </Link>
           </div>
 
           {/* Desktop Navigation */}
-          <nav className="hidden lg:flex items-center gap-7 text-sm font-medium">
+          <nav className="hidden lg:flex items-center gap-6 text-sm font-medium">
             {navLinks.slice(0, 7).map(item => {
               const isActive =
                 item.path === '/'
@@ -174,6 +174,14 @@ export const CustomerLayout: React.FC = () => {
                       >
                         <Package className="w-4 h-4 text-zinc-400" /> Đơn hàng đã mua
                       </Link>
+                      {user.role === 'ADMIN' && (
+                        <Link
+                          to="/admin/dashboard"
+                          className="flex items-center gap-2.5 px-4 py-2 text-sm text-amber-600 hover:bg-amber-50 font-medium transition-colors"
+                        >
+                          <ShieldCheck className="w-4 h-4 text-amber-500" /> Trang quản trị Admin
+                        </Link>
+                      )}
                       <div className="border-t border-zinc-100 my-1"></div>
                       <button
                         onClick={logout}
@@ -222,7 +230,7 @@ export const CustomerLayout: React.FC = () => {
                   type="text"
                   value={searchQuery}
                   onChange={e => setSearchQuery(e.target.value)}
-                  placeholder="Tìm kiếm áo thun, blazer, sơ mi, quần tây..."
+                  placeholder="Tìm kiếm giường tiêm điện, giường gội dưỡng sinh, giường gỗ massage..."
                   className="w-full pl-11 pr-24 py-2.5 bg-white border border-zinc-300 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-zinc-950 focus:border-transparent transition-all shadow-sm"
                   autoFocus
                 />
@@ -320,8 +328,8 @@ export const CustomerLayout: React.FC = () => {
                 <Truck className="w-6 h-6" />
               </div>
               <div>
-                <h4 className="font-semibold text-sm text-zinc-900">Giao Hàng Toàn Quốc</h4>
-                <p className="text-xs text-zinc-500 mt-0.5">Miễn phí cho đơn hàng từ 500k</p>
+                <h4 className="font-semibold text-sm text-zinc-900">Giao & Lắp Đặt Tận Nơi</h4>
+                <p className="text-xs text-zinc-500 mt-0.5">Hỗ trợ setup trọn gói toàn quốc</p>
               </div>
             </div>
             <div className="flex items-center gap-4">
@@ -329,8 +337,8 @@ export const CustomerLayout: React.FC = () => {
                 <RotateCcw className="w-6 h-6" />
               </div>
               <div>
-                <h4 className="font-semibold text-sm text-zinc-900">15 Ngày Đổi Trả</h4>
-                <p className="text-xs text-zinc-500 mt-0.5">Thủ tục nhanh gọn, tận nơi</p>
+                <h4 className="font-semibold text-sm text-zinc-900">Bảo Hành Động Cơ 24T</h4>
+                <p className="text-xs text-zinc-500 mt-0.5">Bảo trì trọn đời, linh kiện sẵn có</p>
               </div>
             </div>
             <div className="flex items-center gap-4">
@@ -338,8 +346,8 @@ export const CustomerLayout: React.FC = () => {
                 <ShieldCheck className="w-6 h-6" />
               </div>
               <div>
-                <h4 className="font-semibold text-sm text-zinc-900">Chất Lượng Cam Kết</h4>
-                <p className="text-xs text-zinc-500 mt-0.5">100% sợi dệt tự nhiên chuẩn cao cấp</p>
+                <h4 className="font-semibold text-sm text-zinc-900">Tiêu Chuẩn Y Khoa</h4>
+                <p className="text-xs text-zinc-500 mt-0.5">Khung chịu tải 350kg, da kháng khuẩn</p>
               </div>
             </div>
             <div className="flex items-center gap-4">
@@ -347,8 +355,8 @@ export const CustomerLayout: React.FC = () => {
                 <Sparkles className="w-6 h-6" />
               </div>
               <div>
-                <h4 className="font-semibold text-sm text-zinc-900">Tư Vấn Chuyên Nghiệp</h4>
-                <p className="text-xs text-zinc-500 mt-0.5">Hỗ trợ chọn size chuẩn xác 24/7</p>
+                <h4 className="font-semibold text-sm text-zinc-900">Tư Vấn Setup 24/7</h4>
+                <p className="text-xs text-zinc-500 mt-0.5">Thiết kế công năng chuẩn không gian spa</p>
               </div>
             </div>
           </div>
@@ -362,56 +370,57 @@ export const CustomerLayout: React.FC = () => {
             {/* Brand column */}
             <div className="lg:col-span-2 space-y-4">
               <Link to="/" className="inline-block">
-                <span className="font-serif-title text-2xl tracking-[0.2em] font-bold text-white uppercase">
-                  MAISON
+                <span className="font-serif-title text-2xl tracking-[0.15em] font-bold text-white uppercase">
+                  DAILY GIƯỜNG SPA
                 </span>
-                <span className="block text-[10px] tracking-[0.3em] font-medium text-zinc-500 uppercase">
-                  STUDIO VIETNAM
+                <span className="block text-[10px] tracking-[0.2em] font-medium text-zinc-500 uppercase">
+                  HỆ THỐNG GIƯỜNG SPA & CLINIC VIỆT NAM
                 </span>
               </Link>
               <p className="text-sm text-zinc-400 leading-relaxed max-w-sm">
-                Thương hiệu thời trang cao cấp hướng đến sự tối giản, tinh tế và bền vững trong từng đường kim mũi chỉ.
+                Thương hiệu DaiLy Giường Spa chuyên sản xuất và phân phối giường tiêm thẩm mỹ, giường gội đầu dưỡng sinh, giường massage body gỗ tự nhiên và thiết bị thẩm mỹ cao cấp chuẩn y khoa.
               </p>
               <div className="pt-2 text-xs space-y-1.5 text-zinc-400">
-                <p><strong className="text-zinc-200">Địa chỉ:</strong> 158 Đồng Khởi, Bến Nghé, Quận 1, TP. Hồ Chí Minh</p>
-                <p><strong className="text-zinc-200">Hotline:</strong> 1900 6868 (08:30 - 22:00)</p>
-                <p><strong className="text-zinc-200">Email:</strong> contact@maisonfashion.vn</p>
+                <p><strong className="text-zinc-200">Showroom:</strong> 158 Đồng Khởi, Bến Nghé, Quận 1, TP. Hồ Chí Minh</p>
+                <p><strong className="text-zinc-200">Xưởng sản xuất:</strong> KCN Tân Bình, P. Tây Thạnh, Q. Tân Phú, TP. HCM</p>
+                <p><strong className="text-zinc-200">Hotline setup:</strong> 1900 6868 (08:30 - 22:00)</p>
+                <p><strong className="text-zinc-200">Email:</strong> contact@dailygiuongspa.vn</p>
               </div>
             </div>
 
             {/* Links - Categories */}
             <div>
-              <h4 className="text-xs uppercase tracking-wider font-bold text-white mb-4">Danh Mục Sản Phẩm</h4>
+              <h4 className="text-xs uppercase tracking-wider font-bold text-white mb-4">Các Loại Giường Spa</h4>
               <ul className="space-y-2.5 text-sm">
-                <li><Link to="/category/ao" className="hover:text-white transition-colors">Áo Nam & Nữ</Link></li>
-                <li><Link to="/category/quan" className="hover:text-white transition-colors">Quần Thời Trang</Link></li>
-                <li><Link to="/category/vay" className="hover:text-white transition-colors">Váy & Đầm Nữ</Link></li>
-                <li><Link to="/category/ao-khoac" className="hover:text-white transition-colors">Áo Khoác & Blazer</Link></li>
-                <li><Link to="/category/hoodie" className="hover:text-white transition-colors">Hoodie & Sweater</Link></li>
-                <li><Link to="/category/phu-kien" className="hover:text-white transition-colors">Phụ Kiện Da Cao Cấp</Link></li>
+                <li><Link to="/category/giuong-tiem-tham-my" className="hover:text-white transition-colors">Giường Tiêm Thẩm Mỹ Điện</Link></li>
+                <li><Link to="/category/giuong-goi-duong-sinh" className="hover:text-white transition-colors">Giường Gội Dưỡng Sinh</Link></li>
+                <li><Link to="/category/giuong-massage-go" className="hover:text-white transition-colors">Giường Massage Gỗ Sồi</Link></li>
+                <li><Link to="/category/giuong-spa-kim-loai" className="hover:text-white transition-colors">Giường Spa Inox & Thép</Link></li>
+                <li><Link to="/category/giuong-vali-gap-gon" className="hover:text-white transition-colors">Giường Vali Gấp Gọn</Link></li>
+                <li><Link to="/category/giuong-phun-xam-noi-mi" className="hover:text-white transition-colors">Ghế Phun Xăm & Nối Mi</Link></li>
               </ul>
             </div>
 
             {/* Links - Customer Care */}
             <div>
-              <h4 className="text-xs uppercase tracking-wider font-bold text-white mb-4">Hỗ Trợ Khách Hàng</h4>
+              <h4 className="text-xs uppercase tracking-wider font-bold text-white mb-4">Hỗ Trợ & Chính Sách</h4>
               <ul className="space-y-2.5 text-sm">
-                <li><Link to="/about" className="hover:text-white transition-colors">Giới Thiệu Thương Hiệu</Link></li>
-                <li><Link to="/contact" className="hover:text-white transition-colors">Liên Hệ & Góp Ý</Link></li>
+                <li><Link to="/about" className="hover:text-white transition-colors">Giới Thiệu Về DaiLy Giường Spa</Link></li>
+                <li><Link to="/contact" className="hover:text-white transition-colors">Tư Vấn & Báo Giá Trọn Gói</Link></li>
                 <li><Link to="/orders" className="hover:text-white transition-colors">Tra Cứu Đơn Hàng</Link></li>
-                <li><span className="hover:text-white transition-colors cursor-pointer">Hướng Dẫn Chọn Size</span></li>
-                <li><span className="hover:text-white transition-colors cursor-pointer">Chính Sách Đổi Trả</span></li>
-                <li><span className="hover:text-white transition-colors cursor-pointer">Bảo Mật Thông Tin</span></li>
+                <li><span className="hover:text-white transition-colors cursor-pointer">Chính Sách Bảo Hành 24T</span></li>
+                <li><span className="hover:text-white transition-colors cursor-pointer">Quy Trình Lắp Đặt Tận Nơi</span></li>
+                <li><span className="hover:text-white transition-colors cursor-pointer">Bảo Trì & Linh Kiện Sẵn Có</span></li>
               </ul>
             </div>
 
             {/* Newsletter */}
             <div>
-              <h4 className="text-xs uppercase tracking-wider font-bold text-white mb-4">Nhận Bản Tin Phong Cách</h4>
+              <h4 className="text-xs uppercase tracking-wider font-bold text-white mb-4">Nhận Báo Giá Setup</h4>
               <p className="text-xs text-zinc-400 mb-3 leading-relaxed">
-                Đăng ký để nhận voucher 50k và cập nhật các bộ sưu tập mới sớm nhất.
+                Đăng ký email để nhận ngay trọn bộ Catalogue và voucher giảm giá 500k cho đơn hàng setup.
               </p>
-              <form onSubmit={e => { e.preventDefault(); alert('Cảm ơn bạn đã đăng ký nhận bản tin Maison!'); }} className="space-y-2">
+              <form onSubmit={e => { e.preventDefault(); alert('Cảm ơn bạn đã đăng ký nhận tư vấn và báo giá thiết bị Spa!'); }} className="space-y-2">
                 <input
                   type="email"
                   required
@@ -422,7 +431,7 @@ export const CustomerLayout: React.FC = () => {
                   type="submit"
                   className="w-full py-2.5 bg-white text-zinc-950 font-semibold text-xs rounded-lg hover:bg-zinc-200 transition-colors flex items-center justify-center gap-1.5"
                 >
-                  Đăng Ký <ArrowRight className="w-3.5 h-3.5" />
+                  Nhận Báo Giá <ArrowRight className="w-3.5 h-3.5" />
                 </button>
               </form>
             </div>
@@ -430,13 +439,13 @@ export const CustomerLayout: React.FC = () => {
 
           {/* Copyright & Payment methods */}
           <div className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-zinc-500">
-            <p>© 2025 MAISON Fashion Studio Vietnam. Bảo lưu mọi quyền.</p>
+            <p>© 2025 DAILY GIƯỜNG SPA Vietnam. Bảo lưu mọi quyền.</p>
             <div className="flex items-center gap-4 text-zinc-400">
-              <span>COD Tiền Mặt</span>
+              <span>Hóa Đơn VAT Đầy Đủ</span>
               <span>•</span>
-              <span>Chuyển Khoản Ngân Hàng</span>
+              <span>Lắp Đặt Tận Nơi</span>
               <span>•</span>
-              <span>Thẻ ATM / Visa / Master</span>
+              <span>Chuyển Khoản / Trả Góp 0%</span>
             </div>
           </div>
         </div>

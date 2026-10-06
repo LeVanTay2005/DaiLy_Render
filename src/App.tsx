@@ -70,6 +70,7 @@ export default function App() {
               {/* 3. Trang Quản Trị Admin (Protected) */}
               <Route path="/admin" element={<AdminLayout />}>
                 <Route index element={<AdminDashboardPage />} />
+                <Route path="dashboard" element={<AdminDashboardPage />} />
                 <Route path="products" element={<AdminProductsPage />} />
                 <Route path="categories" element={<AdminCategoriesPage />} />
                 <Route path="orders" element={<AdminOrdersPage />} />

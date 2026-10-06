@@ -18,12 +18,14 @@ interface CartContextType {
     discountValue: number;
     discountAmount: number;
   } | null;
-  applyCoupon: (code: string) => Promise<boolean>;
+  couponCode: string;
+  applyCoupon: (code: string, explicitDiscount?: number) => Promise<boolean>;
   removeCoupon: () => void;
   subtotal: number;
   shippingFee: number;
   discountAmount: number;
   totalAmount: number;
+  total: number;
   totalQuantity: number;
 }
 
@@ -88,6 +90,7 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
           productId: product.id,
           variantId: variant.id,
           productName: product.name,
+          name: product.name,
           slug: product.slug,
           size: variant.size,
           color: variant.color,
@@ -162,7 +165,7 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
     return items.reduce((sum, item) => sum + item.quantity, 0);
   }, [items]);
 
-  const applyCoupon = async (code: string): Promise<boolean> => {
+  const applyCoupon = async (code: string, explicitDiscount?: number): Promise<boolean> => {
     if (!code.trim()) {
       error('Vui lòng nhập mã giảm giá');
       return false;
@@ -170,6 +173,17 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
     if (items.length === 0) {
       error('Giỏ hàng của bạn đang trống');
       return false;
+    }
+
+    if (explicitDiscount !== undefined) {
+      setAppliedCoupon({
+        code: code.trim().toUpperCase(),
+        description: `Mã giảm giá ${code.trim().toUpperCase()}`,
+        discountType: 'FIXED',
+        discountValue: explicitDiscount,
+        discountAmount: explicitDiscount,
+      });
+      return true;
     }
 
     try {
@@ -202,12 +216,14 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
         updateQuantity,
         clearCart,
         appliedCoupon,
+        couponCode: appliedCoupon ? appliedCoupon.code : '',
         applyCoupon,
         removeCoupon,
         subtotal,
         shippingFee,
         discountAmount,
         totalAmount,
+        total: totalAmount,
         totalQuantity,
       }}
     >

@@ -22,6 +22,7 @@ export interface User {
   email: string;
   passwordHash: string;
   phone?: string;
+  address?: string;
   avatar?: string;
   role: 'CUSTOMER' | 'ADMIN';
   status: 'ACTIVE' | 'BLOCKED';
@@ -94,33 +95,47 @@ interface DatabaseState {
   settings: StoreSettings;
 }
 
+import dotenv from 'dotenv';
+dotenv.config();
+
 const DATA_DIR = path.join(process.cwd(), 'data');
 const DATA_FILE = path.join(DATA_DIR, 'store.json');
 
 const sqlConfig: sql.config = {
   user: process.env.DB_USER || 'sa',
-  password: process.env.DB_PASSWORD || '123123', // ⚠️ Thay mật khẩu sa của bạn vào đây
+  password: process.env.DB_PASSWORD || '123123',
   server: process.env.DB_SERVER || 'localhost',
   options: {
-    instanceName: 'SQLEXPRESS2025',
-    database: 'maison_fashion',
+    instanceName: process.env.DB_INSTANCE || 'SQLEXPRESS2025',
+    database: process.env.DB_NAME || 'maison_fashion',
     encrypt: false,
     trustServerCertificate: true,
   },
-  port: 1433,
+  port: process.env.DB_PORT ? Number(process.env.DB_PORT) : 1433,
 };
 
 export const poolPromise = new sql.ConnectionPool(sqlConfig)
   .connect()
   .then(pool => {
     console.log('[Maison Fashion] Kết nối SQL Server (SQLEXPRESS2025) thành công!');
+    db.syncFromSqlServer().catch(err => {
+      console.warn('[Maison Fashion] Đồng bộ ban đầu từ SQL Server gặp thông báo:', err?.message || err);
+    });
     return pool;
   })
   .catch(err => {
-    console.error('Lỗi kết nối SQL Server:', err);
-    // throw err;
+    console.warn('[Maison Fashion] Không kết nối được SQL Server (sử dụng chế độ lưu trữ JSON dự phòng):', err.message);
     return null;
   });
+
+export async function querySql<T = any>(queryText: string): Promise<T[]> {
+  const pool = await poolPromise;
+  if (!pool) {
+    throw new Error('Chưa kết nối được tới SQL Server');
+  }
+  const result = await pool.request().query(queryText);
+  return result.recordset as T[];
+}
 
 class DatabaseEngine {
   private state: DatabaseState;
@@ -162,6 +177,7 @@ class DatabaseEngine {
         email: 'admin@example.com',
         passwordHash: adminPasswordHash,
         phone: '0909123456',
+        address: '158 Đồng Khởi, Bến Nghé, Quận 1, TP. Hồ Chí Minh',
         avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80',
         role: 'ADMIN',
         status: 'ACTIVE',
@@ -173,6 +189,7 @@ class DatabaseEngine {
         email: 'khachhang@example.com',
         passwordHash: customerPasswordHash,
         phone: '0918765432',
+        address: 'Tòa nhà Landmark 81, 720A Điện Biên Phủ, Phường 22, Quận Bình Thạnh, TP. Hồ Chí Minh',
         avatar: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=150&auto=format&fit=crop&q=80',
         role: 'CUSTOMER',
         status: 'ACTIVE',
@@ -181,11 +198,26 @@ class DatabaseEngine {
         totalSpent: 1847000,
       },
       {
+        id: 'usr-cust-demo',
+        name: 'Khách Hàng Demo',
+        email: 'customer@example.com',
+        passwordHash: customerPasswordHash,
+        phone: '0901234567',
+        address: 'Quận 1, TP. Hồ Chí Minh',
+        avatar: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=150&auto=format&fit=crop&q=80',
+        role: 'CUSTOMER',
+        status: 'ACTIVE',
+        createdAt: '2025-01-01T10:00:00Z',
+        totalOrders: 1,
+        totalSpent: 499000,
+      },
+      {
         id: 'usr-cust-2',
         name: 'Lê Minh Tuấn',
         email: 'minhtuan@gmail.com',
         passwordHash: customerPasswordHash,
         phone: '0987654321',
+        address: 'Số 45 Tràng Tiền, Phường Tràng Tiền, Quận Hoàn Kiếm, Hà Nội',
         avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&auto=format&fit=crop&q=80',
         role: 'CUSTOMER',
         status: 'ACTIVE',
@@ -199,6 +231,7 @@ class DatabaseEngine {
         email: 'phuonglinh@gmail.com',
         passwordHash: customerPasswordHash,
         phone: '0933221100',
+        address: '124 Nguyễn Văn Linh, Phường Nam Dương, Quận Hải Châu, Đà Nẵng',
         avatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=150&auto=format&fit=crop&q=80',
         role: 'CUSTOMER',
         status: 'ACTIVE',
@@ -208,26 +241,26 @@ class DatabaseEngine {
       }
     ];
 
-    // Seed realistic sample orders for dashboard stats & charts
+    // Seed realistic sample orders for spa beds dashboard stats & charts
     const initialOrders: Order[] = [
       {
         id: 'ord-1001',
         orderCode: 'ORD-250101',
         userId: 'usr-cust-1',
-        customerName: 'Nguyễn Thúy Vy',
+        customerName: 'Nguyễn Thúy Vy (Aesthetic Clinic)',
         customerEmail: 'khachhang@example.com',
         customerPhone: '0918765432',
-        shippingAddress: 'Tòa nhà Landmark 81, 720A Điện Biên Phủ',
+        shippingAddress: 'Tòa nhà Landmark 81, 720A Điện Biên Phủ, Phường 22',
         province: 'Hồ Chí Minh',
         district: 'Quận Bình Thạnh',
         ward: 'Phường 22',
-        note: 'Giao trong giờ hành chính giúp mình',
-        subtotal: 728000,
-        shippingFee: 30000,
-        discountAmount: 50000,
-        totalAmount: 708000,
-        couponCode: 'WELCOME50',
-        paymentMethod: 'COD',
+        note: 'Giao tầng 12, có thang máy chuyển hàng, lắp đặt hoàn thiện giúp mình',
+        subtotal: 13900000,
+        shippingFee: 0,
+        discountAmount: 500000,
+        totalAmount: 13400000,
+        couponCode: 'SETUP500',
+        paymentMethod: 'BANK_TRANSFER',
         paymentStatus: 'PAID',
         orderStatus: 'DELIVERED',
         items: [
@@ -235,25 +268,13 @@ class DatabaseEngine {
             id: 'item-1',
             orderId: 'ord-1001',
             productId: 'prod-1',
-            productName: 'Áo Thun Basic Heavyweight Cotton',
-            size: 'M',
-            color: 'Trắng',
-            price: 249000,
-            quantity: 2,
-            total: 498000,
-            imageUrl: 'https://images.unsplash.com/photo-1521572267360-ee0c2909d518?w=400&auto=format&fit=crop&q=80',
-          },
-          {
-            id: 'item-2',
-            orderId: 'ord-1001',
-            productId: 'prod-13',
-            productName: 'Áo Polo Pique Cotton Dệt Tổ Ong',
-            size: 'M',
-            color: 'Trắng',
-            price: 320000,
+            productName: 'Giường Tiêm Thẩm Mỹ Chỉnh Điện 3 Động Cơ Cao Cấp Hi-Tech S3',
+            size: '190x65cm',
+            color: 'Trắng Sữa',
+            price: 13900000,
             quantity: 1,
-            total: 320000,
-            imageUrl: 'https://images.unsplash.com/photo-1625910513413-568393527a20?w=400&auto=format&fit=crop&q=80',
+            total: 13900000,
+            imageUrl: 'https://images.unsplash.com/photo-1629909613654-28e377c37b09?w=400&auto=format&fit=crop&q=80',
           }
         ],
         createdAt: '2025-01-18T10:30:00Z',
@@ -263,46 +284,34 @@ class DatabaseEngine {
         id: 'ord-1002',
         orderCode: 'ORD-250102',
         userId: 'usr-cust-2',
-        customerName: 'Lê Minh Tuấn',
+        customerName: 'Lê Minh Tuấn (Spa Dưỡng Sinh)',
         customerEmail: 'minhtuan@gmail.com',
         customerPhone: '0987654321',
-        shippingAddress: 'Số 45 Tràng Tiền',
+        shippingAddress: 'Số 45 Tràng Tiền, Phường Tràng Tiền',
         province: 'Hà Nội',
         district: 'Quận Hoàn Kiếm',
         ward: 'Phường Tràng Tiền',
-        note: 'Gọi trước khi giao',
-        subtotal: 1388000,
+        note: 'Gọi trước 30 phút để chuẩn bị phòng lắp ráp',
+        subtotal: 9900000,
         shippingFee: 0,
-        discountAmount: 138800,
-        totalAmount: 1249200,
-        couponCode: 'MAISON10',
+        discountAmount: 990000,
+        totalAmount: 8910000,
+        couponCode: 'SPA10',
         paymentMethod: 'BANK_TRANSFER',
         paymentStatus: 'PAID',
         orderStatus: 'PROCESSING',
         items: [
           {
-            id: 'item-3',
+            id: 'item-2',
             orderId: 'ord-1002',
-            productId: 'prod-7',
-            productName: 'Áo Blazer Relaxed-Fit Unisex',
-            size: 'L',
-            color: 'Đen Than',
-            price: 849000,
-            quantity: 1,
-            total: 849000,
-            imageUrl: 'https://images.unsplash.com/photo-1591047139829-d91aecb6caea?w=400&auto=format&fit=crop&q=80',
-          },
-          {
-            id: 'item-4',
-            orderId: 'ord-1002',
-            productId: 'prod-4',
-            productName: 'Quần Jeans Denim Vintage Straight Leg',
-            size: '31',
-            color: 'Xanh Chàm',
-            price: 539000,
-            quantity: 1,
-            total: 539000,
-            imageUrl: 'https://images.unsplash.com/photo-1541099649105-f69ad21f3246?w=400&auto=format&fit=crop&q=80',
+            productId: 'prod-3',
+            productName: 'Giường Gội Đầu Dưỡng Sinh Tai Thỏ Bồn Sứ Vòm Tuần Hoàn Nước',
+            size: '200x68cm',
+            color: 'Nâu Cà Phê',
+            price: 4950000,
+            quantity: 2,
+            total: 9900000,
+            imageUrl: 'https://images.unsplash.com/photo-1540555700478-4be289fbecef?w=400&auto=format&fit=crop&q=80',
           }
         ],
         createdAt: '2025-01-21T09:15:00Z',
@@ -315,30 +324,30 @@ class DatabaseEngine {
         customerName: 'Phạm Phương Linh',
         customerEmail: 'phuonglinh@gmail.com',
         customerPhone: '0933221100',
-        shippingAddress: '124 Nguyễn Văn Linh',
+        shippingAddress: '124 Nguyễn Văn Linh, Phường Nam Dương',
         province: 'Đà Nẵng',
         district: 'Quận Hải Châu',
         ward: 'Phường Nam Dương',
-        note: '',
-        subtotal: 590000,
-        shippingFee: 30000,
+        note: 'Giao giờ hành chính',
+        subtotal: 3690000,
+        shippingFee: 0,
         discountAmount: 0,
-        totalAmount: 620000,
+        totalAmount: 3690000,
         paymentMethod: 'COD',
         paymentStatus: 'PENDING',
         orderStatus: 'PENDING',
         items: [
           {
-            id: 'item-5',
+            id: 'item-3',
             orderId: 'ord-1003',
             productId: 'prod-5',
-            productName: 'Đầm Midi Linen Thắt Eo Thanh Lịch',
-            size: 'M',
-            color: 'Trắng Ngà',
-            price: 590000,
+            productName: 'Giường Massage Body Khung Gỗ Sồi Tự Nhiên Cao Cấp Oak-Royal',
+            size: '190x80cm',
+            color: 'Trắng Kem',
+            price: 3690000,
             quantity: 1,
-            total: 590000,
-            imageUrl: 'https://images.unsplash.com/photo-1595777457583-95e059d581b8?w=400&auto=format&fit=crop&q=80',
+            total: 3690000,
+            imageUrl: 'https://images.unsplash.com/photo-1544161515-4ab6ce6db874?w=400&auto=format&fit=crop&q=80',
           }
         ],
         createdAt: '2025-01-22T14:40:00Z',
@@ -347,16 +356,16 @@ class DatabaseEngine {
     ];
 
     const initialSettings: StoreSettings = {
-      storeName: 'Maison Fashion Studio',
+      storeName: 'DaiLy Giường Spa - Hệ Thống Giường Spa & Thiết Bị Thẩm Mỹ',
       phone: '1900 6868',
-      email: 'contact@maisonfashion.vn',
+      email: 'contact@dailygiuongspa.vn',
       address: '158 Đồng Khởi, Bến Nghé, Quận 1, TP. Hồ Chí Minh',
-      openingHours: '08:30 - 22:00 (Tất cả các ngày trong tuần)',
-      shippingFeeStandard: 30000,
-      freeShippingThreshold: 500000,
-      bankName: 'Vietcombank - Chi nhánh TP.HCM',
-      bankAccountNumber: '0071001234567',
-      bankAccountName: 'CONG TY TNHH MAISON FASHION VIET NAM',
+      openingHours: '08:00 - 21:00 (Mở cửa tất cả các ngày trong tuần)',
+      shippingFeeStandard: 150000,
+      freeShippingThreshold: 5000000,
+      bankName: 'Techcombank (Ngân hàng TMCP Kỹ thương Việt Nam)',
+      bankAccountNumber: '19036888999888',
+      bankAccountName: 'CONG TY TNHH DAILY GIUONG SPA',
     };
 
     const newState: DatabaseState = {
@@ -386,6 +395,221 @@ class DatabaseEngine {
     }
   }
 
+  public async syncFromSqlServer(): Promise<boolean> {
+    const pool = await poolPromise;
+    if (!pool) return false;
+
+    try {
+      // 1. Users
+      const usersRes = await pool.request().query('SELECT * FROM dbo.users');
+      if (usersRes.recordset && usersRes.recordset.length > 0) {
+        this.state.users = usersRes.recordset.map((r: any) => ({
+          id: r.id,
+          name: r.name,
+          email: r.email,
+          passwordHash: r.password_hash,
+          phone: r.phone || '',
+          address: r.address || '',
+          avatar: r.avatar || '',
+          role: r.role,
+          status: r.status,
+          createdAt: r.created_at ? new Date(r.created_at).toISOString() : new Date().toISOString(),
+          updatedAt: r.updated_at ? new Date(r.updated_at).toISOString() : undefined,
+        }));
+      }
+
+      // 2. Categories
+      const catRes = await pool.request().query('SELECT * FROM dbo.categories');
+      if (catRes.recordset && catRes.recordset.length > 0) {
+        this.state.categories = catRes.recordset.map((r: any) => ({
+          id: r.id,
+          name: r.name,
+          slug: r.slug,
+          description: r.description || '',
+          image: r.image || '',
+        }));
+      }
+
+      // 3. Products & Images & Variants
+      const prodRes = await pool.request().query('SELECT * FROM dbo.products');
+      const imgRes = await pool.request().query('SELECT * FROM dbo.product_images ORDER BY display_order ASC');
+      const varRes = await pool.request().query('SELECT * FROM dbo.product_variants');
+      if (prodRes.recordset && prodRes.recordset.length > 0) {
+        this.state.products = prodRes.recordset.map((p: any) => {
+          const prodImages = imgRes.recordset.filter((img: any) => img.product_id === p.id).map((img: any) => img.image_url);
+          const prodVariants = varRes.recordset.filter((v: any) => v.product_id === p.id).map((v: any) => ({
+            id: v.id,
+            productId: v.product_id,
+            size: v.size,
+            color: v.color,
+            colorCode: v.color_code || '#000000',
+            stock: v.stock,
+            price: v.price !== null ? Number(v.price) : undefined,
+            sku: v.sku,
+          }));
+          let detailsArr: string[] = [];
+          try {
+            if (p.details) detailsArr = JSON.parse(p.details);
+          } catch {
+            detailsArr = [];
+          }
+          return {
+            id: p.id,
+            name: p.name,
+            slug: p.slug,
+            categoryId: p.category_id,
+            brand: p.brand || 'DaiLy Spa',
+            price: Number(p.price),
+            salePrice: p.sale_price !== null ? Number(p.sale_price) : undefined,
+            description: p.description || '',
+            details: detailsArr,
+            images: prodImages,
+            variants: prodVariants,
+            rating: Number(p.rating || 5.0),
+            reviewCount: Number(p.review_count || 0),
+            soldCount: Number(p.sold_count || 0),
+            isFeatured: Boolean(p.is_featured),
+            isNewArrival: Boolean(p.is_new_arrival),
+            isFlashSale: Boolean(p.is_flash_sale),
+            status: p.status || 'ACTIVE',
+            createdAt: p.created_at ? new Date(p.created_at).toISOString() : new Date().toISOString(),
+          };
+        });
+      }
+
+      // 4. Coupons
+      const coupRes = await pool.request().query('SELECT * FROM dbo.coupons');
+      if (coupRes.recordset && coupRes.recordset.length > 0) {
+        this.state.coupons = coupRes.recordset.map((c: any) => ({
+          id: c.id,
+          code: c.code,
+          description: c.description || '',
+          discountType: c.discount_type,
+          discountValue: Number(c.discount_value),
+          minOrderValue: Number(c.min_order_value || 0),
+          maxDiscount: c.max_discount !== null ? Number(c.max_discount) : undefined,
+          usageLimit: Number(c.usage_limit || 100),
+          usedCount: Number(c.used_count || 0),
+          startDate: c.start_date ? new Date(c.start_date).toISOString().split('T')[0] : '',
+          endDate: c.end_date ? new Date(c.end_date).toISOString().split('T')[0] : '',
+          status: c.status,
+        }));
+      }
+
+      // 5. Banners
+      const banRes = await pool.request().query('SELECT * FROM dbo.banners ORDER BY display_order ASC');
+      if (banRes.recordset && banRes.recordset.length > 0) {
+        this.state.banners = banRes.recordset.map((b: any) => ({
+          id: b.id,
+          title: b.title,
+          subtitle: b.subtitle || '',
+          badge: b.badge || '',
+          link: b.link || '/',
+          image: b.image,
+          buttonText: b.button_text || 'Xem ngay',
+          position: b.position || 'HERO',
+          order: Number(b.display_order || 0),
+          active: Boolean(b.active),
+        }));
+      }
+
+      // 6. Orders
+      const ordRes = await pool.request().query('SELECT * FROM dbo.orders');
+      const ordItemRes = await pool.request().query('SELECT * FROM dbo.order_items');
+      if (ordRes.recordset && ordRes.recordset.length > 0) {
+        this.state.orders = ordRes.recordset.map((o: any) => {
+          const items = ordItemRes.recordset.filter((it: any) => it.order_id === o.id).map((it: any) => ({
+            id: it.id,
+            orderId: it.order_id,
+            productId: it.product_id,
+            variantId: it.variant_id || undefined,
+            productName: it.product_name,
+            size: it.size,
+            color: it.color,
+            price: Number(it.price),
+            quantity: Number(it.quantity),
+            total: Number(it.total),
+            imageUrl: it.image_url || undefined,
+          }));
+          return {
+            id: o.id,
+            orderCode: o.order_code,
+            userId: o.user_id || undefined,
+            customerName: o.customer_name,
+            customerEmail: o.customer_email,
+            customerPhone: o.customer_phone,
+            shippingAddress: o.shipping_address,
+            province: o.province,
+            district: o.district,
+            ward: o.ward,
+            note: o.note || undefined,
+            subtotal: Number(o.subtotal),
+            shippingFee: Number(o.shipping_fee || 0),
+            discountAmount: Number(o.discount_amount || 0),
+            totalAmount: Number(o.total_amount),
+            couponCode: o.coupon_code || undefined,
+            paymentMethod: o.payment_method,
+            paymentStatus: o.payment_status,
+            orderStatus: o.order_status,
+            items,
+            createdAt: o.created_at ? new Date(o.created_at).toISOString() : new Date().toISOString(),
+            updatedAt: o.updated_at ? new Date(o.updated_at).toISOString() : new Date().toISOString(),
+          };
+        });
+      }
+
+      // 7. Reviews
+      const revRes = await pool.request().query('SELECT * FROM dbo.reviews');
+      if (revRes.recordset && revRes.recordset.length > 0) {
+        this.state.reviews = revRes.recordset.map((r: any) => {
+          let imgs: string[] = [];
+          try {
+            if (r.images) imgs = JSON.parse(r.images);
+          } catch {
+            imgs = [];
+          }
+          return {
+            id: r.id,
+            productId: r.product_id,
+            userId: r.user_id,
+            userName: r.user_name || 'Khách hàng',
+            userAvatar: r.user_avatar || '',
+            rating: Number(r.rating),
+            comment: r.comment,
+            images: imgs,
+            status: r.status,
+            createdAt: r.created_at ? new Date(r.created_at).toISOString() : new Date().toISOString(),
+          };
+        });
+      }
+
+      // 8. Store settings
+      const setRes = await pool.request().query('SELECT TOP 1 * FROM dbo.store_settings');
+      if (setRes.recordset && setRes.recordset.length > 0) {
+        const s = setRes.recordset[0];
+        this.state.settings = {
+          storeName: s.store_name,
+          phone: s.phone || '',
+          email: s.email || '',
+          address: s.address || '',
+          openingHours: s.opening_hours || '',
+          shippingFeeStandard: Number(s.shipping_fee_standard || 30000),
+          freeShippingThreshold: Number(s.free_shipping_threshold || 500000),
+          bankName: s.bank_name || '',
+          bankAccountNumber: s.bank_account_number || '',
+          bankAccountName: s.bank_account_name || '',
+        };
+      }
+
+      this.saveState();
+      console.log('🔄 [Maison Fashion] Đã đồng bộ toàn bộ dữ liệu từ SQL Server vào bộ nhớ máy chủ!');
+      return true;
+    } catch (err) {
+      console.error('[Maison Fashion] Lỗi đồng bộ từ SQL Server:', err);
+      return false;
+    }
+  }
+
   // --- USERS ---
   public findUserByEmail(email: string): User | undefined {
     return this.state.users.find(u => u.email.toLowerCase() === email.toLowerCase());
@@ -403,6 +627,28 @@ class DatabaseEngine {
     };
     this.state.users.push(newUser);
     this.saveState();
+
+    // Async sync to SQL Server if connected
+    poolPromise.then(pool => {
+      if (pool) {
+        pool.request()
+          .input('id', sql.NVarChar(64), newUser.id)
+          .input('name', sql.NVarChar(128), newUser.name)
+          .input('email', sql.NVarChar(128), newUser.email)
+          .input('password_hash', sql.NVarChar(255), newUser.passwordHash)
+          .input('phone', sql.NVarChar(32), newUser.phone || '')
+          .input('address', sql.NVarChar(255), newUser.address || '')
+          .input('avatar', sql.NVarChar(500), newUser.avatar || '')
+          .input('role', sql.NVarChar(32), newUser.role)
+          .input('status', sql.NVarChar(32), newUser.status)
+          .query(`
+            IF NOT EXISTS (SELECT 1 FROM dbo.users WHERE email = @email)
+            INSERT INTO dbo.users (id, name, email, password_hash, phone, address, avatar, role, status, created_at)
+            VALUES (@id, @name, @email, @password_hash, @phone, @address, @avatar, @role, @status, GETDATE())
+          `).catch(err => console.warn('[SQL Server] Error inserting user:', err.message));
+      }
+    }).catch(() => {});
+
     return newUser;
   }
 
@@ -415,6 +661,25 @@ class DatabaseEngine {
       updatedAt: new Date().toISOString(),
     };
     this.saveState();
+
+    const u = this.state.users[index];
+    poolPromise.then(pool => {
+      if (pool) {
+        pool.request()
+          .input('id', sql.NVarChar(64), id)
+          .input('name', sql.NVarChar(128), u.name)
+          .input('phone', sql.NVarChar(32), u.phone || '')
+          .input('address', sql.NVarChar(255), u.address || '')
+          .input('avatar', sql.NVarChar(500), u.avatar || '')
+          .input('status', sql.NVarChar(32), u.status)
+          .query(`
+            UPDATE dbo.users 
+            SET name = @name, phone = @phone, address = @address, avatar = @avatar, status = @status, updated_at = GETDATE()
+            WHERE id = @id
+          `).catch(err => console.warn('[SQL Server] Error updating user:', err.message));
+      }
+    }).catch(() => {});
+
     return this.state.users[index];
   }
 
@@ -441,6 +706,39 @@ class DatabaseEngine {
     user.updatedAt = new Date().toISOString();
     this.saveState();
     return user;
+  }
+
+  public changePassword(userId: string, oldPasswordPlain: string, newPasswordPlain: string): { success: boolean; message: string } {
+    const user = this.findUserById(userId);
+    if (!user) {
+      return { success: false, message: 'Không tìm thấy thông tin tài khoản' };
+    }
+
+    const isMatch = bcrypt.compareSync(oldPasswordPlain, user.passwordHash);
+    if (!isMatch) {
+      return { success: false, message: 'Mật khẩu hiện tại không chính xác' };
+    }
+
+    if (newPasswordPlain.length < 8) {
+      return { success: false, message: 'Mật khẩu mới phải có ít nhất 8 ký tự' };
+    }
+
+    const salt = bcrypt.genSaltSync(10);
+    user.passwordHash = bcrypt.hashSync(newPasswordPlain, salt);
+    user.updatedAt = new Date().toISOString();
+    this.saveState();
+
+    poolPromise.then(pool => {
+      if (pool) {
+        pool.request()
+          .input('id', sql.NVarChar(64), user.id)
+          .input('hash', sql.NVarChar(255), user.passwordHash)
+          .query(`UPDATE dbo.users SET password_hash = @hash, updated_at = GETDATE() WHERE id = @id`)
+          .catch(err => console.warn('[SQL Server] Error updating password:', err.message));
+      }
+    }).catch(() => {});
+
+    return { success: true, message: 'Đổi mật khẩu thành công' };
   }
 
   // --- PRODUCTS ---
@@ -516,12 +814,15 @@ class DatabaseEngine {
     if (options?.sort) {
       switch (options.sort) {
         case 'price-asc':
+        case 'price_asc':
           list.sort((a, b) => (a.salePrice || a.price) - (b.salePrice || b.price));
           break;
         case 'price-desc':
+        case 'price_desc':
           list.sort((a, b) => (b.salePrice || b.price) - (a.salePrice || a.price));
           break;
         case 'bestseller':
+        case 'popular':
           list.sort((a, b) => b.soldCount - a.soldCount);
           break;
         case 'rating':
@@ -736,6 +1037,61 @@ class DatabaseEngine {
     order.updatedAt = new Date().toISOString();
     this.saveState();
     return order;
+  }
+
+  public findOrderByCode(code: string): Order | undefined {
+    const cleanCode = code.trim().toUpperCase();
+    return this.state.orders.find(o => o.orderCode.toUpperCase() === cleanCode || o.id === code);
+  }
+
+  public cancelOrder(id: string, userId?: string): { success: boolean; message: string; order?: Order } {
+    const order = this.state.orders.find(o => o.id === id || o.orderCode.toUpperCase() === id.toUpperCase());
+    if (!order) {
+      return { success: false, message: 'Không tìm thấy đơn hàng' };
+    }
+
+    if (userId && order.userId && order.userId !== userId) {
+      return { success: false, message: 'Bạn không có quyền thao tác trên đơn hàng này' };
+    }
+
+    if (order.orderStatus === 'DELIVERED') {
+      return { success: false, message: 'Đơn hàng đã được giao thành công, không thể hủy' };
+    }
+
+    if (order.orderStatus === 'CANCELLED') {
+      return { success: false, message: 'Đơn hàng này đã ở trạng thái hủy trước đó' };
+    }
+
+    if (order.orderStatus === 'SHIPPING') {
+      return { success: false, message: 'Đơn hàng đang trong quá trình vận chuyển, vui lòng liên hệ tổng đài 1900 6868' };
+    }
+
+    // Restore stock & decrement soldCount
+    for (const item of order.items) {
+      const prod = this.state.products.find(p => p.id === item.productId);
+      if (prod) {
+        prod.soldCount = Math.max(0, prod.soldCount - item.quantity);
+        if (item.variantId) {
+          const variant = prod.variants.find(v => v.id === item.variantId);
+          if (variant) {
+            variant.stock += item.quantity;
+          }
+        }
+      }
+    }
+
+    // Restore coupon usage count
+    if (order.couponCode) {
+      const coupon = this.state.coupons.find(c => c.code.toUpperCase() === order.couponCode?.toUpperCase());
+      if (coupon && coupon.usedCount > 0) {
+        coupon.usedCount -= 1;
+      }
+    }
+
+    order.orderStatus = 'CANCELLED';
+    order.updatedAt = new Date().toISOString();
+    this.saveState();
+    return { success: true, message: `Hủy đơn hàng #${order.orderCode} thành công`, order };
   }
 
   // --- COUPONS ---

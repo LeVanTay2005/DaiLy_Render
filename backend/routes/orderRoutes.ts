@@ -134,6 +134,41 @@ router.get('/', authenticateToken, (req: AuthRequest, res: Response) => {
   }
 });
 
+// GET /api/orders/track/:orderCode (Public Order Tracking)
+router.get('/track/:orderCode', (req: AuthRequest, res: Response) => {
+  try {
+    const { orderCode } = req.params;
+    const { phone } = req.query;
+
+    const order = db.findOrderByCode(orderCode);
+    if (!order) {
+      return res.status(404).json({ success: false, message: `Không tìm thấy đơn hàng với mã #${orderCode}` });
+    }
+
+    if (phone && order.customerPhone.slice(-4) !== String(phone).trim().slice(-4)) {
+      return res.status(403).json({ success: false, message: 'Số điện thoại không khớp với thông tin đặt hàng' });
+    }
+
+    return res.json({ success: true, data: order });
+  } catch (error: any) {
+    return res.status(500).json({ success: false, message: 'Lỗi tra cứu đơn hàng', error: error.message });
+  }
+});
+
+// PUT /api/orders/:id/cancel (Customer Cancel Order)
+router.put('/:id/cancel', authenticateToken, (req: AuthRequest, res: Response) => {
+  try {
+    const { id } = req.params;
+    const result = db.cancelOrder(id, req.user!.role === 'ADMIN' ? undefined : req.user!.id);
+    if (!result.success) {
+      return res.status(400).json({ success: false, message: result.message });
+    }
+    return res.json({ success: true, message: result.message, data: result.order });
+  } catch (error: any) {
+    return res.status(500).json({ success: false, message: 'Lỗi hủy đơn hàng', error: error.message });
+  }
+});
+
 // GET /api/orders/:id (Order details)
 router.get('/:id', optionalAuth, (req: AuthRequest, res: Response) => {
   try {

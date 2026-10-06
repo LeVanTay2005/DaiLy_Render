@@ -67,7 +67,7 @@ export const CartPage: React.FC = () => {
             Giỏ Hàng Của Bạn Đang Trống
           </h2>
           <p className="text-xs sm:text-sm text-zinc-500 mt-1">
-            Hãy khám phá các thiết kế thời trang mới nhất để tìm thấy phong cách phù hợp với bạn
+            Hãy khám phá các mẫu giường spa & thiết bị thẩm mỹ chất lượng cao phù hợp với cơ sở của bạn
           </p>
         </div>
         <Link
@@ -221,7 +221,7 @@ export const CartPage: React.FC = () => {
                   type="text"
                   value={inputCoupon}
                   onChange={e => setInputCoupon(e.target.value.toUpperCase())}
-                  placeholder="Nhập mã (MAISON20...)"
+                  placeholder="Nhập mã (DAILY20...)"
                   className="flex-1 px-3 py-2 border border-zinc-300 rounded-xl text-xs font-mono uppercase focus:outline-none focus:ring-1 focus:ring-zinc-900"
                 />
                 <button

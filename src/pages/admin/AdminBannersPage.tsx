@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Image as ImageIcon, Plus, Trash2, Edit2, Eye, EyeOff, X } from 'lucide-react';
+import { Image as ImageIcon, Plus, Trash2, Edit2, Eye, EyeOff, X, Upload } from 'lucide-react';
 import { api } from '../../services/api';
 import { Banner } from '../../types';
 import { useNotification } from '../../context/NotificationContext';
@@ -56,6 +56,40 @@ export const AdminBannersPage: React.FC = () => {
       active: true,
     });
     setIsModalOpen(true);
+  };
+
+  const openEditModal = (banner: Banner) => {
+    setEditingBanner(banner);
+    setFormData({
+      title: banner.title,
+      subtitle: banner.subtitle || '',
+      badge: banner.badge || '',
+      link: banner.link || '/products',
+      image: banner.image,
+      buttonText: banner.buttonText || 'Xem Sản Phẩm',
+      position: banner.position || 'HERO',
+      order: banner.order || 1,
+      active: banner.active !== undefined ? banner.active : true,
+    });
+    setIsModalOpen(true);
+  };
+
+  const handleImageFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      if (file.size > 5 * 1024 * 1024) {
+        error('Dung lượng ảnh tối đa là 5MB');
+        return;
+      }
+      const reader = new FileReader();
+      reader.onload = () => {
+        if (typeof reader.result === 'string') {
+          setFormData(prev => ({ ...prev, image: reader.result as string }));
+          success('Đã tải ảnh banner thành công!');
+        }
+      };
+      reader.readAsDataURL(file);
+    }
   };
 
   const handleSaveBanner = async (e: React.FormEvent) => {
@@ -166,10 +200,18 @@ export const AdminBannersPage: React.FC = () => {
                   <span>Vị trí: {banner.position}</span>
                 </div>
 
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-1">
+                  <button
+                    onClick={() => openEditModal(banner)}
+                    className="p-2 text-zinc-400 hover:text-white hover:bg-zinc-800 rounded-lg transition-colors"
+                    title="Chỉnh sửa banner"
+                  >
+                    <Edit2 className="w-4 h-4" />
+                  </button>
                   <button
                     onClick={() => handleDeleteBanner(banner.id)}
                     className="p-2 text-rose-400 hover:text-rose-300 hover:bg-rose-950/40 rounded-lg transition-colors"
+                    title="Xóa banner"
                   >
                     <Trash2 className="w-4 h-4" />
                   </button>
@@ -185,7 +227,9 @@ export const AdminBannersPage: React.FC = () => {
         <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
           <div className="bg-zinc-900 border border-zinc-800 rounded-2xl max-w-md w-full p-6 shadow-2xl animate-in fade-in zoom-in-95 duration-150">
             <div className="flex items-center justify-between pb-4 border-b border-zinc-800 mb-5">
-              <h3 className="text-lg font-bold text-white">Thêm Banner Trang Chủ</h3>
+              <h3 className="text-lg font-bold text-white">
+                {editingBanner ? 'Chỉnh Sửa Banner' : 'Thêm Banner Trang Chủ'}
+              </h3>
               <button
                 onClick={() => setIsModalOpen(false)}
                 className="p-1.5 text-zinc-400 hover:text-white rounded-lg hover:bg-zinc-800"
@@ -222,17 +266,41 @@ export const AdminBannersPage: React.FC = () => {
                 />
               </div>
 
+              {/* Image Input & Preview */}
               <div>
                 <label className="block text-xs font-semibold text-zinc-300 mb-1.5">
-                  Link ảnh Banner (URL) *
+                  Hình ảnh Banner *
                 </label>
-                <input
-                  type="url"
-                  required
-                  value={formData.image}
-                  onChange={e => setFormData({ ...formData, image: e.target.value })}
-                  className="w-full px-3.5 py-2.5 bg-zinc-950 border border-zinc-800 rounded-xl text-xs text-white focus:outline-none"
-                />
+                <div className="space-y-2">
+                  {formData.image && (
+                    <img
+                      src={formData.image}
+                      alt="Xem trước banner"
+                      className="w-full h-28 object-cover rounded-xl border border-zinc-700 bg-zinc-950"
+                    />
+                  )}
+                  <input
+                    type="url"
+                    required
+                    value={formData.image}
+                    onChange={e => setFormData({ ...formData, image: e.target.value })}
+                    placeholder="https://images.unsplash.com/... hoặc dán link ảnh"
+                    className="w-full px-3.5 py-2.5 bg-zinc-950 border border-zinc-800 rounded-xl text-xs text-white focus:outline-none"
+                  />
+                  <div className="flex items-center gap-2">
+                    <label className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-zinc-800 hover:bg-zinc-700 border border-zinc-700 text-xs text-zinc-200 cursor-pointer transition-colors">
+                      <Upload className="w-3.5 h-3.5" />
+                      <span>Tải ảnh từ máy</span>
+                      <input
+                        type="file"
+                        accept="image/*"
+                        onChange={handleImageFileUpload}
+                        className="hidden"
+                      />
+                    </label>
+                    <span className="text-[11px] text-zinc-500">Tối đa 5MB</span>
+                  </div>
+                </div>
               </div>
 
               <div className="grid grid-cols-2 gap-4">

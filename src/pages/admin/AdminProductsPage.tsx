@@ -11,6 +11,8 @@ import {
   Layers,
   AlertCircle,
   ExternalLink,
+  Upload,
+  Image as ImageIcon,
 } from 'lucide-react';
 import { api } from '../../services/api';
 import { Product, Category, ProductVariant } from '../../types';
@@ -33,19 +35,18 @@ export const AdminProductsPage: React.FC = () => {
   const [formData, setFormData] = useState({
     name: '',
     categoryId: '',
-    brand: 'Maison',
+    brand: 'DaiLy Spa',
     price: 0,
     salePrice: 0,
     description: '',
-    images: ['https://images.unsplash.com/photo-1521572267360-ee0c2909d518?w=800'],
+    images: ['/images/products/giuong-massage-go.png'],
     isFeatured: false,
     isNewArrival: true,
     isFlashSale: false,
     status: 'ACTIVE' as 'ACTIVE' | 'INACTIVE',
     variants: [
-      { id: '1', size: 'S', color: 'Đen', colorCode: '#000000', stock: 20, sku: 'MSN-S-BLK' },
-      { id: '2', size: 'M', color: 'Đen', colorCode: '#000000', stock: 35, sku: 'MSN-M-BLK' },
-      { id: '3', size: 'L', color: 'Đen', colorCode: '#000000', stock: 25, sku: 'MSN-L-BLK' },
+      { id: '1', size: 'Tiêu chuẩn', color: 'Gỗ tự nhiên', colorCode: '#8B5A2B', stock: 20, sku: 'DLY-STD-NAT' },
+      { id: '2', size: 'Nâng cao', color: 'Gỗ cánh gián', colorCode: '#5C3317', stock: 35, sku: 'DLY-PRO-BRN' },
     ],
   });
 
@@ -86,19 +87,18 @@ export const AdminProductsPage: React.FC = () => {
     setFormData({
       name: '',
       categoryId: categories[0]?.id || '',
-      brand: 'Maison',
-      price: 350000,
+      brand: 'DaiLy Spa',
+      price: 2500000,
       salePrice: 0,
       description: '',
-      images: ['https://images.unsplash.com/photo-1521572267360-ee0c2909d518?w=800'],
+      images: ['/images/products/giuong-massage-go.png'],
       isFeatured: false,
       isNewArrival: true,
       isFlashSale: false,
       status: 'ACTIVE',
       variants: [
-        { id: 'v1', size: 'S', color: 'Đen', colorCode: '#111827', stock: 20, sku: 'VAR-S' },
-        { id: 'v2', size: 'M', color: 'Đen', colorCode: '#111827', stock: 30, sku: 'VAR-M' },
-        { id: 'v3', size: 'L', color: 'Đen', colorCode: '#111827', stock: 15, sku: 'VAR-L' },
+        { id: 'v1', size: 'Tiêu chuẩn', color: 'Gỗ tự nhiên', colorCode: '#8B5A2B', stock: 20, sku: 'DLY-STD' },
+        { id: 'v2', size: 'Cao cấp', color: 'Gỗ cánh gián', colorCode: '#5C3317', stock: 30, sku: 'DLY-PRO' },
       ],
     });
     setIsModalOpen(true);
@@ -109,7 +109,7 @@ export const AdminProductsPage: React.FC = () => {
     setFormData({
       name: p.name,
       categoryId: p.categoryId,
-      brand: p.brand || 'Maison',
+      brand: p.brand || 'DaiLy Spa',
       price: p.price,
       salePrice: p.salePrice || 0,
       description: p.description,
@@ -128,6 +128,27 @@ export const AdminProductsPage: React.FC = () => {
       })),
     });
     setIsModalOpen(true);
+  };
+
+  const handleImageFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      if (file.size > 5 * 1024 * 1024) {
+        error('Dung lượng ảnh tối đa là 5MB');
+        return;
+      }
+      const reader = new FileReader();
+      reader.onload = () => {
+        if (typeof reader.result === 'string') {
+          setFormData(prev => ({
+            ...prev,
+            images: [reader.result as string, ...prev.images.slice(1)],
+          }));
+          success('Đã tải ảnh thành công!');
+        }
+      };
+      reader.readAsDataURL(file);
+    }
   };
 
   const handleSaveProduct = async (e: React.FormEvent) => {
@@ -206,7 +227,7 @@ export const AdminProductsPage: React.FC = () => {
         <div>
           <h1 className="text-2xl font-bold text-white tracking-tight">Quản Lý Sản Phẩm</h1>
           <p className="text-xs text-zinc-400 mt-1">
-            Tổng cộng <strong className="text-white">{products.length}</strong> sản phẩm thời trang trong kho
+            Tổng cộng <strong className="text-white">{products.length}</strong> sản phẩm giường spa trong hệ thống
           </p>
         </div>
 
@@ -430,7 +451,7 @@ export const AdminProductsPage: React.FC = () => {
                   required
                   value={formData.name}
                   onChange={e => setFormData({ ...formData, name: e.target.value })}
-                  placeholder="Ví dụ: Áo Sơ Mi Lụa Cổ V Maison"
+                  placeholder="Ví dụ: Giường Massage Gỗ Sồi DaiLy Spa"
                   className="w-full px-3.5 py-2.5 bg-zinc-950 border border-zinc-800 rounded-xl text-xs text-white focus:outline-none focus:ring-1 focus:ring-white"
                 />
               </div>
@@ -462,7 +483,7 @@ export const AdminProductsPage: React.FC = () => {
                     type="text"
                     value={formData.brand}
                     onChange={e => setFormData({ ...formData, brand: e.target.value })}
-                    placeholder="Maison"
+                    placeholder="DaiLy Spa"
                     className="w-full px-3.5 py-2.5 bg-zinc-950 border border-zinc-800 rounded-xl text-xs text-white focus:outline-none"
                   />
                 </div>
@@ -500,19 +521,45 @@ export const AdminProductsPage: React.FC = () => {
                 </div>
               </div>
 
-              {/* Image URL */}
+              {/* Image URL & File Upload */}
               <div>
                 <label className="block text-xs font-semibold text-zinc-300 mb-1.5">
-                  Link ảnh chính (URL)
+                  Hình ảnh sản phẩm *
                 </label>
-                <input
-                  type="url"
-                  required
-                  value={formData.images[0] || ''}
-                  onChange={e => setFormData({ ...formData, images: [e.target.value] })}
-                  placeholder="https://images.unsplash.com/..."
-                  className="w-full px-3.5 py-2.5 bg-zinc-950 border border-zinc-800 rounded-xl text-xs text-white focus:outline-none"
-                />
+                <div className="flex flex-col sm:flex-row gap-3 items-start sm:items-center">
+                  {formData.images[0] && (
+                    <img
+                      src={formData.images[0]}
+                      alt="Xem trước"
+                      className="w-16 h-16 rounded-xl object-cover border border-zinc-700 shrink-0 bg-zinc-900"
+                    />
+                  )}
+                  <div className="flex-1 w-full space-y-2">
+                    <input
+                      type="url"
+                      required
+                      value={formData.images[0] || ''}
+                      onChange={e => setFormData({ ...formData, images: [e.target.value] })}
+                      placeholder="https://images.unsplash.com/... hoặc dán link ảnh"
+                      className="w-full px-3.5 py-2.5 bg-zinc-950 border border-zinc-800 rounded-xl text-xs text-white focus:outline-none"
+                    />
+                    <div className="flex items-center gap-2">
+                      <label className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-zinc-900 hover:bg-zinc-800 border border-zinc-800 text-xs text-zinc-300 hover:text-white cursor-pointer transition-colors">
+                        <Upload className="w-3.5 h-3.5" />
+                        <span>Tải ảnh từ máy tính</span>
+                        <input
+                          type="file"
+                          accept="image/*"
+                          onChange={handleImageFileUpload}
+                          className="hidden"
+                        />
+                      </label>
+                      <span className="text-[11px] text-zinc-500">
+                        Hỗ trợ định dạng JPG, PNG, WEBP (tối đa 5MB)
+                      </span>
+                    </div>
+                  </div>
+                </div>
               </div>
 
               {/* Description */}

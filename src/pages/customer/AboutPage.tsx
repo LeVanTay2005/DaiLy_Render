@@ -10,18 +10,18 @@ export const AboutPage: React.FC = () => {
           CÂU CHUYỆN THƯƠNG HIỆU
         </span>
         <h1 className="font-serif-title text-3xl sm:text-5xl font-bold text-zinc-950">
-          Maison Fashion Studio
+          DAILY GIƯỜNG SPA VIỆT NAM
         </h1>
         <p className="text-sm sm:text-base text-zinc-600 leading-relaxed">
-          Được thành lập từ niềm đam mê dành cho nghệ thuật cắt may chuẩn xác và chất liệu sợi tự nhiên nguyên bản, Maison mang đến giải pháp thời trang thanh lịch, tối giản và bền bỉ qua năm tháng.
+          Được thành lập với sứ mệnh mang đến giải pháp giường thẩm mỹ, giường gội đầu dưỡng sinh và giường massage tiêu chuẩn y khoa hàng đầu. DaiLy Giường Spa tự hào đồng hành cùng hơn 2.500+ viện thẩm mỹ, spa và clinic nâng tầm đẳng cấp thương hiệu.
         </p>
       </div>
 
       {/* Hero Image */}
       <div className="rounded-3xl overflow-hidden aspect-[21/9] bg-zinc-100 shadow-xl">
         <img
-          src="https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=1600"
-          alt="Maison Atelier"
+          src="/images/products/giuong-tiem-dien.jpg"
+          alt="DaiLy Giường Spa Showroom"
           className="w-full h-full object-cover"
         />
       </div>
@@ -32,9 +32,9 @@ export const AboutPage: React.FC = () => {
           <div className="w-10 h-10 rounded-xl bg-zinc-100 flex items-center justify-center text-zinc-900">
             <Award className="w-5 h-5" />
           </div>
-          <h3 className="font-bold text-base text-zinc-950">Chất Liệu Thượng Hạng</h3>
+          <h3 className="font-bold text-base text-zinc-950">Động Cơ Điện & Khung Chịu Tải</h3>
           <p className="text-xs text-zinc-600 leading-relaxed">
-            100% sợi len merino, lụa Mulberry và cotton Pima được tuyển chọn khắt khe từ các xưởng dệt truyền thống uy tín.
+            Hệ thống động cơ điện tử tiêu chuẩn CE Châu Âu vận hành êm ái, nâng hạ mượt mà cùng khung thép tĩnh điện & gỗ sồi tự nhiên chịu tải lên đến 350kg.
           </p>
         </div>
 
@@ -42,9 +42,9 @@ export const AboutPage: React.FC = () => {
           <div className="w-10 h-10 rounded-xl bg-zinc-100 flex items-center justify-center text-zinc-900">
             <Shield className="w-5 h-5" />
           </div>
-          <h3 className="font-bold text-base text-zinc-950">May Đo Tinh Xảo</h3>
+          <h3 className="font-bold text-base text-zinc-950">Da PU Y Tế & Mút D40</h3>
           <p className="text-xs text-zinc-600 leading-relaxed">
-            Mỗi phom dáng được nghiên cứu dựa trên tỷ lệ hình thể người Á Đông, đảm bảo sự vừa vặn tự nhiên và linh hoạt tối đa.
+            Chất liệu da PU y tế kháng khuẩn, chống thấm tinh dầu và cồn sát khuẩn. Đệm mút D40 đúc nguyên khối chống xẹp lún hoàn hảo sau nhiều năm trị liệu.
           </p>
         </div>
 
@@ -52,9 +52,9 @@ export const AboutPage: React.FC = () => {
           <div className="w-10 h-10 rounded-xl bg-zinc-100 flex items-center justify-center text-zinc-900">
             <Heart className="w-5 h-5" />
           </div>
-          <h3 className="font-bold text-base text-zinc-950">Bền Vững & Nhân Văn</h3>
+          <h3 className="font-bold text-base text-zinc-950">Bảo Hành 24T & Bảo Trì Trọn Đời</h3>
           <p className="text-xs text-zinc-600 leading-relaxed">
-            Nói không với thời trang nhanh dùng một lần. Chúng tôi kiến tạo những bộ trang phục đồng hành cùng bạn qua nhiều mùa.
+            Cam kết bảo hành chính hãng 24 tháng cho động cơ điện tử, hỗ trợ linh kiện thay thế chính hãng và đội ngũ kỹ thuật viên lắp đặt tận nơi toàn quốc.
           </p>
         </div>
       </div>

@@ -28,6 +28,22 @@ export const AdminLayout: React.FC = () => {
   const navigate = useNavigate();
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [notificationsOpen, setNotificationsOpen] = useState(false);
+  const [dbStatus, setDbStatus] = useState<{ connected: boolean; database?: string; instance?: string } | null>(null);
+
+  React.useEffect(() => {
+    fetch('/api/database/status')
+      .then(res => res.json())
+      .then(data => {
+        if (data && data.success) {
+          setDbStatus({
+            connected: data.connected,
+            database: data.database,
+            instance: data.instance,
+          });
+        }
+      })
+      .catch(() => {});
+  }, []);
 
   // Security Check: If not logged in, redirect to /admin/login
   if (isLoading) {
@@ -122,14 +138,14 @@ export const AdminLayout: React.FC = () => {
         <div className="h-20 px-6 border-b border-zinc-800 flex items-center justify-between">
           <div className="flex items-center gap-3">
             <div className="w-9 h-9 rounded-xl bg-white text-zinc-950 flex items-center justify-center font-bold text-lg font-serif-title shadow-md">
-              M
+              D
             </div>
             <div>
               <span className="font-bold text-sm tracking-wider text-white uppercase block">
-                Maison Admin
+                DaiLy Giường Spa Admin
               </span>
               <span className="text-[10px] uppercase font-semibold text-emerald-400 flex items-center gap-1.5">
-                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span> Hệ thống quản trị
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span> Quản trị thiết bị spa
               </span>
             </div>
           </div>
@@ -226,6 +242,27 @@ export const AdminLayout: React.FC = () => {
 
           {/* Right: Notifications & Quick Profile */}
           <div className="flex items-center gap-3">
+            {/* Database indicator */}
+            {dbStatus && (
+              <div
+                className={`hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-full border text-xs font-medium transition-colors ${
+                  dbStatus.connected
+                    ? 'bg-emerald-950/40 border-emerald-800/50 text-emerald-300'
+                    : 'bg-amber-950/40 border-amber-800/50 text-amber-300'
+                }`}
+                title={`Hệ quản trị: SQL Server (${dbStatus.instance || 'SQLEXPRESS2025'}) | CSDL: ${dbStatus.database || 'maison_fashion'}`}
+              >
+                <span
+                  className={`w-2 h-2 rounded-full ${
+                    dbStatus.connected ? 'bg-emerald-400 animate-pulse' : 'bg-amber-400'
+                  }`}
+                />
+                <span className="font-mono text-[11px]">
+                  {dbStatus.connected ? 'SQL Server Online' : 'Chế độ JSON'}
+                </span>
+              </div>
+            )}
+
             {/* Notification bell */}
             <div className="relative">
               <button
@@ -253,7 +290,7 @@ export const AdminLayout: React.FC = () => {
                     </div>
                     <div className="py-2.5 space-y-1">
                       <p className="font-semibold text-amber-400">Cảnh báo tồn kho</p>
-                      <p className="text-zinc-400">Áo Thun Basic (XL, Xám Khói) chỉ còn 7 sản phẩm trong kho.</p>
+                      <p className="text-zinc-400">Giường Tiêm Điện 3 Động Cơ S3 (Trắng Sữa) chỉ còn 2 chiếc trong kho.</p>
                       <span className="text-[10px] text-zinc-500">Hôm nay</span>
                     </div>
                   </div>

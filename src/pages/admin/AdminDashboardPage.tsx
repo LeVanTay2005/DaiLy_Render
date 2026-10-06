@@ -84,7 +84,7 @@ export const AdminDashboardPage: React.FC = () => {
       icon: Package,
       color: 'text-purple-400',
       bg: 'bg-purple-500/10 border-purple-500/20',
-      change: '16 danh mục thời trang',
+      change: '6 danh mục giường spa',
     },
     {
       title: 'Khách Hàng',
@@ -111,16 +111,16 @@ export const AdminDashboardPage: React.FC = () => {
             Dashboard Tổng Quan
           </h1>
           <p className="text-xs text-zinc-400 mt-1">
-            Số liệu thống kê kinh doanh thời trang cập nhật theo thời gian thực
+            Số liệu thống kê kinh doanh giường spa & thiết bị thẩm mỹ cập nhật theo thời gian thực
           </p>
         </div>
 
         <div className="flex items-center gap-2">
           <Link
-            to="/admin/products/create"
+            to="/admin/products"
             className="px-4 py-2.5 bg-white text-zinc-950 font-bold text-xs rounded-xl hover:bg-zinc-200 transition-colors flex items-center gap-1.5 shadow-md"
           >
-            + Thêm Sản Phẩm Mới
+            Quản Lý Sản Phẩm
           </Link>
         </div>
       </div>

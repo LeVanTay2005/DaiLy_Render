@@ -66,12 +66,12 @@ export const HomePage: React.FC = () => {
   }, [banners.length]);
 
   const activeBanner = banners[activeBannerIdx] || {
-    title: 'BST Thu Đông 2025: Bản Giao Hưởng Thời Gian',
-    subtitle: 'Nét tối giản giao thoa cùng chất liệu cashmere và lụa tơ tằm thượng hạng.',
-    badge: 'NEW COLLECTION 2025',
+    title: 'Giường Tiêm Thẩm Mỹ & Thiết Bị Spa Cao Cấp',
+    subtitle: 'Nâng tầm không gian viện thẩm mỹ & spa với hệ thống giường điện tử 3-4 động cơ và chất liệu da PU y tế kháng khuẩn.',
+    badge: 'TIÊU CHUẨN Y KHOA 2025',
     link: '/products',
-    image: 'https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=1600',
-    buttonText: 'Khám Phá Bộ Sưu Tập',
+    image: '/images/products/giuong-tiem-dien.jpg',
+    buttonText: 'Khám Phá Danh Mục',
   };
 
   const handleQuickAdd = (p: Product) => {
@@ -87,9 +87,12 @@ export const HomePage: React.FC = () => {
       <section className="relative w-full h-[520px] sm:h-[640px] lg:h-[720px] overflow-hidden bg-zinc-950">
         <div className="absolute inset-0">
           <img
-            src={activeBanner.image}
+            src={activeBanner.image || '/images/products/giuong-tiem-dien.jpg'}
             alt={activeBanner.title}
             className="w-full h-full object-cover object-center transform scale-105 animate-fade-in transition-transform duration-1000"
+            onError={e => {
+              (e.currentTarget as HTMLImageElement).src = '/images/products/giuong-tiem-dien.jpg';
+            }}
           />
           <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/40 to-transparent"></div>
         </div>
@@ -154,10 +157,10 @@ export const HomePage: React.FC = () => {
         <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8">
           <div>
             <span className="text-xs uppercase tracking-[0.2em] text-zinc-400 font-bold">
-              DANH MỤC TIÊU BIỂU
+              DANH MỤC THIẾT BỊ SPA
             </span>
             <h2 className="font-serif-title text-2xl sm:text-3xl font-bold text-zinc-950 mt-1">
-              Khám Phá Theo Phong Cách
+              Các Loại Giường Spa Chuyên Dụng
             </h2>
           </div>
           <Link
@@ -176,9 +179,12 @@ export const HomePage: React.FC = () => {
               className="group relative rounded-2xl overflow-hidden bg-zinc-100 aspect-[3/4] flex flex-col justify-end p-4 shadow-sm hover:shadow-xl transition-all duration-300"
             >
               <img
-                src={cat.image}
+                src={cat.image || '/images/products/giuong-massage-go.png'}
                 alt={cat.name}
                 className="absolute inset-0 w-full h-full object-cover group-hover:scale-108 transition-transform duration-700"
+                onError={e => {
+                  (e.currentTarget as HTMLImageElement).src = '/images/products/giuong-massage-go.png';
+                }}
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
               <div className="relative z-10 text-white">
@@ -244,9 +250,12 @@ export const HomePage: React.FC = () => {
                     <div className="relative aspect-[3/4] overflow-hidden bg-zinc-800">
                       <Link to={`/products/${prod.slug}`}>
                         <img
-                          src={prod.images[0]}
+                          src={prod.images?.[0] || '/images/products/giuong-massage-go.png'}
                           alt={prod.name}
                           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                          onError={e => {
+                            (e.currentTarget as HTMLImageElement).src = '/images/products/giuong-massage-go.png';
+                          }}
                         />
                       </Link>
                       {discountPercent && (
@@ -321,9 +330,12 @@ export const HomePage: React.FC = () => {
               <div className="relative aspect-[3/4] bg-zinc-100 overflow-hidden">
                 <Link to={`/products/${prod.slug}`}>
                   <img
-                    src={prod.images[0]}
+                    src={prod.images?.[0] || '/images/products/giuong-massage-go.png'}
                     alt={prod.name}
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                    onError={e => {
+                      (e.currentTarget as HTMLImageElement).src = '/images/products/giuong-massage-go.png';
+                    }}
                   />
                 </Link>
                 {prod.isNewArrival && (
@@ -373,13 +385,13 @@ export const HomePage: React.FC = () => {
         <div className="rounded-3xl overflow-hidden bg-zinc-950 text-white relative p-8 sm:p-14 lg:p-20 shadow-2xl flex flex-col justify-center items-center text-center">
           <div className="max-w-2xl space-y-4 relative z-10">
             <span className="text-xs uppercase tracking-[0.3em] font-bold text-zinc-400">
-              TRIẾT LÝ THIẾT KẾ
+              TIÊU CHUẨN ĐẲNG CẤP SPA & CLINIC
             </span>
             <h2 className="font-serif-title text-2xl sm:text-4xl lg:text-5xl font-bold leading-tight">
-              Thời Trang Tối Giản, Đẳng Cấp Vượt Thời Gian
+              Kiến Tạo Không Gian Trị Liệu Chuẩn Y Khoa
             </h2>
             <p className="text-sm sm:text-base text-zinc-300 leading-relaxed font-normal">
-              Maison tin rằng cái đẹp thực sự không cần phô trương. Chúng tôi chọn lọc những thước vải linen, lụa và cashmere tự nhiên cao cấp nhất, chăm chút từng mũi khâu để mang đến cho bạn trải nghiệm mặc êm ái và tôn vinh phong thái tự tin.
+              DaiLy Giường Spa tự hào là đối tác setup uy tín của hơn 2.500+ spa và thẩm mỹ viện toàn quốc. Tất cả dòng giường tiêm điện, giường gội dưỡng sinh và giường massage gỗ đều được chế tác tỉ mỉ, chịu tải trọng tĩnh 350kg, da PU y tế kháng khuẩn và đệm mút D40 chống lún bền bỉ.
             </p>
             <div className="pt-4">
               <Link
