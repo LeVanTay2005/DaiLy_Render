@@ -11,6 +11,7 @@ COPY package*.json ./
 RUN npm install --only=production
 COPY --from=builder /app/dist ./dist
 COPY --from=builder /app/data ./data
+COPY --from=builder /app/public ./public
 
 ENV PORT=3000
 ENV NODE_ENV=production
