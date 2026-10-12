@@ -113,31 +113,31 @@ export const OrderSuccessPage: React.FC = () => {
         </div>
       </div>
 
-      {/* Order Progress Stepper (Lộ trình đơn hàng) */}
-      <div className="bg-white rounded-2xl border border-zinc-200 p-6 shadow-xs space-y-4 print:hidden">
+      {/* Order Progress Stepper (Lộ trình đơn hàng chuẩn Shopee / Lazada) */}
+      <div className="bg-white rounded-2xl border border-zinc-200 p-6 shadow-xs space-y-4">
         <h3 className="font-bold text-xs uppercase tracking-wider text-zinc-900 flex items-center gap-2">
-          <Truck className="w-4 h-4 text-zinc-600" /> Quy Trình Xử Lý & Bàn Giao Thiết Bị
+          <Truck className="w-4 h-4 text-zinc-600" /> Trạng Thái Vận Chuyển Đơn Hàng
         </h3>
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 text-center text-xs">
           <div className="p-3 rounded-xl bg-emerald-50 border border-emerald-200 space-y-1">
             <span className="w-6 h-6 rounded-full bg-emerald-600 text-white font-bold inline-flex items-center justify-center text-[11px]">✓</span>
-            <p className="font-bold text-emerald-950">1. Đã Nhận Đơn</p>
-            <p className="text-[10px] text-emerald-700">Đơn đã ghi nhận vào hệ thống</p>
+            <p className="font-bold text-emerald-950">1. Chờ Xác Nhận</p>
+            <p className="text-[10px] text-emerald-700">Đơn hàng đã được ghi nhận</p>
           </div>
           <div className="p-3 rounded-xl bg-zinc-50 border border-zinc-200 space-y-1">
             <span className="w-6 h-6 rounded-full bg-zinc-950 text-white font-bold inline-flex items-center justify-center text-[11px]">2</span>
-            <p className="font-bold text-zinc-900">2. Test Mô-Tơ</p>
-            <p className="text-[10px] text-zinc-500">Kỹ thuật viên test điện 24V</p>
+            <p className="font-bold text-zinc-900">2. Chờ Lấy Hàng</p>
+            <p className="text-[10px] text-zinc-500">Đang chuẩn bị kiện hàng</p>
           </div>
           <div className="p-3 rounded-xl bg-zinc-50 border border-zinc-200 space-y-1">
             <span className="w-6 h-6 rounded-full bg-zinc-200 text-zinc-600 font-bold inline-flex items-center justify-center text-[11px]">3</span>
-            <p className="font-bold text-zinc-700">3. Đóng Kiện Gỗ</p>
-            <p className="text-[10px] text-zinc-400">Xuất kho xe tải chuyên dụng</p>
+            <p className="font-bold text-zinc-700">3. Đang Giao Hàng</p>
+            <p className="text-[10px] text-zinc-400">ĐVVC đang vận chuyển</p>
           </div>
           <div className="p-3 rounded-xl bg-zinc-50 border border-zinc-200 space-y-1">
             <span className="w-6 h-6 rounded-full bg-zinc-200 text-zinc-600 font-bold inline-flex items-center justify-center text-[11px]">4</span>
-            <p className="font-bold text-zinc-700">4. Lắp Đặt Tại Clinic</p>
-            <p className="text-[10px] text-zinc-400">Bàn giao & ký biên bản</p>
+            <p className="font-bold text-zinc-700">4. Đã Giao Hàng</p>
+            <p className="text-[10px] text-zinc-400">Khách nhận & đồng kiểm</p>
           </div>
         </div>
       </div>
@@ -360,17 +360,10 @@ export const OrderSuccessPage: React.FC = () => {
       </div>
 
       {/* Navigation & Action Buttons */}
-      <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4 print:hidden">
-        <button
-          onClick={handlePrint}
-          className="w-full sm:w-auto px-6 py-3.5 bg-white border border-zinc-300 hover:border-zinc-900 text-zinc-900 rounded-xl text-xs font-bold flex items-center justify-center gap-2 transition-all shadow-xs cursor-pointer"
-        >
-          <Printer className="w-4 h-4" /> In Phiếu Đơn Hàng / Tải PDF
-        </button>
-
+      <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4">
         <Link
           to="/profile/orders"
-          className="w-full sm:w-auto px-6 py-3.5 bg-white border border-zinc-300 hover:border-zinc-900 text-zinc-900 rounded-xl text-xs font-bold flex items-center justify-center gap-2 transition-all shadow-xs"
+          className="w-full sm:w-auto px-7 py-3.5 bg-white border border-zinc-300 hover:border-zinc-900 text-zinc-900 rounded-xl text-xs font-bold flex items-center justify-center gap-2 transition-all shadow-xs"
         >
           <Package className="w-4 h-4" /> Xem Lịch Sử Đơn Hàng
         </Link>
@@ -381,17 +374,6 @@ export const OrderSuccessPage: React.FC = () => {
         >
           Tiếp Tục Mua Sắm <ArrowRight className="w-4 h-4" />
         </Link>
-      </div>
-
-      {/* Support Contact Helpline */}
-      <div className="text-center pt-2 print:hidden">
-        <p className="text-xs text-zinc-500">
-          Cần hỗ trợ gấp về đơn hàng? Gọi ngay hotline kỹ thuật:{' '}
-          <a href="tel:0932436080" className="text-zinc-950 font-bold hover:underline">
-            0932 436 080
-          </a>{' '}
-          (Hỗ trợ 24/7)
-        </p>
       </div>
     </div>
   );

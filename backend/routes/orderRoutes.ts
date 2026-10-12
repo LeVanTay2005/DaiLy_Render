@@ -4,8 +4,8 @@ import { authenticateToken, optionalAuth, AuthRequest } from '../middleware/auth
 
 const router = Router();
 
-// POST /api/orders (Create order)
-router.post('/', optionalAuth, (req: AuthRequest, res: Response) => {
+// POST /api/orders (Create order - requires customer authentication)
+router.post('/', authenticateToken, (req: AuthRequest, res: Response) => {
   try {
     const {
       customerName,
@@ -34,27 +34,47 @@ router.post('/', optionalAuth, (req: AuthRequest, res: Response) => {
       });
     }
 
-    const nameWords = customerName.trim().split(/\s+/).filter(Boolean);
-    if (nameWords.length < 2) {
+    const VIETNAMESE_VOWELS = /[aăâeêioôơuưyáàảãạắằẳẵặấầẩẫậéèẻẽẹếềểễệíìỉĩịóòỏõọốồổỗộớờởỡợúùủũụứừửữựýỳỷỹỵ]/i;
+    const cleanName = customerName.trim();
+    if (/(.)\1{2,}/i.test(cleanName)) {
+      return res.status(400).json({ success: false, message: 'Họ tên chứa ký tự lặp vô nghĩa' });
+    }
+
+    const nameWords = cleanName.split(/\s+/).filter(Boolean);
+    if (nameWords.length < 2 || nameWords.some(w => !VIETNAMESE_VOWELS.test(w))) {
       return res.status(400).json({
         success: false,
-        message: 'Vui lòng nhập đầy đủ cả Họ và Tên người nhận (Tối thiểu 2 từ)',
+        message: 'Vui lòng nhập đầy đủ cả Họ và Tên người nhận tiếng Việt hợp lệ (Tối thiểu 2 từ)',
       });
     }
 
     const cleanAddress = shippingAddress.trim();
-    if (cleanAddress.length < 6) {
+    if (cleanAddress.length < 7) {
       return res.status(400).json({
         success: false,
         message: 'Địa chỉ nhận hàng quá ngắn. Vui lòng nhập chi tiết số nhà, tên đường hoặc toà nhà/cơ sở spa',
       });
     }
 
-    const spamCheck = ['dsadsd', 'asdasd', 'qwerty', '123123', 'test', 'aaaa', 'zzzz'];
-    if (spamCheck.some(s => cleanAddress.toLowerCase() === s)) {
+    if (/(.)\1{2,}/i.test(cleanAddress)) {
+      return res.status(400).json({ success: false, message: 'Địa chỉ chứa chuỗi ký tự lặp vô nghĩa' });
+    }
+
+    const addrWords = cleanAddress.split(/\s+/).filter(Boolean);
+    const letterWords = addrWords.filter(w => /[a-zA-Zà-ỹÀ-Ỹ]/.test(w));
+    if (letterWords.some(w => !VIETNAMESE_VOWELS.test(w) && !/\d/.test(w))) {
       return res.status(400).json({
         success: false,
-        message: 'Địa chỉ không hợp lệ. Vui lòng cung cấp địa chỉ số nhà, tên đường cụ thể',
+        message: 'Địa chỉ chứa từ ngữ vô nghĩa. Vui lòng nhập số nhà và tên đường thực tế.',
+      });
+    }
+
+    const hasStreetIndicator = /(số|đường|phố|ngõ|ngách|hẻm|tòa|toà|tầng|căn|chung cư|kđt|khu|lô|quốc lộ|ql|ấp|thôn|tổ|khóm|đoàn)/i.test(cleanAddress);
+    const hasNumber = /\d/.test(cleanAddress);
+    if (!hasStreetIndicator && !hasNumber) {
+      return res.status(400).json({
+        success: false,
+        message: 'Vui lòng nhập rõ số nhà hoặc tên đường giao hàng hợp lệ.',
       });
     }
 

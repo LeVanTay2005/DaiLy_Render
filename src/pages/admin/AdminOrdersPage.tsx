@@ -15,6 +15,7 @@ import {
   Phone,
   MapPin,
   FileText,
+  Printer,
 } from 'lucide-react';
 import { api } from '../../services/api';
 import { Order, OrderStatus, PaymentStatus } from '../../types';
@@ -241,12 +242,22 @@ export const AdminOrdersPage: React.FC = () => {
                   #{activeOrder.orderCode}
                 </h3>
               </div>
-              <button
-                onClick={() => setActiveOrder(null)}
-                className="p-1.5 text-zinc-400 hover:text-white rounded-lg hover:bg-zinc-800"
-              >
-                <X className="w-5 h-5" />
-              </button>
+              <div className="flex items-center gap-2">
+                <button
+                  type="button"
+                  onClick={() => window.print()}
+                  className="px-3 py-1.5 bg-zinc-800 hover:bg-zinc-700 text-white rounded-lg text-xs font-semibold flex items-center gap-1.5 transition-colors"
+                  title="In phiếu giao hàng"
+                >
+                  <Printer className="w-3.5 h-3.5" /> In phiếu
+                </button>
+                <button
+                  onClick={() => setActiveOrder(null)}
+                  className="p-1.5 text-zinc-400 hover:text-white rounded-lg hover:bg-zinc-800"
+                >
+                  <X className="w-5 h-5" />
+                </button>
+              </div>
             </div>
 
             {/* Status Control Row */}

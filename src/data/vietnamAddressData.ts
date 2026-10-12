@@ -522,48 +522,73 @@ export function validateVietnamesePhone(phone: string): { isValid: boolean; mess
   return { isValid: true, message: '' };
 }
 
-// Full Name: Must have at least 2 words, only letters and spaces
+// Vietnamese vowels regex (including all tonal diacritics)
+export const VIETNAMESE_VOWEL_REGEX = /[aăâeêioôơuưyáàảãạắằẳẵặấầẩẫậéèẻẽẹếềểễệíìỉĩịóòỏõọốồổỗộớờởỡợúùủũụứừửữựýỳỷỹỵ]/i;
+
+// Full Name: Must have at least 2 words, valid Vietnamese letters & vowels, no numbers/symbols or keyboard mashing
 export function validateFullName(name: string): { isValid: boolean; message: string } {
   const clean = name.trim();
   if (!clean) {
     return { isValid: false, message: 'Vui lòng nhập họ và tên người nhận' };
   }
+
+  // Reject 3+ repetitive letters in a row (e.g. "hhhhhh", "kkkkk", "aaaaa")
+  if (/(.)\1{2,}/i.test(clean)) {
+    return { isValid: false, message: 'Họ tên chứa ký tự lặp vô nghĩa. Vui lòng nhập tên chính xác.' };
+  }
+
   const words = clean.split(/\s+/).filter(Boolean);
   if (words.length < 2) {
     return { isValid: false, message: 'Vui lòng nhập đầy đủ cả Họ và Tên (Tối thiểu 2 từ)' };
   }
+
   if (/\d/.test(clean)) {
     return { isValid: false, message: 'Họ tên không được chứa chữ số' };
   }
+
   if (/[!@#$%^&*()_+=[\]{};:"\\|,.<>/?`~]/.test(clean)) {
     return { isValid: false, message: 'Họ tên không được chứa ký tự đặc biệt' };
   }
+
+  // Check each word: must be at least 2 characters and contain valid vowels
+  for (const word of words) {
+    if (word.length < 2) {
+      return { isValid: false, message: 'Mỗi từ trong họ tên phải có ít nhất 2 ký tự' };
+    }
+    if (!VIETNAMESE_VOWEL_REGEX.test(word)) {
+      return {
+        isValid: false,
+        message: `Từ "${word}" không hợp lệ. Họ tên người nhận tiếng Việt phải có nguyên âm rõ ràng.`,
+      };
+    }
+  }
+
   return { isValid: true, message: '' };
 }
 
-// Specific Address: Checks for realistic house/street info, rejecting senseless keyboard mashing like "dsadsd"
+// Specific Address: Checks for realistic house/street info, rejecting senseless keyboard mashing like "dsadsd", "kkjk kjk jjk"
 export function validateSpecificAddress(address: string): { isValid: boolean; message: string } {
   const clean = address.trim();
   if (!clean) {
     return { isValid: false, message: 'Vui lòng nhập địa chỉ cụ thể (Số nhà, tên đường, tòa nhà)' };
   }
 
-  if (clean.length < 6) {
+  if (clean.length < 7) {
     return {
       isValid: false,
-      message: 'Địa chỉ quá ngắn (Tối thiểu 6 ký tự). Vui lòng ghi rõ số nhà, ngõ/hẻm, tên đường hoặc toà nhà.',
+      message: 'Địa chỉ quá ngắn (Tối thiểu 7 ký tự). Vui lòng ghi rõ số nhà, ngõ/hẻm hoặc tên đường.',
     };
   }
 
-  // Check for repeated character mashing (e.g. "aaaaa", "ddddd", "sssss")
-  if (/(.)\1{3,}/.test(clean)) {
+  // Check for repeated character mashing (e.g. "aaaaa", "ddddd", "sssss", "hhhhh")
+  if (/(.)\1{2,}/i.test(clean)) {
     return {
       isValid: false,
-      message: 'Địa chỉ chứa ký tự lặp vô nghĩa. Vui lòng nhập địa chỉ giao hàng chính xác.',
+      message: 'Địa chỉ chứa chuỗi ký tự lặp vô nghĩa. Vui lòng nhập địa chỉ giao hàng chính xác.',
     };
   }
 
-  // Check for common keyboard mashing phrases
+  // Common keyboard mashing phrases
   const spamKeywords = [
     'dsadsd',
     'dsad',
@@ -579,29 +604,53 @@ export function validateSpecificAddress(address: string): { isValid: boolean; me
     'aaaa',
     'zzzz',
     'xxxx',
+    'kkjk',
+    'jjk',
+    'hhhh',
   ];
   const lower = clean.toLowerCase();
   for (const spam of spamKeywords) {
-    if (lower === spam || lower.startsWith(spam + ' ') || lower.endsWith(' ' + spam)) {
+    if (lower === spam || lower.split(/\s+/).includes(spam)) {
       return {
         isValid: false,
-        message: 'Địa chỉ không hợp lệ. Vui lòng ghi rõ số nhà, tên đường hoặc địa chỉ cơ sở spa.',
+        message: 'Địa chỉ không hợp lệ. Vui lòng ghi rõ số nhà, tên đường hoặc toà nhà/cơ sở spa.',
       };
     }
   }
 
-  // Check for at least 2 words or a number + word
+  // Words breakdown
   const words = clean.split(/\s+/).filter(Boolean);
-  const hasNumber = /\d/.test(clean);
-  const hasStreetIndicator =
-    /(số|đường|phố|ngõ|hẻm|tòa|toà|tầng|căn|chung cư|kđt|khu|lô|quốc lộ|ql|ấp|thôn|bình|an|nguyễn|lê|trần|hoàng|phạm|vinhomes|landmark|sala|novaland)/i.test(
-      clean
-    );
+  const letterWords = words.filter(w => /[a-zA-Zà-ỹÀ-Ỹ]/.test(w));
 
-  if (words.length < 2 && !hasNumber) {
+  // Every letter word must have at least one vowel (rejects consonant strings like "kkjk", "kjk", "jjk", "dsds")
+  const invalidVowelWords = letterWords.filter(w => !VIETNAMESE_VOWEL_REGEX.test(w) && !/\d/.test(w));
+  if (invalidVowelWords.length > 0) {
     return {
       isValid: false,
-      message: 'Vui lòng nhập chi tiết số nhà kèm tên đường (Ví dụ: "125 Nguyễn Huệ" hoặc "Toà S2 Vinhomes")',
+      message: `Địa chỉ chứa từ không có nghĩa: "${invalidVowelWords.join(', ')}". Vui lòng nhập tên đường hoặc số nhà thực tế.`,
+    };
+  }
+
+  // Must contain either:
+  // 1. Street prefix (số, đường, phố, ngõ, hẻm, tòa, căn, chung cư, ấp, thôn, tổ, kđt...)
+  // 2. OR numeric house number (e.g. 12, 125/4, 280A) along with a valid street name
+  const hasStreetIndicator =
+    /(số|đường|phố|ngõ|ngách|hẻm|tòa|toà|tầng|căn|chung cư|kđt|khu|lô|quốc lộ|ql|ấp|thôn|tổ|khóm|đoàn|sala|vinhomes|landmark|nguyễn|lê|trần|hoàng|phạm|huỳnh|võ|phan|bùi|đặng|đỗ|hồ|ngô|dương|lý)/i.test(
+      clean
+    );
+  const hasNumber = /\d/.test(clean);
+
+  if (!hasStreetIndicator && !hasNumber) {
+    return {
+      isValid: false,
+      message: 'Vui lòng nhập rõ số nhà hoặc tên đường (Ví dụ: "Số 45 Lê Lợi" hoặc "125/4 Nguyễn Trãi").',
+    };
+  }
+
+  if (words.length < 2) {
+    return {
+      isValid: false,
+      message: 'Vui lòng nhập đầy đủ cả số nhà và tên đường (Ví dụ: "125 Nguyễn Huệ").',
     };
   }
 

@@ -12,6 +12,9 @@ import {
   RotateCcw,
   Truck,
   Heart,
+  Ticket,
+  Check,
+  Copy,
 } from 'lucide-react';
 import { api } from '../../services/api';
 import { Product, Category, Banner, Review } from '../../types';
@@ -150,6 +153,70 @@ export const HomePage: React.FC = () => {
             </button>
           </div>
         )}
+      </section>
+
+      {/* FLASH VOUCHER HUNT SECTION (7H SÁNG & 13H CHIỀU) */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="bg-gradient-to-r from-amber-500 via-orange-500 to-amber-600 rounded-3xl p-6 sm:p-8 text-white shadow-xl relative overflow-hidden">
+          <div className="relative z-10 flex flex-col lg:flex-row items-center justify-between gap-6">
+            <div className="space-y-2 text-center lg:text-left">
+              <span className="inline-flex items-center gap-1.5 bg-white/20 backdrop-blur-md px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider text-white">
+                <Sparkles className="w-3.5 h-3.5 text-amber-200" /> Khung Giờ Vàng Săn Voucher
+              </span>
+              <h3 className="font-serif-title text-2xl sm:text-3xl font-extrabold text-white">
+                Săn Mã Giảm Giá Lúc 07:00 Sáng & 13:00 Chiều
+              </h3>
+              <p className="text-xs sm:text-sm text-amber-100 max-w-xl">
+                Cơ hội nhận voucher giảm ngay đến <strong>1.000.000đ</strong> khi đặt mua các dòng giường spa, giường tiêm điện và thiết bị clinic chính hãng.
+              </p>
+            </div>
+
+            {/* Voucher Cards */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 w-full lg:w-auto shrink-0">
+              {/* Voucher 7h */}
+              <div className="bg-white text-zinc-900 p-4 rounded-2xl shadow-md flex items-center justify-between gap-4">
+                <div>
+                  <span className="text-[10px] uppercase font-bold text-amber-600 tracking-wider block">
+                    Khung 07:00 - 09:00 Sáng
+                  </span>
+                  <strong className="text-lg font-mono font-extrabold text-rose-600">SAN7H</strong>
+                  <p className="text-[11px] text-zinc-500">Giảm 500.000đ (Đơn từ 2Tr)</p>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => {
+                    navigator.clipboard.writeText('SAN7H');
+                    success('Đã sao chép mã SAN7H (-500.000đ)!');
+                  }}
+                  className="px-3.5 py-2 bg-zinc-950 hover:bg-zinc-800 text-white rounded-xl text-xs font-bold transition-all shrink-0 cursor-pointer"
+                >
+                  Sao Chép
+                </button>
+              </div>
+
+              {/* Voucher 13h */}
+              <div className="bg-white text-zinc-900 p-4 rounded-2xl shadow-md flex items-center justify-between gap-4">
+                <div>
+                  <span className="text-[10px] uppercase font-bold text-orange-600 tracking-wider block">
+                    Khung 13:00 - 15:00 Chiều
+                  </span>
+                  <strong className="text-lg font-mono font-extrabold text-rose-600">SAN13H</strong>
+                  <p className="text-[11px] text-zinc-500">Giảm 1.000.000đ (Đơn từ 5Tr)</p>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => {
+                    navigator.clipboard.writeText('SAN13H');
+                    success('Đã sao chép mã SAN13H (-1.000.000đ)!');
+                  }}
+                  className="px-3.5 py-2 bg-zinc-950 hover:bg-zinc-800 text-white rounded-xl text-xs font-bold transition-all shrink-0 cursor-pointer"
+                >
+                  Sao Chép
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
       </section>
 
       {/* 2. CATEGORIES BROWSER */}

@@ -13,12 +13,14 @@ import {
   Wrench,
 } from 'lucide-react';
 import { useCart } from '../../context/CartContext';
+import { useAuth } from '../../context/AuthContext';
 import { useNotification } from '../../context/NotificationContext';
 import { api } from '../../services/api';
 import { getSafeProductImage, handleImageError } from '../../utils/imageHelper';
 
 export const CartPage: React.FC = () => {
   const navigate = useNavigate();
+  const { isAuthenticated } = useAuth();
   const {
     items,
     updateQuantity,
@@ -242,6 +244,50 @@ export const CartPage: React.FC = () => {
                 </button>
               </form>
             )}
+            {/* Flash Vouchers 7h & 13h Quick Select */}
+            <div className="pt-2 border-t border-zinc-100 space-y-1.5">
+              <span className="text-[11px] font-bold text-amber-950 flex items-center gap-1">
+                <Ticket className="w-3.5 h-3.5 text-amber-600" /> Săn voucher 07:00 & 13:00:
+              </span>
+              <div className="grid grid-cols-2 gap-1.5">
+                <button
+                  type="button"
+                  onClick={() => {
+                    setInputCoupon('SAN7H');
+                    api.coupons.apply('SAN7H', subtotal).then(res => {
+                      if (res.success && res.data) {
+                        applyCoupon(res.data.code, res.data.discountAmount);
+                        success('Áp dụng mã SAN7H (-500.000đ) thành công!');
+                      } else {
+                        error(res.message || 'Mã SAN7H yêu cầu đơn từ 2 triệu');
+                      }
+                    });
+                  }}
+                  className="px-2 py-1.5 bg-amber-50 hover:bg-amber-100 border border-amber-200 rounded-lg text-left text-[11px] font-bold text-amber-900 transition-colors"
+                >
+                  <span className="block text-rose-600 font-mono">SAN7H</span>
+                  <span className="text-[10px] text-zinc-500 font-normal">Giảm 500k (Đơn 2Tr)</span>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setInputCoupon('SAN13H');
+                    api.coupons.apply('SAN13H', subtotal).then(res => {
+                      if (res.success && res.data) {
+                        applyCoupon(res.data.code, res.data.discountAmount);
+                        success('Áp dụng mã SAN13H (-1.000.000đ) thành công!');
+                      } else {
+                        error(res.message || 'Mã SAN13H yêu cầu đơn từ 5 triệu');
+                      }
+                    });
+                  }}
+                  className="px-2 py-1.5 bg-amber-50 hover:bg-amber-100 border border-amber-200 rounded-lg text-left text-[11px] font-bold text-amber-900 transition-colors"
+                >
+                  <span className="block text-rose-600 font-mono">SAN13H</span>
+                  <span className="text-[10px] text-zinc-500 font-normal">Giảm 1Tr (Đơn 5Tr)</span>
+                </button>
+              </div>
+            </div>
           </div>
 
           {/* Breakdown Card */}
@@ -287,7 +333,14 @@ export const CartPage: React.FC = () => {
             </div>
 
             <button
-              onClick={() => navigate('/checkout')}
+              onClick={() => {
+                if (!isAuthenticated) {
+                  error('Vui lòng đăng nhập tài khoản để tiến hành đặt hàng');
+                  navigate('/login?redirect=/checkout');
+                  return;
+                }
+                navigate('/checkout');
+              }}
               className="w-full py-4 bg-zinc-950 hover:bg-zinc-800 text-white text-xs uppercase tracking-widest font-bold rounded-xl transition-all shadow-lg hover:shadow-xl flex items-center justify-center gap-2 cursor-pointer"
             >
               Tiến Hành Thanh Toán <ArrowRight className="w-4 h-4" />
@@ -300,12 +353,8 @@ export const CartPage: React.FC = () => {
                 <span>Bảo hành chính hãng <strong>24 tháng</strong> (Mô-tơ & Khung sườn)</span>
               </div>
               <div className="flex items-center gap-2">
-                <RotateCcw className="w-4 h-4 text-emerald-600 shrink-0" />
-                <span>Đổi mới trong <strong>30 ngày</strong> nếu phát sinh lỗi kỹ thuật</span>
-              </div>
-              <div className="flex items-center gap-2">
                 <Truck className="w-4 h-4 text-emerald-600 shrink-0" />
-                <span>Miễn phí vận chuyển & Hỗ trợ kỹ thuật viên lắp đặt tại Clinic</span>
+                <span>Miễn phí vận chuyển toàn quốc</span>
               </div>
             </div>
           </div>

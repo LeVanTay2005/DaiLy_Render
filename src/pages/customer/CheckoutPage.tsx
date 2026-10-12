@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import {
   ShieldCheck,
@@ -7,10 +7,8 @@ import {
   CheckCircle2,
   ChevronLeft,
   Lock,
-  Building,
   QrCode,
   AlertCircle,
-  FileText,
   Clock,
   Sparkles,
   Phone,
@@ -18,6 +16,7 @@ import {
   MapPin,
   Check,
   Copy,
+  Ticket,
 } from 'lucide-react';
 import { useCart } from '../../context/CartContext';
 import { useAuth } from '../../context/AuthContext';
@@ -30,15 +29,21 @@ import {
   validateVietnamesePhone,
   validateSpecificAddress,
   validateEmail,
-  validateTaxId,
 } from '../../data/vietnamAddressData';
 import { getSafeProductImage, handleImageError } from '../../utils/imageHelper';
 
 export const CheckoutPage: React.FC = () => {
   const navigate = useNavigate();
-  const { items, subtotal, discountAmount, couponCode, shippingFee, total, clearCart } = useCart();
-  const { user } = useAuth();
+  const { items, subtotal, discountAmount, couponCode, shippingFee, total, clearCart, applyCoupon } = useCart();
+  const { user, isAuthenticated } = useAuth();
   const { success, error } = useNotification();
+
+  // Authentication check - Require login to checkout
+  useEffect(() => {
+    if (!isAuthenticated) {
+      navigate('/login?redirect=/checkout', { replace: true });
+    }
+  }, [isAuthenticated, navigate]);
 
   // Address cascading state
   const [selectedProvinceName, setSelectedProvinceName] = useState('TP. Hồ Chí Minh');
@@ -60,34 +65,21 @@ export const CheckoutPage: React.FC = () => {
     customerPhone: false,
     customerEmail: false,
     shippingAddress: false,
-    companyTaxId: false,
   });
 
-  // Delivery method
-  const [shippingMethod, setShippingMethod] = useState<'STANDARD' | 'EXPRESS_INSTALL'>('EXPRESS_INSTALL');
+  // Delivery method (Shopee / Lazada style)
+  const [shippingMethod, setShippingMethod] = useState<'STANDARD' | 'EXPRESS'>('EXPRESS');
 
-  // VAT Invoice options
-  const [needVatInvoice, setNeedVatInvoice] = useState(false);
-  const [vatData, setVatData] = useState({
-    companyName: '',
-    taxId: '',
-    companyAddress: '',
-    vatEmail: '',
-  });
-
-  // Payment method
+  // Payment method - exactly 3 choices
   const [paymentMethod, setPaymentMethod] = useState<PaymentMethod>('BANK_TRANSFER');
   const [copiedField, setCopiedField] = useState<string | null>(null);
 
-  // Fake card details state for CREDIT_CARD
-  const [cardData, setCardData] = useState({
-    cardNumber: '',
-    cardHolder: '',
-    expiry: '',
-    cvv: '',
-  });
-
   const [submitting, setSubmitting] = useState(false);
+
+  // Check current hour for 7h sáng & 13h chiều flash vouchers
+  const currentHour = new Date().getHours();
+  const isMorningSlot = currentHour >= 7 && currentHour < 10;
+  const isAfternoonSlot = currentHour >= 13 && currentHour < 16;
 
   // Find districts for chosen province
   const currentProvince = useMemo(() => {
@@ -135,17 +127,6 @@ export const CheckoutPage: React.FC = () => {
   const phoneValidation = useMemo(() => validateVietnamesePhone(formData.customerPhone), [formData.customerPhone]);
   const addressValidation = useMemo(() => validateSpecificAddress(formData.shippingAddress), [formData.shippingAddress]);
   const emailValidation = useMemo(() => validateEmail(formData.customerEmail), [formData.customerEmail]);
-  const vatTaxValidation = useMemo(() => {
-    if (!needVatInvoice) return { isValid: true, message: '' };
-    return validateTaxId(vatData.taxId);
-  }, [needVatInvoice, vatData.taxId]);
-
-  const isFormValid =
-    nameValidation.isValid &&
-    phoneValidation.isValid &&
-    addressValidation.isValid &&
-    emailValidation.isValid &&
-    (!needVatInvoice || (vatTaxValidation.isValid && vatData.companyName.trim() !== ''));
 
   const copyToClipboard = (text: string, fieldKey: string) => {
     navigator.clipboard.writeText(text);
@@ -153,6 +134,42 @@ export const CheckoutPage: React.FC = () => {
     success('Đã sao chép vào bộ nhớ tạm');
     setTimeout(() => setCopiedField(null), 2000);
   };
+
+  const handleApplyFlashCoupon = async (code: string) => {
+    try {
+      const res = await api.coupons.apply(code, subtotal);
+      if (res.success && res.data) {
+        applyCoupon(res.data.code, res.data.discountAmount);
+        success(`Áp dụng thành công mã ${code}! Giảm ${res.data.discountAmount.toLocaleString('vi-VN')}đ`);
+      } else {
+        error(res.message || 'Mã không đủ điều kiện đơn hàng tối thiểu');
+      }
+    } catch (err: any) {
+      error(err.message || 'Không thể áp dụng mã');
+    }
+  };
+
+  if (!isAuthenticated) {
+    return (
+      <div className="max-w-md mx-auto px-4 py-24 text-center space-y-4">
+        <div className="w-16 h-16 rounded-full bg-zinc-100 flex items-center justify-center mx-auto text-zinc-900 shadow-inner">
+          <Lock className="w-8 h-8" />
+        </div>
+        <h2 className="font-serif-title text-2xl font-bold text-zinc-950">
+          Vui lòng đăng nhập để đặt hàng
+        </h2>
+        <p className="text-xs text-zinc-500 leading-relaxed">
+          Bạn cần đăng nhập tài khoản để đặt hàng và theo dõi lộ trình vận chuyển trên hệ thống.
+        </p>
+        <Link
+          to="/login?redirect=/checkout"
+          className="inline-block px-8 py-3 bg-zinc-950 hover:bg-zinc-800 text-white rounded-xl text-xs font-bold uppercase tracking-wider transition-all shadow-md"
+        >
+          Đăng Nhập Ngay
+        </Link>
+      </div>
+    );
+  }
 
   if (items.length === 0) {
     return (
@@ -179,7 +196,6 @@ export const CheckoutPage: React.FC = () => {
       customerPhone: true,
       customerEmail: true,
       shippingAddress: true,
-      companyTaxId: true,
     });
 
     if (!nameValidation.isValid) {
@@ -198,29 +214,10 @@ export const CheckoutPage: React.FC = () => {
       error(emailValidation.message);
       return;
     }
-    if (needVatInvoice) {
-      if (!vatData.companyName.trim()) {
-        error('Vui lòng nhập tên công ty/cơ sở spa xuất hóa đơn');
-        return;
-      }
-      if (!vatTaxValidation.isValid) {
-        error(vatTaxValidation.message);
-        return;
-      }
-    }
 
     setSubmitting(true);
     try {
       const fullShippingAddress = `${formData.shippingAddress.trim()}`;
-      const noteDetails = [
-        formData.note.trim(),
-        shippingMethod === 'EXPRESS_INSTALL' ? '[Yêu cầu: Kỹ thuật viên giao hỏa tốc & lắp đặt tại Clinic]' : '',
-        needVatInvoice
-          ? `[Xuất HĐ VAT: Cty: ${vatData.companyName} - MST: ${vatData.taxId} - ĐC: ${vatData.companyAddress} - Email HĐ: ${vatData.vatEmail}]`
-          : '',
-      ]
-        .filter(Boolean)
-        .join(' | ');
 
       const orderPayload = {
         customerName: formData.customerName.trim(),
@@ -230,7 +227,7 @@ export const CheckoutPage: React.FC = () => {
         district: selectedDistrictName,
         ward: selectedWardName,
         shippingAddress: fullShippingAddress,
-        note: noteDetails,
+        note: formData.note.trim() ? `[${shippingMethod === 'EXPRESS' ? 'Giao Hàng Nhanh' : 'Giao Tiêu Chuẩn'}] ${formData.note.trim()}` : `[${shippingMethod === 'EXPRESS' ? 'Giao Hàng Nhanh' : 'Giao Tiêu Chuẩn'}]`,
         paymentMethod,
         couponCode: couponCode || undefined,
         items: items.map(i => ({
@@ -292,9 +289,71 @@ export const CheckoutPage: React.FC = () => {
           </span>
         </div>
 
-        <span className="text-xs text-zinc-500 flex items-center gap-1.5 bg-emerald-50 text-emerald-800 px-3 py-1 rounded-full border border-emerald-200">
-          <Lock className="w-3.5 h-3.5 text-emerald-600" /> Mã hóa SSL 256-Bit
+        <span className="text-xs text-zinc-500 flex items-center gap-1.5 bg-zinc-100 text-zinc-800 px-3 py-1 rounded-full border border-zinc-200">
+          <Lock className="w-3.5 h-3.5 text-zinc-700" /> Thanh toán an toàn
         </span>
+      </div>
+
+      {/* Flash Voucher Hunt Banner (Khung giờ 7h sáng & 13h chiều) */}
+      <div className="bg-gradient-to-r from-amber-50 via-orange-50 to-amber-50 border border-amber-200 rounded-2xl p-4 sm:p-5 shadow-xs">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+          <div className="flex items-start sm:items-center gap-2.5">
+            <div className="w-9 h-9 rounded-xl bg-amber-500 text-white flex items-center justify-center shrink-0 shadow-xs">
+              <Ticket className="w-5 h-5" />
+            </div>
+            <div>
+              <div className="flex items-center gap-2">
+                <span className="text-xs font-bold text-amber-950 uppercase tracking-wide">
+                  Săn Voucher Giờ Vàng (07:00 Sáng & 13:00 Chiều)
+                </span>
+                {isMorningSlot && (
+                  <span className="bg-rose-600 text-white text-[10px] font-bold px-2 py-0.5 rounded-full animate-pulse">
+                    🔥 ĐANG DIỄN RA KHUNG 7H
+                  </span>
+                )}
+                {isAfternoonSlot && (
+                  <span className="bg-rose-600 text-white text-[10px] font-bold px-2 py-0.5 rounded-full animate-pulse">
+                    🔥 ĐANG DIỄN RA KHUNG 13H
+                  </span>
+                )}
+              </div>
+              <p className="text-[11px] text-amber-800 mt-0.5">
+                Bấm lưu mã ưu đãi bên dưới để được giảm ngay khi đặt đơn hàng:
+              </p>
+            </div>
+          </div>
+
+          <div className="flex flex-wrap items-center gap-2">
+            <button
+              type="button"
+              onClick={() => handleApplyFlashCoupon('SAN7H')}
+              className="px-3 py-1.5 bg-white border border-amber-300 hover:border-amber-500 rounded-lg text-xs font-bold text-amber-900 flex items-center gap-1 shadow-2xs hover:bg-amber-100 transition-all cursor-pointer"
+            >
+              <span>SAN7H</span> <span className="text-[10px] font-normal text-amber-700">(-500k)</span>
+            </button>
+            <button
+              type="button"
+              onClick={() => handleApplyFlashCoupon('SAN13H')}
+              className="px-3 py-1.5 bg-white border border-amber-300 hover:border-amber-500 rounded-lg text-xs font-bold text-amber-900 flex items-center gap-1 shadow-2xs hover:bg-amber-100 transition-all cursor-pointer"
+            >
+              <span>SAN13H</span> <span className="text-[10px] font-normal text-amber-700">(-1.000k)</span>
+            </button>
+            <button
+              type="button"
+              onClick={() => handleApplyFlashCoupon('DAILY7H')}
+              className="px-3 py-1.5 bg-white border border-amber-300 hover:border-amber-500 rounded-lg text-xs font-bold text-amber-900 flex items-center gap-1 shadow-2xs hover:bg-amber-100 transition-all cursor-pointer"
+            >
+              <span>DAILY7H</span> <span className="text-[10px] font-normal text-amber-700">(-10%)</span>
+            </button>
+            <button
+              type="button"
+              onClick={() => handleApplyFlashCoupon('DAILY13H')}
+              className="px-3 py-1.5 bg-white border border-amber-300 hover:border-amber-500 rounded-lg text-xs font-bold text-amber-900 flex items-center gap-1 shadow-2xs hover:bg-amber-100 transition-all cursor-pointer"
+            >
+              <span>DAILY13H</span> <span className="text-[10px] font-normal text-amber-700">(-15%)</span>
+            </button>
+          </div>
+        </div>
       </div>
 
       <form onSubmit={handleSubmitOrder} className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10">
@@ -304,9 +363,9 @@ export const CheckoutPage: React.FC = () => {
           <div className="bg-white rounded-2xl border border-zinc-200 p-6 sm:p-7 shadow-xs space-y-5">
             <div className="flex items-center justify-between border-b border-zinc-100 pb-3">
               <h2 className="font-bold text-base text-zinc-950 flex items-center gap-2">
-                <Truck className="w-5 h-5 text-zinc-800" /> 1. Thông Tin Nhận Hàng & Địa Chỉ
+                <Truck className="w-5 h-5 text-zinc-800" /> 1. Địa Chỉ Nhận Hàng
               </h2>
-              <span className="text-[11px] text-zinc-400 font-medium">* Bắt buộc điền chính xác</span>
+              <span className="text-[11px] text-zinc-400 font-medium">* Bắt buộc điền đúng</span>
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -347,7 +406,7 @@ export const CheckoutPage: React.FC = () => {
                   value={formData.customerPhone}
                   onBlur={() => setTouched(t => ({ ...t, customerPhone: true }))}
                   onChange={e => setFormData({ ...formData, customerPhone: e.target.value })}
-                  placeholder="Ví dụ: 0932 436 080"
+                  placeholder="Ví dụ: 0987 654 321"
                   className={`w-full px-3.5 py-2.5 bg-zinc-50 border rounded-xl text-xs text-zinc-900 focus:outline-none transition-all font-mono ${
                     touched.customerPhone && !phoneValidation.isValid
                       ? 'border-rose-400 bg-rose-50/30 focus:ring-1 focus:ring-rose-500'
@@ -365,14 +424,14 @@ export const CheckoutPage: React.FC = () => {
             {/* Email */}
             <div>
               <label className="block text-xs font-semibold text-zinc-800 mb-1.5">
-                Email nhận hóa đơn & cập nhật lộ trình giao hàng (Tùy chọn)
+                Email nhận thông tin đơn hàng (Tùy chọn)
               </label>
               <input
                 type="email"
                 value={formData.customerEmail}
                 onBlur={() => setTouched(t => ({ ...t, customerEmail: true }))}
                 onChange={e => setFormData({ ...formData, customerEmail: e.target.value })}
-                placeholder="Ví dụ: spa.clinic@gmail.com"
+                placeholder="Ví dụ: levantay1812005@gmail.com"
                 className={`w-full px-3.5 py-2.5 bg-zinc-50 border rounded-xl text-xs text-zinc-900 focus:outline-none transition-all ${
                   touched.customerEmail && !emailValidation.isValid
                     ? 'border-rose-400 bg-rose-50/30'
@@ -449,10 +508,10 @@ export const CheckoutPage: React.FC = () => {
               </div>
             </div>
 
-            {/* Địa chỉ chi tiết (Chống gõ tầm bậy dsadsd) */}
+            {/* Địa chỉ chi tiết (Chống gõ tầm bậy kkjk kjk jjk hay dsadsd) */}
             <div>
               <label className="block text-xs font-semibold text-zinc-800 mb-1.5">
-                Địa chỉ chi tiết (Số nhà, tên đường, toà nhà / Cơ sở Spa) <span className="text-rose-600">*</span>
+                Địa chỉ chi tiết (Số nhà, tên đường, tòa nhà hoặc cơ sở) <span className="text-rose-600">*</span>
               </label>
               <input
                 type="text"
@@ -460,7 +519,7 @@ export const CheckoutPage: React.FC = () => {
                 value={formData.shippingAddress}
                 onBlur={() => setTouched(t => ({ ...t, shippingAddress: true }))}
                 onChange={e => setFormData({ ...formData, shippingAddress: e.target.value })}
-                placeholder="Ví dụ: 125/4 Nguyễn Thị Minh Khai hoặc Viện Thẩm Mỹ SeoulSpa, 120 Hai Bà Trưng"
+                placeholder="Ví dụ: Số 125 Nguyễn Huệ hoặc Tòa S2 Vinhomes Grand Park"
                 className={`w-full px-3.5 py-2.5 bg-zinc-50 border rounded-xl text-xs text-zinc-900 focus:outline-none transition-all ${
                   touched.shippingAddress && !addressValidation.isValid
                     ? 'border-rose-400 bg-rose-50/30 focus:ring-1 focus:ring-rose-500'
@@ -473,7 +532,7 @@ export const CheckoutPage: React.FC = () => {
                 </p>
               ) : (
                 <p className="text-[11px] text-zinc-400 mt-1">
-                  Đầy đủ: {formData.shippingAddress ? `${formData.shippingAddress}, ` : ''}{selectedWardName}, {selectedDistrictName}, {selectedProvinceName}
+                  Địa chỉ hoàn chỉnh: {formData.shippingAddress ? `${formData.shippingAddress}, ` : ''}{selectedWardName}, {selectedDistrictName}, {selectedProvinceName}
                 </p>
               )}
             </div>
@@ -481,26 +540,48 @@ export const CheckoutPage: React.FC = () => {
             {/* Ghi chú đơn hàng */}
             <div>
               <label className="block text-xs font-semibold text-zinc-800 mb-1">
-                Ghi chú giao hàng & căn chỉnh (Tùy chọn)
+                Ghi chú cho shipper (Tùy chọn)
               </label>
               <textarea
                 rows={2}
                 value={formData.note}
                 onChange={e => setFormData({ ...formData, note: e.target.value })}
-                placeholder="Ví dụ: Giao lên lầu 2 có thang máy, gọi trước khi đến 30 phút..."
+                placeholder="Ví dụ: Gọi trước khi giao 15 phút, giao giờ hành chính..."
                 className="w-full px-3.5 py-2 bg-zinc-50 border border-zinc-300 rounded-xl text-xs text-zinc-900 focus:outline-none focus:border-zinc-900 focus:bg-white transition-all"
               />
             </div>
           </div>
 
-          {/* Section 2: Hình thức giao hàng & Lắp đặt */}
+          {/* Section 2: Hình thức giao hàng (Chuẩn Shopee / Lazada) */}
           <div className="bg-white rounded-2xl border border-zinc-200 p-6 sm:p-7 shadow-xs space-y-4">
             <h2 className="font-bold text-base text-zinc-950 flex items-center gap-2 border-b border-zinc-100 pb-3">
-              <Clock className="w-5 h-5 text-zinc-800" /> 2. Hình Thức Vận Chuyển & Bàn Giao
+              <Truck className="w-5 h-5 text-zinc-800" /> 2. Đơn Vị Vận Chuyển
             </h2>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
-              {/* Option 1: Standard */}
+              {/* Option 1: Giao Hàng Nhanh */}
+              <label
+                onClick={() => setShippingMethod('EXPRESS')}
+                className={`p-4 rounded-xl border-2 transition-all cursor-pointer flex flex-col justify-between space-y-2 ${
+                  shippingMethod === 'EXPRESS'
+                    ? 'border-zinc-950 bg-zinc-50/50 shadow-xs'
+                    : 'border-zinc-200 hover:border-zinc-300'
+                }`}
+              >
+                <div className="flex items-start justify-between">
+                  <div className="flex items-center gap-2 font-bold text-xs text-zinc-900">
+                    <Truck className="w-4 h-4 text-emerald-600" /> Giao Hàng Nhanh (Express)
+                  </div>
+                  <span className="text-[11px] font-bold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full">
+                    Miễn phí
+                  </span>
+                </div>
+                <p className="text-[11px] text-zinc-500 leading-relaxed">
+                  Giao nhanh trong 1 - 2 ngày làm việc. Được đồng kiểm trước khi nhận hàng.
+                </p>
+              </label>
+
+              {/* Option 2: Giao Hàng Tiêu Chuẩn */}
               <label
                 onClick={() => setShippingMethod('STANDARD')}
                 className={`p-4 rounded-xl border-2 transition-all cursor-pointer flex flex-col justify-between space-y-2 ${
@@ -511,45 +592,23 @@ export const CheckoutPage: React.FC = () => {
               >
                 <div className="flex items-start justify-between">
                   <div className="flex items-center gap-2 font-bold text-xs text-zinc-900">
-                    <Truck className="w-4 h-4 text-zinc-700" /> Vận Chuyển Tiêu Chuẩn
+                    <Clock className="w-4 h-4 text-zinc-700" /> Giao Hàng Tiêu Chuẩn
                   </div>
                   <span className="text-[11px] font-bold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full">
                     Miễn phí
                   </span>
                 </div>
                 <p className="text-[11px] text-zinc-500 leading-relaxed">
-                  Giao hàng toàn quốc trong 2 - 4 ngày làm việc. Hỗ trợ bốc xếp tầng trệt an toàn.
-                </p>
-              </label>
-
-              {/* Option 2: Express + Clinic Technician */}
-              <label
-                onClick={() => setShippingMethod('EXPRESS_INSTALL')}
-                className={`p-4 rounded-xl border-2 transition-all cursor-pointer flex flex-col justify-between space-y-2 relative ${
-                  shippingMethod === 'EXPRESS_INSTALL'
-                    ? 'border-zinc-950 bg-zinc-50/50 shadow-xs'
-                    : 'border-zinc-200 hover:border-zinc-300'
-                }`}
-              >
-                <div className="flex items-start justify-between">
-                  <div className="flex items-center gap-2 font-bold text-xs text-zinc-900">
-                    <Sparkles className="w-4 h-4 text-amber-500" /> Hỏa Tốc & Kỹ Thuật Viên Lắp Đặt
-                  </div>
-                  <span className="text-[11px] font-bold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full">
-                    Ưu đãi 0đ
-                  </span>
-                </div>
-                <p className="text-[11px] text-zinc-500 leading-relaxed">
-                  Kỹ thuật viên bàn giao tận nơi, đấu nối điện 4 động cơ, căn chỉnh cân bằng và hướng dẫn nhân viên spa vận hành.
+                  Giao hàng toàn quốc trong 2 - 4 ngày làm việc. Tài xế liên hệ trước khi phát hàng.
                 </p>
               </label>
             </div>
           </div>
 
-          {/* Section 3: Phương thức thanh toán chuẩn chỉ */}
+          {/* Section 3: Phương thức thanh toán - ĐÚNG 3 KIỂU THEO YÊU CẦU */}
           <div className="bg-white rounded-2xl border border-zinc-200 p-6 sm:p-7 shadow-xs space-y-5">
             <h2 className="font-bold text-base text-zinc-950 flex items-center gap-2 border-b border-zinc-100 pb-3">
-              <CreditCard className="w-5 h-5 text-zinc-800" /> 3. Phương Thức Thanh Toán
+              <CreditCard className="w-5 h-5 text-zinc-800" /> 3. Phương Thức Thanh Toán (3 Kiểu)
             </h2>
 
             <div className="space-y-3">
@@ -569,13 +628,13 @@ export const CheckoutPage: React.FC = () => {
                     </div>
                     <div>
                       <h4 className="font-bold text-xs sm:text-sm text-zinc-900 flex items-center gap-2">
-                        Chuyển Khoản Ngân Hàng (VietQR 24/7)
+                        1. Chuyển Khoản Ngân Hàng (VietQR 24/7)
                         <span className="text-[10px] bg-emerald-600 text-white px-2 py-0.5 rounded-full font-bold uppercase tracking-wider">
                           Khuyên dùng
                         </span>
                       </h4>
                       <p className="text-[11px] text-zinc-500 mt-0.5">
-                        Quét mã QR tự động điền số tiền và nội dung, xác nhận đơn trong 2 phút
+                        Quét mã VietQR tự động điền số tiền và mã đơn, xác nhận trong 2 phút
                       </p>
                     </div>
                   </div>
@@ -586,9 +645,9 @@ export const CheckoutPage: React.FC = () => {
 
                 {/* Bank transfer preview box when active */}
                 {paymentMethod === 'BANK_TRANSFER' && (
-                  <div className="mt-4 pt-4 border-t border-zinc-200/80 bg-white p-4 rounded-xl border border-zinc-200 space-y-3 text-xs">
+                  <div className="mt-4 pt-4 border-t border-zinc-200/80 bg-white p-4 rounded-xl border border-zinc-200 space-y-2.5 text-xs">
                     <div className="flex items-center justify-between">
-                      <span className="text-zinc-500 font-medium">Ngân hàng:</span>
+                      <span className="text-zinc-500 font-medium">Ngân hàng nhận:</span>
                       <strong className="text-zinc-900">Techcombank (Ngân hàng Kỹ thương)</strong>
                     </div>
                     <div className="flex items-center justify-between">
@@ -615,7 +674,7 @@ export const CheckoutPage: React.FC = () => {
                       <strong className="text-zinc-900 uppercase">CÔNG TY TNHH DAILY GIƯỜNG SPA</strong>
                     </div>
                     <p className="text-[11px] text-zinc-400 italic pt-1 border-t border-zinc-100">
-                      * Sau khi hoàn tất đặt hàng, mã QR VietQR động và cú pháp chi tiết sẽ hiển thị ngay tại trang tiếp theo.
+                      * Sau khi hoàn tất đặt hàng, mã QR VietQR động sẽ hiển thị ngay tại trang tiếp theo để bạn quét app ngân hàng.
                     </p>
                   </div>
                 )}
@@ -637,10 +696,10 @@ export const CheckoutPage: React.FC = () => {
                     </div>
                     <div>
                       <h4 className="font-bold text-xs sm:text-sm text-zinc-900">
-                        Thanh Toán Khi Nhận Hàng & Đồng Kiểm (COD)
+                        2. Thanh Toán Khi Nhận Hàng (COD)
                       </h4>
                       <p className="text-[11px] text-zinc-500 mt-0.5">
-                        Kiểm tra thiết bị, cắm điện thử nâng hạ mô-tơ trước khi thanh toán cho nhân viên
+                        Kiểm tra kiện hàng, xem sản phẩm trước khi thanh toán tiền mặt cho shipper
                       </p>
                     </div>
                   </div>
@@ -650,7 +709,7 @@ export const CheckoutPage: React.FC = () => {
                 </div>
               </div>
 
-              {/* Method 3: Ví Điện Tử MoMo / VNPay */}
+              {/* Method 3: Ví Điện Tử MoMo */}
               <div
                 onClick={() => setPaymentMethod('MOMO')}
                 className={`p-4 sm:p-5 rounded-2xl border-2 transition-all cursor-pointer ${
@@ -661,15 +720,15 @@ export const CheckoutPage: React.FC = () => {
               >
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-xl bg-pink-100 text-pink-700 flex items-center justify-center font-bold">
+                    <div className="w-10 h-10 rounded-xl bg-pink-100 text-pink-700 flex items-center justify-center font-extrabold text-base">
                       M
                     </div>
                     <div>
                       <h4 className="font-bold text-xs sm:text-sm text-zinc-900">
-                        Ví Điện Tử MoMo / VNPay QR
+                        3. Ví Điện Tử MoMo
                       </h4>
                       <p className="text-[11px] text-zinc-500 mt-0.5">
-                        Thanh toán bảo mật tức thì qua ví MoMo hoặc ứng dụng ngân hàng có quét QR
+                        Thanh toán bảo mật tức thì qua ứng dụng ví MoMo trên điện thoại
                       </p>
                     </div>
                   </div>
@@ -678,115 +737,7 @@ export const CheckoutPage: React.FC = () => {
                   </div>
                 </div>
               </div>
-
-              {/* Method 4: Thẻ Quốc Tế Visa / Mastercard */}
-              <div
-                onClick={() => setPaymentMethod('VNPAY')}
-                className={`p-4 sm:p-5 rounded-2xl border-2 transition-all cursor-pointer ${
-                  paymentMethod === 'VNPAY'
-                    ? 'border-zinc-950 bg-zinc-50/50 shadow-xs'
-                    : 'border-zinc-200 hover:border-zinc-300'
-                }`}
-              >
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-xl bg-blue-100 text-blue-700 flex items-center justify-center font-bold">
-                      <CreditCard className="w-5 h-5" />
-                    </div>
-                    <div>
-                      <h4 className="font-bold text-xs sm:text-sm text-zinc-900">
-                        Thẻ Quốc Tế (Visa / MasterCard / JCB)
-                      </h4>
-                      <p className="text-[11px] text-zinc-500 mt-0.5">
-                        Cổng thanh toán thẻ tín dụng quốc tế bảo mật 3D Secure
-                      </p>
-                    </div>
-                  </div>
-                  <div className="w-5 h-5 rounded-full border-2 border-zinc-400 flex items-center justify-center shrink-0">
-                    {paymentMethod === 'VNPAY' && <div className="w-2.5 h-2.5 rounded-full bg-zinc-950" />}
-                  </div>
-                </div>
-              </div>
             </div>
-          </div>
-
-          {/* Section 4: Yêu cầu xuất hóa đơn VAT điện tử cho Spa / Clinic */}
-          <div className="bg-white rounded-2xl border border-zinc-200 p-6 shadow-xs space-y-4">
-            <label className="flex items-center gap-3 cursor-pointer">
-              <input
-                type="checkbox"
-                checked={needVatInvoice}
-                onChange={e => setNeedVatInvoice(e.target.checked)}
-                className="w-4 h-4 text-zinc-950 rounded border-zinc-300 focus:ring-zinc-950"
-              />
-              <span className="font-bold text-xs sm:text-sm text-zinc-900 flex items-center gap-1.5">
-                <FileText className="w-4 h-4 text-zinc-600" /> Yêu cầu xuất hóa đơn Giá Trị Gia Tăng (VAT điện tử) cho Cơ sở Spa / Doanh nghiệp
-              </span>
-            </label>
-
-            {needVatInvoice && (
-              <div className="pt-3 border-t border-zinc-100 space-y-3.5 text-xs animate-in fade-in duration-200">
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
-                  <div>
-                    <label className="block text-[11px] font-semibold text-zinc-700 mb-1">
-                      Tên doanh nghiệp / Công ty *
-                    </label>
-                    <input
-                      type="text"
-                      value={vatData.companyName}
-                      onChange={e => setVatData({ ...vatData, companyName: e.target.value })}
-                      placeholder="Công ty TNHH Thẩm Mỹ Viện..."
-                      className="w-full px-3 py-2 bg-zinc-50 border border-zinc-300 rounded-xl text-xs text-zinc-900 focus:outline-none focus:border-zinc-900"
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block text-[11px] font-semibold text-zinc-700 mb-1">
-                      Mã số thuế (10 hoặc 13 số) *
-                    </label>
-                    <input
-                      type="text"
-                      value={vatData.taxId}
-                      onBlur={() => setTouched(t => ({ ...t, companyTaxId: true }))}
-                      onChange={e => setVatData({ ...vatData, taxId: e.target.value })}
-                      placeholder="0312345678"
-                      className="w-full px-3 py-2 bg-zinc-50 border border-zinc-300 rounded-xl text-xs text-zinc-900 focus:outline-none focus:border-zinc-900 font-mono"
-                    />
-                    {touched.companyTaxId && !vatTaxValidation.isValid && (
-                      <p className="text-[10px] text-rose-600 mt-1">{vatTaxValidation.message}</p>
-                    )}
-                  </div>
-                </div>
-
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
-                  <div>
-                    <label className="block text-[11px] font-semibold text-zinc-700 mb-1">
-                      Địa chỉ theo giấy ĐKKD
-                    </label>
-                    <input
-                      type="text"
-                      value={vatData.companyAddress}
-                      onChange={e => setVatData({ ...vatData, companyAddress: e.target.value })}
-                      placeholder="Địa chỉ trụ sở công ty..."
-                      className="w-full px-3 py-2 bg-zinc-50 border border-zinc-300 rounded-xl text-xs text-zinc-900 focus:outline-none"
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block text-[11px] font-semibold text-zinc-700 mb-1">
-                      Email nhận hóa đơn điện tử
-                    </label>
-                    <input
-                      type="email"
-                      value={vatData.vatEmail}
-                      onChange={e => setVatData({ ...vatData, vatEmail: e.target.value })}
-                      placeholder="ketoan.spa@gmail.com"
-                      className="w-full px-3 py-2 bg-zinc-50 border border-zinc-300 rounded-xl text-xs text-zinc-900 focus:outline-none"
-                    />
-                  </div>
-                </div>
-              </div>
-            )}
           </div>
         </div>
 
@@ -835,9 +786,9 @@ export const CheckoutPage: React.FC = () => {
               </div>
 
               <div className="flex justify-between text-zinc-600">
-                <span>Phí vận chuyển & lắp đặt:</span>
+                <span>Phí vận chuyển:</span>
                 <span className="font-mono text-emerald-600 font-bold">
-                  {shippingFee === 0 ? 'Miễn phí toàn quốc' : `${shippingFee.toLocaleString('vi-VN')}đ`}
+                  {shippingFee === 0 ? 'Miễn phí' : `${shippingFee.toLocaleString('vi-VN')}đ`}
                 </span>
               </div>
 
@@ -851,7 +802,7 @@ export const CheckoutPage: React.FC = () => {
               <div className="pt-3 border-t border-zinc-200 flex justify-between items-baseline">
                 <div>
                   <span className="font-bold text-sm text-zinc-950 block">Tổng thanh toán:</span>
-                  <span className="text-[11px] text-zinc-400 font-normal">Đã bao gồm VAT & Freeship</span>
+                  <span className="text-[11px] text-zinc-400 font-normal">Đã bao gồm thuế & Freeship</span>
                 </div>
                 <span className="font-mono font-extrabold text-2xl text-rose-600">
                   {total.toLocaleString('vi-VN')}đ
@@ -872,24 +823,20 @@ export const CheckoutPage: React.FC = () => {
                 </>
               ) : (
                 <>
-                  <CheckCircle2 className="w-4 h-4 text-emerald-400" /> Xác Nhận & Đặt Hàng Ngay
+                  <CheckCircle2 className="w-4 h-4 text-emerald-400" /> Xác Nhận Đặt Hàng Ngay
                 </>
               )}
             </button>
 
-            {/* Safety Promises */}
+            {/* Policies */}
             <div className="pt-4 border-t border-zinc-100 space-y-2 text-[11px] text-zinc-500">
               <div className="flex items-center gap-2">
                 <ShieldCheck className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
-                <span>Bảo hành chính hãng 24 tháng cho mô tơ & khung sườn</span>
+                <span>Bảo hành chính hãng 24 tháng</span>
               </div>
               <div className="flex items-center gap-2">
-                <Lock className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
-                <span>Bảo mật thông tin khách hàng tuyệt đối</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <Phone className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
-                <span>Hotline hỗ trợ kỹ thuật 24/7: <strong>0932.436.080</strong></span>
+                <Truck className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
+                <span>Đồng kiểm hàng trước khi thanh toán</span>
               </div>
             </div>
           </div>

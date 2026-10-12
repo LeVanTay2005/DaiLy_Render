@@ -58,16 +58,13 @@ export const CustomerLayout: React.FC = () => {
           <div className="flex items-center gap-2">
             <span className="inline-block w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
             <span className="text-[11px] sm:text-xs">
-              Thương hiệu <strong>Giường Spa & Clinic Cao Cấp</strong> • Miễn phí vận chuyển & Lắp đặt toàn quốc
+              Thương hiệu <strong>Giường Spa & Clinic Cao Cấp</strong> • Miễn phí vận chuyển toàn quốc
             </span>
           </div>
           <div className="hidden sm:flex items-center gap-4 text-zinc-400 text-[11px]">
-            <a
-              href="tel:0932436080"
-              className="flex items-center gap-1.5 hover:text-white transition-colors text-amber-300 font-semibold"
-            >
-              <PhoneCall className="w-3.5 h-3.5" /> Hotline: 0932 436 080
-            </a>
+            <span className="flex items-center gap-1.5 text-amber-300 font-semibold">
+              <Sparkles className="w-3.5 h-3.5 text-amber-400" /> Săn Voucher Giảm Sâu: 07:00 Sáng & 13:00 Chiều
+            </span>
             <span>•</span>
             <span className="flex items-center gap-1">
               <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" /> Bảo hành chính hãng 24 tháng
@@ -395,7 +392,7 @@ export const CustomerLayout: React.FC = () => {
               <div className="pt-2 text-xs space-y-1.5 text-zinc-400">
                 <p><strong className="text-zinc-200">Showroom:</strong> 158 Đồng Khởi, Bến Nghé, Quận 1, TP. Hồ Chí Minh</p>
                 <p><strong className="text-zinc-200">Xưởng sản xuất:</strong> KCN Tân Bình, P. Tây Thạnh, Q. Tân Phú, TP. HCM</p>
-                <p><strong className="text-zinc-200">Hotline setup:</strong> 1900 6868 (08:30 - 22:00)</p>
+                <p><strong className="text-zinc-200">Giờ mở cửa:</strong> 08:30 - 21:00 (Tất cả các ngày trong tuần)</p>
                 <p><strong className="text-zinc-200">Email:</strong> contact@dailygiuongspa.vn</p>
               </div>
             </div>
