@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { ShieldCheck, Lock, Mail, ArrowRight, AlertCircle, CheckCircle2 } from 'lucide-react';
+import { ShieldCheck, Lock, Mail, ArrowRight, AlertCircle } from 'lucide-react';
 import { api } from '../../services/api';
 import { useAuth } from '../../context/AuthContext';
 
 export const AdminLoginPage: React.FC = () => {
-  const [email, setEmail] = useState('admin@example.com');
-  const [password, setPassword] = useState('Admin@123456');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [rememberMe, setRememberMe] = useState(true);
   const [errorMsg, setErrorMsg] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -148,20 +148,6 @@ export const AdminLoginPage: React.FC = () => {
               )}
             </button>
           </form>
-
-          {/* Seed Testing Account Information Badge */}
-          <div className="mt-8 pt-6 border-t border-zinc-800 text-xs">
-            <div className="p-3.5 rounded-xl bg-zinc-950/80 border border-zinc-800/80 text-zinc-400">
-              <div className="flex items-center gap-2 font-semibold text-zinc-200 mb-2">
-                <CheckCircle2 className="w-4 h-4 text-emerald-400" />
-                <span>Tài khoản Admin mặc định để kiểm thử:</span>
-              </div>
-              <div className="space-y-1 font-mono text-[11px] text-zinc-300">
-                <p>Email: <span className="text-white">admin@example.com</span></p>
-                <p>Password: <span className="text-white">Admin@123456</span></p>
-              </div>
-            </div>
-          </div>
         </div>
 
         {/* Security Warning Notice */}

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
-import { Mail, Lock, ArrowRight, Eye, EyeOff, AlertCircle, CheckCircle2, Shield, Sparkles } from 'lucide-react';
+import { Mail, Lock, ArrowRight, Eye, EyeOff, AlertCircle } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import { useNotification } from '../../context/NotificationContext';
 import { api } from '../../services/api';
@@ -56,12 +56,6 @@ export const CustomerLoginPage: React.FC = () => {
     } finally {
       setLoading(false);
     }
-  };
-
-  const handleFillDemoCustomer = () => {
-    setEmail('khachhang@example.com');
-    setPassword('Customer@123456');
-    setErrorMsg('');
   };
 
   return (
@@ -175,43 +169,12 @@ export const CustomerLoginPage: React.FC = () => {
           </button>
         </form>
 
-        {/* Demo Account Box */}
-        <div className="pt-2">
-          <div className="p-3.5 bg-zinc-50 border border-zinc-200 rounded-2xl space-y-2">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-1.5 text-xs font-bold text-zinc-800">
-                <Sparkles className="w-3.5 h-3.5 text-amber-500" />
-                <span>Tài khoản Demo thử nghiệm</span>
-              </div>
-              <button
-                type="button"
-                onClick={handleFillDemoCustomer}
-                className="px-2.5 py-1 bg-zinc-900 hover:bg-zinc-800 text-white rounded-lg text-[11px] font-semibold transition-colors"
-              >
-                Điền tự động
-              </button>
-            </div>
-            <div className="text-[11px] text-zinc-600 font-mono bg-white p-2 rounded-xl border border-zinc-200/80 space-y-0.5">
-              <p><span className="text-zinc-400">Email:</span> khachhang@example.com</p>
-              <p><span className="text-zinc-400">Mật khẩu:</span> Customer@123456</p>
-            </div>
-          </div>
-        </div>
-
         {/* Links */}
         <div className="space-y-2 text-center pt-2 text-xs text-zinc-500 border-t border-zinc-100">
           <div>
             Chưa có tài khoản thành viên?{' '}
             <Link to="/register" className="font-bold text-zinc-950 underline hover:text-zinc-700">
               Đăng ký tài khoản mới
-            </Link>
-          </div>
-          <div className="pt-1">
-            <Link
-              to="/admin/login"
-              className="inline-flex items-center gap-1 text-[11px] text-zinc-500 hover:text-zinc-800 transition-colors"
-            >
-              <Shield className="w-3 h-3 text-zinc-400" /> Cổng quản trị Admin
             </Link>
           </div>
         </div>

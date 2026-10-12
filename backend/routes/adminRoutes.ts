@@ -314,6 +314,19 @@ router.put('/users/:id/status', (req: AuthRequest, res: Response) => {
   }
 });
 
+router.get('/users/:id/activities', (req: AuthRequest, res: Response) => {
+  try {
+    const { id } = req.params;
+    const activities = db.getCustomerActivities(id);
+    if (!activities) {
+      return res.status(404).json({ success: false, message: 'Không tìm thấy thông tin khách hàng' });
+    }
+    return res.json({ success: true, data: activities });
+  } catch (error: any) {
+    return res.status(500).json({ success: false, message: 'Lỗi tải lịch sử hoạt động', error: error.message });
+  }
+});
+
 // ==========================================
 // 6. INVENTORY MANAGEMENT
 // ==========================================

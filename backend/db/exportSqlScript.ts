@@ -402,11 +402,9 @@ GO
 
   sql += `\nGO\nPRINT N'======================================================';\nPRINT N'HOAN TAT KHOI TAO CO SO DU LIEU MAISON FASHION VA SEED DATA THANH CONG!';\nPRINT N'======================================================';\nGO\n`;
 
-  const outSqlServer = path.join(process.cwd(), 'database', 'schema_sqlserver.sql');
-  const outSchema = path.join(process.cwd(), 'database', 'schema.sql');
+  const outSqlServer = path.join(process.cwd(), 'database', 'maison_fashion.sql');
   fs.writeFileSync(outSqlServer, '\uFEFF' + sql, 'utf-8');
-  fs.writeFileSync(outSchema, '\uFEFF' + sql, 'utf-8');
-  console.log(`Đã xuất file thành công (UTF-8 with BOM) ra:\n- ${outSqlServer}\n- ${outSchema}`);
+  console.log(`Đã xuất file thành công (UTF-8 with BOM) ra:\n- ${outSqlServer}`);
 }
 
 generate();

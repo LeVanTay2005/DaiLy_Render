@@ -211,6 +211,23 @@ export const api = {
         fetchWithAuth('/api/admin/users'),
       toggleStatus: (id: string) =>
         fetchWithAuth(`/api/admin/users/${id}/status`, { method: 'PUT' }),
+      getActivities: (id: string): Promise<{
+        success: boolean;
+        message?: string;
+        data: {
+          user: User;
+          orders: any[];
+          reviews: any[];
+          timeline: Array<{
+            id: string;
+            type: 'REGISTER' | 'ORDER' | 'REVIEW' | 'PROFILE_UPDATE';
+            title: string;
+            description: string;
+            timestamp: string;
+            meta?: any;
+          }>;
+        };
+      }> => fetchWithAuth(`/api/admin/users/${id}/activities`),
     },
 
     inventory: {

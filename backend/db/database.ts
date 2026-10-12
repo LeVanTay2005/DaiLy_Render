@@ -708,6 +708,99 @@ class DatabaseEngine {
     return user;
   }
 
+  public getCustomerActivities(userId: string) {
+    const user = this.findUserById(userId);
+    if (!user) return null;
+
+    const orders = this.state.orders.filter(
+      o => o.userId === userId || (user.email && o.customerEmail.toLowerCase() === user.email.toLowerCase())
+    );
+    const reviews = this.state.reviews.filter(r => r.userId === userId);
+
+    const timeline: Array<{
+      id: string;
+      type: 'REGISTER' | 'ORDER' | 'REVIEW' | 'PROFILE_UPDATE';
+      title: string;
+      description: string;
+      timestamp: string;
+      meta?: any;
+    }> = [];
+
+    // 1. Account registration
+    timeline.push({
+      id: `act-reg-${user.id}`,
+      type: 'REGISTER',
+      title: 'Đăng ký tài khoản thành viên',
+      description: `Khách hàng tạo tài khoản với email ${user.email}`,
+      timestamp: user.createdAt,
+    });
+
+    // 2. Profile updates
+    if (user.updatedAt && user.updatedAt !== user.createdAt) {
+      timeline.push({
+        id: `act-upd-${user.id}`,
+        type: 'PROFILE_UPDATE',
+        title: 'Cập nhật hồ sơ tài khoản',
+        description: 'Thông tin cá nhân, địa chỉ hoặc mật khẩu đã được cập nhật',
+        timestamp: user.updatedAt,
+      });
+    }
+
+    // 3. Orders placed
+    for (const ord of orders) {
+      timeline.push({
+        id: `act-ord-${ord.id}`,
+        type: 'ORDER',
+        title: `Đặt đơn hàng #${ord.orderCode}`,
+        description: `Mua ${ord.items.length} món - Tổng: ${ord.totalAmount.toLocaleString('vi-VN')}đ - Trạng thái: ${ord.orderStatus}`,
+        timestamp: ord.createdAt,
+        meta: {
+          orderId: ord.id,
+          orderCode: ord.orderCode,
+          totalAmount: ord.totalAmount,
+          orderStatus: ord.orderStatus,
+          paymentStatus: ord.paymentStatus,
+          paymentMethod: ord.paymentMethod,
+          itemsCount: ord.items.length,
+        },
+      });
+    }
+
+    // 4. Product reviews
+    for (const rev of reviews) {
+      const prod = this.findProductById(rev.productId);
+      timeline.push({
+        id: `act-rev-${rev.id}`,
+        type: 'REVIEW',
+        title: `Đánh giá sản phẩm (${rev.rating} sao)`,
+        description: `Bình luận trên "${prod?.name || 'Sản phẩm'}": "${rev.comment.substring(0, 90)}${rev.comment.length > 90 ? '...' : ''}"`,
+        timestamp: rev.createdAt,
+        meta: {
+          productId: rev.productId,
+          productName: prod?.name,
+          rating: rev.rating,
+        },
+      });
+    }
+
+    // Sort timeline newest first
+    timeline.sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime());
+
+    const { passwordHash, ...safeUser } = user;
+    const totalSpent = orders.reduce((sum, o) => sum + o.totalAmount, 0);
+
+    return {
+      user: {
+        ...safeUser,
+        totalOrders: orders.length,
+        totalSpent,
+      },
+      orders,
+      reviews,
+      timeline,
+    };
+  }
+
   public changePassword(userId: string, oldPasswordPlain: string, newPasswordPlain: string): { success: boolean; message: string } {
     const user = this.findUserById(userId);
     if (!user) {
@@ -1021,6 +1114,60 @@ class DatabaseEngine {
 
     this.state.orders.unshift(newOrder);
     this.saveState();
+
+    // Async sync to SQL Server if connected
+    poolPromise.then(async (pool) => {
+      if (pool) {
+        try {
+          const r = pool.request();
+          r.input('id', sql.VarChar(36), newOrder.id);
+          r.input('order_code', sql.VarChar(50), newOrder.orderCode);
+          r.input('user_id', sql.VarChar(36), newOrder.userId || null);
+          r.input('customer_name', sql.NVarChar(150), newOrder.customerName);
+          r.input('customer_email', sql.VarChar(150), newOrder.customerEmail);
+          r.input('customer_phone', sql.VarChar(20), newOrder.customerPhone);
+          r.input('shipping_address', sql.NVarChar(500), newOrder.shippingAddress);
+          r.input('province', sql.NVarChar(100), newOrder.province);
+          r.input('district', sql.NVarChar(100), newOrder.district);
+          r.input('ward', sql.NVarChar(100), newOrder.ward);
+          r.input('note', sql.NVarChar(sql.MAX), newOrder.note || null);
+          r.input('subtotal', sql.Decimal(18, 2), newOrder.subtotal);
+          r.input('shipping_fee', sql.Decimal(18, 2), newOrder.shippingFee || 0);
+          r.input('discount_amount', sql.Decimal(18, 2), newOrder.discountAmount || 0);
+          r.input('total_amount', sql.Decimal(18, 2), newOrder.totalAmount);
+          r.input('coupon_code', sql.VarChar(50), newOrder.couponCode || null);
+          r.input('payment_method', sql.VarChar(50), newOrder.paymentMethod || 'COD');
+          r.input('payment_status', sql.VarChar(50), newOrder.paymentStatus || 'PENDING');
+          r.input('order_status', sql.VarChar(50), newOrder.orderStatus || 'PENDING');
+          await r.query(`
+            INSERT INTO dbo.orders (id, order_code, user_id, customer_name, customer_email, customer_phone, shipping_address, province, district, ward, note, subtotal, shipping_fee, discount_amount, total_amount, coupon_code, payment_method, payment_status, order_status, created_at, updated_at)
+            VALUES (@id, @order_code, @user_id, @customer_name, @customer_email, @customer_phone, @shipping_address, @province, @district, @ward, @note, @subtotal, @shipping_fee, @discount_amount, @total_amount, @coupon_code, @payment_method, @payment_status, @order_status, GETDATE(), GETDATE())
+          `);
+
+          for (const it of newOrder.items) {
+            const itemReq = pool.request();
+            itemReq.input('id', sql.VarChar(36), it.id);
+            itemReq.input('order_id', sql.VarChar(36), newOrder.id);
+            itemReq.input('product_id', sql.VarChar(36), it.productId);
+            itemReq.input('variant_id', sql.VarChar(36), it.variantId || null);
+            itemReq.input('product_name', sql.NVarChar(255), it.productName);
+            itemReq.input('size', sql.NVarChar(50), it.size);
+            itemReq.input('color', sql.NVarChar(50), it.color);
+            itemReq.input('price', sql.Decimal(18, 2), it.price);
+            itemReq.input('quantity', sql.Int, it.quantity);
+            itemReq.input('total', sql.Decimal(18, 2), it.total);
+            itemReq.input('image_url', sql.NVarChar(500), it.imageUrl || null);
+            await itemReq.query(`
+              INSERT INTO dbo.order_items (id, order_id, product_id, variant_id, product_name, size, color, price, quantity, total, image_url)
+              VALUES (@id, @order_id, @product_id, @variant_id, @product_name, @size, @color, @price, @quantity, @total, @image_url)
+            `);
+          }
+        } catch (err: any) {
+          console.warn('[SQL Server] Error inserting order:', err?.message || err);
+        }
+      }
+    }).catch(() => {});
+
     return newOrder;
   }
 
@@ -1036,6 +1183,26 @@ class DatabaseEngine {
     }
     order.updatedAt = new Date().toISOString();
     this.saveState();
+
+    const currentOrder = order;
+    poolPromise.then(async (pool) => {
+      if (pool) {
+        try {
+          const r = pool.request();
+          r.input('id', sql.VarChar(36), id);
+          r.input('order_status', sql.VarChar(50), status);
+          r.input('payment_status', sql.VarChar(50), currentOrder.paymentStatus);
+          await r.query(`
+            UPDATE dbo.orders 
+            SET order_status = @order_status, payment_status = @payment_status, updated_at = GETDATE()
+            WHERE id = @id OR order_code = @id
+          `);
+        } catch (err: any) {
+          console.warn('[SQL Server] Error updating order status:', err?.message || err);
+        }
+      }
+    }).catch(() => {});
+
     return order;
   }
 
@@ -1091,6 +1258,23 @@ class DatabaseEngine {
     order.orderStatus = 'CANCELLED';
     order.updatedAt = new Date().toISOString();
     this.saveState();
+
+    poolPromise.then(async (pool) => {
+      if (pool) {
+        try {
+          const r = pool.request();
+          r.input('id', sql.VarChar(36), order.id);
+          await r.query(`
+            UPDATE dbo.orders 
+            SET order_status = 'CANCELLED', updated_at = GETDATE()
+            WHERE id = @id OR order_code = @id
+          `);
+        } catch (err: any) {
+          console.warn('[SQL Server] Error cancelling order:', err?.message || err);
+        }
+      }
+    }).catch(() => {});
+
     return { success: true, message: `Hủy đơn hàng #${order.orderCode} thành công`, order };
   }
 
@@ -1188,6 +1372,30 @@ class DatabaseEngine {
     }
 
     this.saveState();
+
+    poolPromise.then(async (pool) => {
+      if (pool) {
+        try {
+          const r = pool.request();
+          r.input('id', sql.VarChar(36), newRev.id);
+          r.input('product_id', sql.VarChar(36), newRev.productId);
+          r.input('user_id', sql.VarChar(36), newRev.userId);
+          r.input('user_name', sql.NVarChar(150), newRev.userName || 'Khách hàng');
+          r.input('user_avatar', sql.NVarChar(500), newRev.userAvatar || null);
+          r.input('rating', sql.Int, newRev.rating);
+          r.input('comment', sql.NVarChar(sql.MAX), newRev.comment);
+          r.input('images', sql.NVarChar(sql.MAX), JSON.stringify(newRev.images || []));
+          r.input('status', sql.VarChar(20), newRev.status);
+          await r.query(`
+            INSERT INTO dbo.reviews (id, product_id, user_id, user_name, user_avatar, rating, comment, images, status, created_at)
+            VALUES (@id, @product_id, @user_id, @user_name, @user_avatar, @rating, @comment, @images, @status, GETDATE())
+          `);
+        } catch (err: any) {
+          console.warn('[SQL Server] Error inserting review:', err?.message || err);
+        }
+      }
+    }).catch(() => {});
+
     return newRev;
   }
 

@@ -15,15 +15,15 @@ import { poolPromise, db } from './backend/db/database.js';
 dotenv.config();
 
 const app = express();
-const PORT = 3000;
+const PORT = process.env.PORT ? Number(process.env.PORT) : 3000;
 
 // Body Parsers with generous size limit for image uploads
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 
-// Serve static assets from public/ folder (images, logos, etc.)
-app.use(express.static(path.join(process.cwd(), 'public')));
-app.use('/images', express.static(path.join(process.cwd(), 'public', 'images')));
+// Serve static assets from public/ folder with caching headers for smooth delivery
+app.use(express.static(path.join(process.cwd(), 'public'), { maxAge: '1d' }));
+app.use('/images', express.static(path.join(process.cwd(), 'public', 'images'), { maxAge: '7d' }));
 
 // Health check
 app.get('/api/health', (_req: Request, res: Response) => {
