@@ -5,6 +5,7 @@ import { api } from '../../services/api';
 import { Order, OrderStatus } from '../../types';
 import { useAuth } from '../../context/AuthContext';
 import { useNotification } from '../../context/NotificationContext';
+import { getSafeProductImage, handleImageError } from '../../utils/imageHelper';
 
 export const CustomerOrdersPage: React.FC = () => {
   const { isAuthenticated, user } = useAuth();
@@ -122,13 +123,14 @@ export const CustomerOrdersPage: React.FC = () => {
                 {order.items.map((item, idx) => (
                   <div key={idx} className="py-2.5 flex items-center justify-between text-xs">
                     <div className="flex items-center gap-3">
-                      {item.imageUrl && (
+                      <div className="w-12 h-14 rounded-lg overflow-hidden bg-zinc-100 border border-zinc-200 shrink-0 relative">
                         <img
-                          src={item.imageUrl}
+                          src={getSafeProductImage(item.imageUrl, item.productName)}
                           alt={item.productName}
-                          className="w-12 h-14 object-cover rounded-lg border border-zinc-100"
+                          className="w-full h-full object-cover"
+                          onError={e => handleImageError(e, item.productName)}
                         />
-                      )}
+                      </div>
                       <div>
                         <p className="font-bold text-zinc-900">{item.productName}</p>
                         <span className="text-[11px] text-zinc-500">

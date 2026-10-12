@@ -19,6 +19,7 @@ import {
 import { api } from '../../services/api';
 import { Order, OrderStatus, PaymentStatus } from '../../types';
 import { useNotification } from '../../context/NotificationContext';
+import { getSafeProductImage, handleImageError } from '../../utils/imageHelper';
 
 export const AdminOrdersPage: React.FC = () => {
   const [searchParams] = useSearchParams();
@@ -335,13 +336,14 @@ export const AdminOrdersPage: React.FC = () => {
                 {activeOrder.items.map((item, idx) => (
                   <div key={idx} className="p-3.5 flex items-center justify-between gap-4 text-xs">
                     <div className="flex items-center gap-3">
-                      {item.imageUrl && (
+                      <div className="w-10 h-10 rounded-lg overflow-hidden bg-zinc-800 border border-zinc-700 shrink-0 relative">
                         <img
-                          src={item.imageUrl}
+                          src={getSafeProductImage(item.imageUrl, item.productName)}
                           alt={item.productName}
-                          className="w-10 h-10 rounded-lg object-cover border border-zinc-800 shrink-0"
+                          className="w-full h-full object-cover"
+                          onError={e => handleImageError(e, item.productName)}
                         />
-                      )}
+                      </div>
                       <div>
                         <p className="font-bold text-white">{item.productName}</p>
                         <p className="text-zinc-400 text-[11px]">

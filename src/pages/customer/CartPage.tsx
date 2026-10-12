@@ -8,10 +8,14 @@ import {
   Ticket,
   Check,
   ChevronLeft,
+  ShieldCheck,
+  RotateCcw,
+  Wrench,
 } from 'lucide-react';
 import { useCart } from '../../context/CartContext';
 import { useNotification } from '../../context/NotificationContext';
 import { api } from '../../services/api';
+import { getSafeProductImage, handleImageError } from '../../utils/imageHelper';
 
 export const CartPage: React.FC = () => {
   const navigate = useNavigate();
@@ -117,21 +121,24 @@ export const CartPage: React.FC = () => {
           <div className="bg-white rounded-2xl border border-zinc-200 overflow-hidden shadow-sm divide-y divide-zinc-100">
             {items.map(item => (
               <div
-                key={item.variantId}
+                key={item.id || item.variantId}
                 className="p-4 sm:p-5 flex items-center justify-between gap-4 text-xs"
               >
                 <div className="flex items-center gap-4">
-                  <img
-                    src={item.image}
-                    alt={item.name}
-                    className="w-20 h-24 object-cover rounded-xl border border-zinc-200 shrink-0"
-                  />
+                  <div className="w-20 h-24 rounded-xl border border-zinc-200 overflow-hidden bg-zinc-100 shrink-0 relative">
+                    <img
+                      src={getSafeProductImage(item.image, item.name || item.productName)}
+                      alt={item.name || item.productName}
+                      className="w-full h-full object-cover"
+                      onError={e => handleImageError(e, item.name || item.productName)}
+                    />
+                  </div>
                   <div className="space-y-1">
                     <Link
                       to={`/products/${item.slug}`}
                       className="font-bold text-sm text-zinc-950 hover:underline line-clamp-1"
                     >
-                      {item.name}
+                      {item.name || item.productName}
                     </Link>
                     <p className="text-zinc-500">
                       Phân loại: <strong className="text-zinc-800">{item.size}</strong> • <strong className="text-zinc-800">{item.color}</strong>
@@ -144,10 +151,11 @@ export const CartPage: React.FC = () => {
 
                 <div className="flex items-center gap-4">
                   {/* Quantity */}
-                  <div className="flex items-center border border-zinc-300 rounded-xl bg-white overflow-hidden">
+                  <div className="flex items-center border border-zinc-300 rounded-xl bg-white overflow-hidden shadow-xs">
                     <button
-                      onClick={() => updateQuantity(item.variantId, item.quantity - 1)}
-                      className="px-2.5 py-1 text-zinc-600 hover:bg-zinc-100 font-bold"
+                      onClick={() => updateQuantity(item.id || item.variantId!, item.quantity - 1)}
+                      className="px-2.5 py-1 text-zinc-600 hover:bg-zinc-100 font-bold transition-colors"
+                      title="Giảm số lượng"
                     >
                       -
                     </button>
@@ -155,8 +163,9 @@ export const CartPage: React.FC = () => {
                       {item.quantity}
                     </span>
                     <button
-                      onClick={() => updateQuantity(item.variantId, item.quantity + 1)}
-                      className="px-2.5 py-1 text-zinc-600 hover:bg-zinc-100 font-bold"
+                      onClick={() => updateQuantity(item.id || item.variantId!, item.quantity + 1)}
+                      className="px-2.5 py-1 text-zinc-600 hover:bg-zinc-100 font-bold transition-colors"
+                      title="Tăng số lượng"
                     >
                       +
                     </button>
@@ -171,7 +180,7 @@ export const CartPage: React.FC = () => {
 
                   {/* Remove */}
                   <button
-                    onClick={() => removeFromCart(item.variantId)}
+                    onClick={() => removeFromCart(item.id || item.variantId!)}
                     className="p-2 text-zinc-400 hover:text-rose-600 transition-colors"
                     title="Xóa khỏi giỏ"
                   >
@@ -279,10 +288,26 @@ export const CartPage: React.FC = () => {
 
             <button
               onClick={() => navigate('/checkout')}
-              className="w-full py-4 bg-zinc-950 hover:bg-zinc-800 text-white text-xs uppercase tracking-widest font-bold rounded-xl transition-all shadow-lg flex items-center justify-center gap-2"
+              className="w-full py-4 bg-zinc-950 hover:bg-zinc-800 text-white text-xs uppercase tracking-widest font-bold rounded-xl transition-all shadow-lg hover:shadow-xl flex items-center justify-center gap-2 cursor-pointer"
             >
               Tiến Hành Thanh Toán <ArrowRight className="w-4 h-4" />
             </button>
+
+            {/* Spa & Clinic Trust Badges */}
+            <div className="pt-4 border-t border-zinc-100 space-y-2.5 text-[11px] text-zinc-600">
+              <div className="flex items-center gap-2">
+                <ShieldCheck className="w-4 h-4 text-emerald-600 shrink-0" />
+                <span>Bảo hành chính hãng <strong>24 tháng</strong> (Mô-tơ & Khung sườn)</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <RotateCcw className="w-4 h-4 text-emerald-600 shrink-0" />
+                <span>Đổi mới trong <strong>30 ngày</strong> nếu phát sinh lỗi kỹ thuật</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <Truck className="w-4 h-4 text-emerald-600 shrink-0" />
+                <span>Miễn phí vận chuyển & Hỗ trợ kỹ thuật viên lắp đặt tại Clinic</span>
+              </div>
+            </div>
           </div>
         </div>
       </div>

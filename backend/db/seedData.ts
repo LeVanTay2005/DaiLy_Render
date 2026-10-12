@@ -147,8 +147,7 @@ export const INITIAL_PRODUCTS: ProductData[] = [
       'Bảo hành động cơ chính hãng 24 tháng tận nơi',
     ],
     images: [
-      'https://images.unsplash.com/photo-1629909613654-28e377c37b09?w=800&auto=format&fit=crop&q=80',
-      'https://images.unsplash.com/photo-1512290900672-1f41b4e073c8?w=800&auto=format&fit=crop&q=80',
+      '/images/products/giuong-tiem-dien.jpg', '/images/products/giuong-spa-inox.jpg'
     ],
     variants: [
       { id: 'v-101', productId: 'prod-1', size: '190x65cm', color: 'Trắng Sữa', colorCode: '#F5F5F0', stock: 15, sku: 'MS-S3-WHT' },
@@ -181,8 +180,7 @@ export const INITIAL_PRODUCTS: ProductData[] = [
       'Tải trọng tối đa 350kg',
     ],
     images: [
-      'https://images.unsplash.com/photo-1512290900672-1f41b4e073c8?w=800&auto=format&fit=crop&q=80',
-      'https://images.unsplash.com/photo-1629909613654-28e377c37b09?w=800&auto=format&fit=crop&q=80',
+      '/images/products/giuong-tiem-dien.jpg', '/images/products/giuong-spa-inox.jpg'
     ],
     variants: [
       { id: 'v-201', productId: 'prod-2', size: '195x70cm', color: 'Trắng Sữa', colorCode: '#F5F5F0', stock: 10, sku: 'MS-4M-WHT' },
@@ -214,8 +212,7 @@ export const INITIAL_PRODUCTS: ProductData[] = [
       'Nắp đậy bồn gội biến thành giường massage body phẳng tiện lợi',
     ],
     images: [
-      'https://images.unsplash.com/photo-1540555700478-4be289fbecef?w=800&auto=format&fit=crop&q=80',
-      'https://images.unsplash.com/photo-1519823551278-64ac92734fb1?w=800&auto=format&fit=crop&q=80',
+      '/images/products/giuong-goi-duong-sinh.jpg'
     ],
     variants: [
       { id: 'v-301', productId: 'prod-3', size: '200x68cm', color: 'Nâu Cà Phê', colorCode: '#4A2E18', stock: 20, sku: 'MS-GDS-CFE' },
@@ -247,8 +244,7 @@ export const INITIAL_PRODUCTS: ProductData[] = [
       'Khung giường gỗ tràm chịu lực 300kg',
     ],
     images: [
-      'https://images.unsplash.com/photo-1544161515-4ab6ce6db874?w=800&auto=format&fit=crop&q=80',
-      'https://images.unsplash.com/photo-1540555700478-4be289fbecef?w=800&auto=format&fit=crop&q=80',
+      '/images/products/giuong-goi-duong-sinh.jpg'
     ],
     variants: [
       { id: 'v-401', productId: 'prod-4', size: '205x70cm', color: 'Gỗ Tự Nhiên', colorCode: '#8B5A2B', stock: 10, sku: 'MS-XONG-NAT' },
@@ -280,8 +276,7 @@ export const INITIAL_PRODUCTS: ProductData[] = [
       'Kệ đan nan gỗ bên dưới để khăn và dầu massage',
     ],
     images: [
-      'https://images.unsplash.com/photo-1544161515-4ab6ce6db874?w=800&auto=format&fit=crop&q=80',
-      'https://images.unsplash.com/photo-1519823551278-64ac92734fb1?w=800&auto=format&fit=crop&q=80',
+      '/images/products/giuong-massage-go.png'
     ],
     variants: [
       { id: 'v-501', productId: 'prod-5', size: '190x80cm', color: 'Nâu Cà Phê', colorCode: '#5C4033', stock: 25, sku: 'MS-OAK-CFE' },
@@ -313,8 +308,7 @@ export const INITIAL_PRODUCTS: ProductData[] = [
       'Kích thước chuẩn nhân trắc học Á Đông',
     ],
     images: [
-      'https://images.unsplash.com/photo-1519823551278-64ac92734fb1?w=800&auto=format&fit=crop&q=80',
-      'https://images.unsplash.com/photo-1544161515-4ab6ce6db874?w=800&auto=format&fit=crop&q=80',
+      '/images/products/giuong-massage-go.png'
     ],
     variants: [
       { id: 'v-601', productId: 'prod-6', size: '185x75cm', color: 'Nâu Cánh Gián', colorCode: '#8B3A3A', stock: 30, sku: 'MS-TRAM-CG' },
@@ -345,8 +339,7 @@ export const INITIAL_PRODUCTS: ProductData[] = [
       'Chân bọc nút cao su chống trơn trượt sàn gạch',
     ],
     images: [
-      'https://images.unsplash.com/photo-1515377905703-c4788e51af15?w=800&auto=format&fit=crop&q=80',
-      'https://images.unsplash.com/photo-1519823551278-64ac92734fb1?w=800&auto=format&fit=crop&q=80',
+      '/images/products/giuong-spa-inox.jpg'
     ],
     variants: [
       { id: 'v-701', productId: 'prod-7', size: '180x60cm', color: 'Trắng Sữa', colorCode: '#FAFAFA', stock: 40, sku: 'MS-IRON-WHT' },
@@ -377,8 +370,7 @@ export const INITIAL_PRODUCTS: ProductData[] = [
       'Dễ dàng vệ sinh lau chùi',
     ],
     images: [
-      'https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?w=800&auto=format&fit=crop&q=80',
-      'https://images.unsplash.com/photo-1515377905703-c4788e51af15?w=800&auto=format&fit=crop&q=80',
+      '/images/products/giuong-spa-inox.jpg'
     ],
     variants: [
       { id: 'v-801', productId: 'prod-8', size: '185x70cm', color: 'Trắng', colorCode: '#FFFFFF', stock: 22, sku: 'MS-INX-WHT' },
@@ -410,8 +402,7 @@ export const INITIAL_PRODUCTS: ProductData[] = [
       'Tặng kèm túi xách dù có quai đeo vai tiện lợi',
     ],
     images: [
-      'https://images.unsplash.com/photo-1600334089648-b0d9d3028eb2?w=800&auto=format&fit=crop&q=80',
-      'https://images.unsplash.com/photo-1544161515-4ab6ce6db874?w=800&auto=format&fit=crop&q=80',
+      '/images/products/giuong-vali-gap.jpg'
     ],
     variants: [
       { id: 'v-901', productId: 'prod-9', size: '180x60cm', color: 'Đen Tuyền', colorCode: '#111111', stock: 50, sku: 'MS-VALI-BLK' },
@@ -443,8 +434,7 @@ export const INITIAL_PRODUCTS: ProductData[] = [
       'Gấp lại thành vali có khóa chốt cài an toàn',
     ],
     images: [
-      'https://images.unsplash.com/photo-1544161515-4ab6ce6db874?w=800&auto=format&fit=crop&q=80',
-      'https://images.unsplash.com/photo-1600334089648-b0d9d3028eb2?w=800&auto=format&fit=crop&q=80',
+      '/images/products/giuong-vali-gap.jpg'
     ],
     variants: [
       { id: 'v-1001', productId: 'prod-10', size: '185x70cm', color: 'Nâu Gỗ', colorCode: '#A0522D', stock: 25, sku: 'MS-VALI3-BRN' },
@@ -476,8 +466,7 @@ export const INITIAL_PRODUCTS: ProductData[] = [
       'Tay vịn tháo lắp dễ dàng',
     ],
     images: [
-      'https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?w=800&auto=format&fit=crop&q=80',
-      'https://images.unsplash.com/photo-1512290900672-1f41b4e073c8?w=800&auto=format&fit=crop&q=80',
+      '/images/products/ghe-phun-xam.jpg'
     ],
     variants: [
       { id: 'v-1101', productId: 'prod-11', size: '180x65cm', color: 'Đen Da Mờ', colorCode: '#1F1F1F', stock: 18, sku: 'MS-TAT-BLK' },
@@ -508,8 +497,7 @@ export const INITIAL_PRODUCTS: ProductData[] = [
       'Bọc da PU cao cấp chống thấm',
     ],
     images: [
-      'https://images.unsplash.com/photo-1512290900672-1f41b4e073c8?w=800&auto=format&fit=crop&q=80',
-      'https://images.unsplash.com/photo-1629909613654-28e377c37b09?w=800&auto=format&fit=crop&q=80',
+      '/images/products/giuong-tiem-dien.jpg', '/images/products/giuong-spa-inox.jpg'
     ],
     variants: [
       { id: 'v-1201', productId: 'prod-12', size: '185x65cm', color: 'Trắng Sữa', colorCode: '#F5F5F0', stock: 16, sku: 'MS-1M-WHT' },
@@ -540,8 +528,7 @@ export const INITIAL_PRODUCTS: ProductData[] = [
       'Tác dụng đào thải độc tố và xoa dịu đau mỏi cột sống',
     ],
     images: [
-      'https://images.unsplash.com/photo-1506126613408-eca07ce68773?w=800&auto=format&fit=crop&q=80',
-      'https://images.unsplash.com/photo-1544161515-4ab6ce6db874?w=800&auto=format&fit=crop&q=80',
+      '/images/products/giuong-massage-go.png'
     ],
     variants: [
       { id: 'v-1301', productId: 'prod-13', size: '190x75cm', color: 'Nâu Trầm Sang Trọng', colorCode: '#4E3629', stock: 8, sku: 'MS-HIMA-BRN' },
@@ -571,8 +558,7 @@ export const INITIAL_PRODUCTS: ProductData[] = [
       'Đệm simili cao cấp không đọng nước',
     ],
     images: [
-      'https://images.unsplash.com/photo-1540555700478-4be289fbecef?w=800&auto=format&fit=crop&q=80',
-      'https://images.unsplash.com/photo-1519823551278-64ac92734fb1?w=800&auto=format&fit=crop&q=80',
+      '/images/products/giuong-goi-duong-sinh.jpg'
     ],
     variants: [
       { id: 'v-1401', productId: 'prod-14', size: '175x65cm', color: 'Đen', colorCode: '#111111', stock: 22, sku: 'MS-MINI-BLK' },
@@ -603,8 +589,7 @@ export const INITIAL_PRODUCTS: ProductData[] = [
       'Đệm mút chuyên dụng y tế không gây tổn thương mô mềm',
     ],
     images: [
-      'https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?w=800&auto=format&fit=crop&q=80',
-      'https://images.unsplash.com/photo-1544161515-4ab6ce6db874?w=800&auto=format&fit=crop&q=80',
+      '/images/products/giuong-massage-go.png'
     ],
     variants: [
       { id: 'v-1501', productId: 'prod-15', size: '180x55cm', color: 'Đen Y Tế', colorCode: '#1A1A1A', stock: 5, sku: 'MS-CHIRO-BLK' },
@@ -634,8 +619,7 @@ export const INITIAL_PRODUCTS: ProductData[] = [
       'Bọc da PU cao cấp chống bám hóa chất acetone',
     ],
     images: [
-      'https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=800&auto=format&fit=crop&q=80',
-      'https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?w=800&auto=format&fit=crop&q=80',
+      '/images/products/ghe-phun-xam.jpg'
     ],
     variants: [
       { id: 'v-1601', productId: 'prod-16', size: '140x70cm', color: 'Trắng Vàng Gold', colorCode: '#F5E6D3', stock: 7, sku: 'MS-PEDI-GLD' },

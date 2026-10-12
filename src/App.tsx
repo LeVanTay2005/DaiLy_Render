@@ -84,6 +84,7 @@ export default function App() {
                   <Route path="/order-success/:orderCode" element={<OrderSuccessPage />} />
                   <Route path="/profile" element={<CustomerProfilePage />} />
                   <Route path="/profile/orders" element={<CustomerOrdersPage />} />
+                  <Route path="/orders" element={<CustomerOrdersPage />} />
                   <Route path="/login" element={<CustomerLoginPage />} />
                   <Route path="/register" element={<CustomerRegisterPage />} />
                   <Route path="/about" element={<AboutPage />} />

@@ -21,8 +21,41 @@ router.post('/', optionalAuth, (req: AuthRequest, res: Response) => {
       couponCode,
     } = req.body;
 
-    if (!customerName || !customerEmail || !customerPhone || !shippingAddress || !province || !district || !ward) {
+    if (!customerName || !customerPhone || !shippingAddress || !province || !district || !ward) {
       return res.status(400).json({ success: false, message: 'Vui lòng cung cấp đầy đủ thông tin giao hàng' });
+    }
+
+    const cleanPhone = customerPhone.trim().replace(/[\s.-]/g, '');
+    const phoneRegex = /^0(3[2-9]|5[6|8|9]|7[0|6-9]|8[1-9]|9[0-9])[0-9]{7}$/;
+    if (!phoneRegex.test(cleanPhone)) {
+      return res.status(400).json({
+        success: false,
+        message: 'Số điện thoại không hợp lệ. Vui lòng nhập số điện thoại Việt Nam gồm 10 chữ số (đầu số 03, 05, 07, 08, 09)',
+      });
+    }
+
+    const nameWords = customerName.trim().split(/\s+/).filter(Boolean);
+    if (nameWords.length < 2) {
+      return res.status(400).json({
+        success: false,
+        message: 'Vui lòng nhập đầy đủ cả Họ và Tên người nhận (Tối thiểu 2 từ)',
+      });
+    }
+
+    const cleanAddress = shippingAddress.trim();
+    if (cleanAddress.length < 6) {
+      return res.status(400).json({
+        success: false,
+        message: 'Địa chỉ nhận hàng quá ngắn. Vui lòng nhập chi tiết số nhà, tên đường hoặc toà nhà/cơ sở spa',
+      });
+    }
+
+    const spamCheck = ['dsadsd', 'asdasd', 'qwerty', '123123', 'test', 'aaaa', 'zzzz'];
+    if (spamCheck.some(s => cleanAddress.toLowerCase() === s)) {
+      return res.status(400).json({
+        success: false,
+        message: 'Địa chỉ không hợp lệ. Vui lòng cung cấp địa chỉ số nhà, tên đường cụ thể',
+      });
     }
 
     if (!items || !Array.isArray(items) || items.length === 0) {
@@ -56,6 +89,11 @@ router.post('/', optionalAuth, (req: AuthRequest, res: Response) => {
       const itemTotal = unitPrice * item.quantity;
       subtotal += itemTotal;
 
+      let safeImg = (prod.images && prod.images[0]) || '/images/products/giuong-tiem-dien.jpg';
+      if (safeImg.includes('images.unsplash.com')) {
+        safeImg = '/images/products/giuong-tiem-dien.jpg';
+      }
+
       validatedItems.push({
         id: `item-${Date.now()}-${Math.random().toString(36).substr(2, 4)}`,
         orderId: '',
@@ -67,7 +105,7 @@ router.post('/', optionalAuth, (req: AuthRequest, res: Response) => {
         price: unitPrice,
         quantity: item.quantity,
         total: itemTotal,
-        imageUrl: prod.images[0] || '',
+        imageUrl: safeImg,
       });
     }
 

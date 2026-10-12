@@ -53,24 +53,31 @@ export const CustomerLayout: React.FC = () => {
   return (
     <div className="min-h-screen flex flex-col bg-[#fafafa] text-zinc-900 selection:bg-zinc-900 selection:text-white">
       {/* Top Announcement Bar */}
-      <div className="bg-zinc-900 text-zinc-300 text-xs py-2 px-4 border-b border-zinc-800">
-        <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-1 text-center sm:text-left">
+      <div className="bg-[#121212] text-zinc-300 text-xs py-2 px-4 border-b border-zinc-800 shadow-inner">
+        <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-1.5 text-center sm:text-left">
           <div className="flex items-center gap-2">
             <span className="inline-block w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-            <span>Hỗ trợ vận chuyển & lắp đặt tận nơi cho cơ sở Spa & Thẩm mỹ viện toàn quốc</span>
-          </div>
-          <div className="hidden sm:flex items-center gap-4 text-zinc-400">
-            <span className="flex items-center gap-1.5 hover:text-white transition-colors">
-              <PhoneCall className="w-3.5 h-3.5" /> Hotline tư vấn: 1900 6868
+            <span className="text-[11px] sm:text-xs">
+              Thương hiệu <strong>Giường Spa & Clinic Cao Cấp</strong> • Miễn phí vận chuyển & Lắp đặt toàn quốc
             </span>
+          </div>
+          <div className="hidden sm:flex items-center gap-4 text-zinc-400 text-[11px]">
+            <a
+              href="tel:0932436080"
+              className="flex items-center gap-1.5 hover:text-white transition-colors text-amber-300 font-semibold"
+            >
+              <PhoneCall className="w-3.5 h-3.5" /> Hotline: 0932 436 080
+            </a>
             <span>•</span>
-            <span>Bảo hành chính hãng 24 tháng</span>
+            <span className="flex items-center gap-1">
+              <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" /> Bảo hành chính hãng 24 tháng
+            </span>
           </div>
         </div>
       </div>
 
       {/* Main Header */}
-      <header className="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-zinc-200 transition-all">
+      <header className="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-zinc-200 shadow-2xs transition-all">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between gap-4">
           {/* Mobile Menu Button */}
           <div className="flex items-center lg:hidden">
@@ -83,20 +90,25 @@ export const CustomerLayout: React.FC = () => {
             </button>
           </div>
 
-          {/* Brand Logo */}
+          {/* Brand Logo with Luxury Monogram */}
           <div className="flex-1 lg:flex-initial flex items-center justify-center lg:justify-start">
-            <Link to="/" className="flex flex-col items-center lg:items-start group">
-              <span className="font-serif-title text-xl sm:text-2xl tracking-[0.14em] font-extrabold text-zinc-950 uppercase group-hover:tracking-[0.16em] transition-all leading-tight">
-                DAILY GIƯỜNG SPA
-              </span>
-              <span className="text-[9px] tracking-[0.14em] font-semibold text-zinc-500 uppercase mt-0.5">
-                CHUYÊN CÁC LOẠI GIƯỜNG SPA & CLINIC
-              </span>
+            <Link to="/" className="flex items-center gap-3 group">
+              <div className="w-10 h-10 rounded-xl bg-zinc-950 text-white flex items-center justify-center shadow-md group-hover:scale-105 transition-all border border-zinc-800 shrink-0">
+                <Sparkles className="w-5 h-5 text-amber-400" />
+              </div>
+              <div className="flex flex-col text-left">
+                <span className="font-serif-title text-base sm:text-lg font-extrabold text-zinc-950 tracking-[0.08em] uppercase group-hover:text-black transition-colors leading-tight">
+                  DAILY GIƯỜNG SPA
+                </span>
+                <span className="text-[9px] tracking-[0.16em] font-semibold text-zinc-500 uppercase mt-0.5">
+                  THIẾT BỊ CLINIC & SPA CAO CẤP
+                </span>
+              </div>
             </Link>
           </div>
 
           {/* Desktop Navigation */}
-          <nav className="hidden lg:flex items-center gap-6 text-sm font-medium">
+          <nav className="hidden lg:flex items-center gap-1.5 text-xs font-semibold">
             {navLinks.slice(0, 7).map(item => {
               const isActive =
                 item.path === '/'
@@ -107,17 +119,17 @@ export const CustomerLayout: React.FC = () => {
                 <Link
                   key={item.label}
                   to={item.path}
-                  className={`relative py-1 transition-colors ${
+                  className={`px-3 py-2 rounded-xl transition-all relative flex items-center gap-1.5 ${
                     item.highlight
-                      ? 'text-rose-600 font-semibold hover:text-rose-700'
+                      ? 'text-rose-600 bg-rose-50 hover:bg-rose-100 font-bold'
                       : isActive
-                      ? 'text-zinc-950 font-semibold'
-                      : 'text-zinc-600 hover:text-zinc-950'
+                      ? 'text-zinc-950 bg-zinc-100 font-bold shadow-2xs'
+                      : 'text-zinc-600 hover:text-zinc-950 hover:bg-zinc-50'
                   }`}
                 >
                   {item.label}
-                  {isActive && (
-                    <span className="absolute bottom-0 left-0 w-full h-[2px] bg-zinc-950 rounded-full" />
+                  {item.highlight && (
+                    <span className="w-1.5 h-1.5 rounded-full bg-rose-500 animate-ping"></span>
                   )}
                 </Link>
               );

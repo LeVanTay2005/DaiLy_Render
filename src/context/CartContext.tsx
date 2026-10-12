@@ -2,6 +2,7 @@ import React, { createContext, useContext, useState, useEffect, useMemo } from '
 import { CartItem, Product, ProductVariant, Coupon } from '../types';
 import { api } from '../services/api';
 import { useNotification } from './NotificationContext';
+import { getSafeProductImage } from '../utils/imageHelper';
 
 const CART_STORAGE_KEY = 'maison_shopping_cart';
 
@@ -35,7 +36,13 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [items, setItems] = useState<CartItem[]>(() => {
     try {
       const saved = localStorage.getItem(CART_STORAGE_KEY);
-      return saved ? JSON.parse(saved) : [];
+      if (!saved) return [];
+      const parsed: CartItem[] = JSON.parse(saved);
+      // Auto-migrate and clean legacy broken unsplash URLs in user browser localStorage
+      return parsed.map(item => ({
+        ...item,
+        image: getSafeProductImage(item.image, item.productName || item.name || item.slug),
+      }));
     } catch {
       return [];
     }
@@ -80,6 +87,7 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
         const updated = [...prevItems];
         updated[existingIndex] = {
           ...existing,
+          image: getSafeProductImage(existing.image || product.images?.[0], product.name),
           quantity: updatedQty,
         };
         success(`Đã cập nhật số lượng ${product.name} trong giỏ hàng`);
@@ -98,7 +106,7 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
           price: variant.price || product.salePrice || product.price,
           originalPrice: product.price,
           quantity: Math.min(variant.stock, quantity),
-          image: product.images[0] || 'https://images.unsplash.com/photo-1521572267360-ee0c2909d518?w=800',
+          image: getSafeProductImage(product.images?.[0], product.name),
           maxStock: variant.stock,
           sku: variant.sku,
         };
