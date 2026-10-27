@@ -571,7 +571,7 @@ export const AdminProductsPage: React.FC = () => {
                   rows={3}
                   value={formData.description}
                   onChange={e => setFormData({ ...formData, description: e.target.value })}
-                  placeholder="Chất liệu 100% sợi dệt tự nhiên thoáng mát, co giãn nhẹ nhàng, phù hợp mặc công sở và dạo phố..."
+                  placeholder="Khung gỗ sồi / tràm tự nhiên chịu tải 350kg, đệm mút D40 đúc nguyên khối chống lún, da PU y tế kháng khuẩn..."
                   className="w-full px-3.5 py-2.5 bg-zinc-950 border border-zinc-800 rounded-xl text-xs text-white focus:outline-none"
                 />
               </div>

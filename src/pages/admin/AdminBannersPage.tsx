@@ -248,7 +248,7 @@ export const AdminBannersPage: React.FC = () => {
                   required
                   value={formData.title}
                   onChange={e => setFormData({ ...formData, title: e.target.value })}
-                  placeholder="Ví dụ: BST Thu Đông 2025: Bản Giao Hưởng Thời Gian"
+                  placeholder="Ví dụ: BST GIƯỜNG SPA & THIẾT BỊ THẨM MỸ CAO CẤP 2025"
                   className="w-full px-3.5 py-2.5 bg-zinc-950 border border-zinc-800 rounded-xl text-xs text-white focus:outline-none"
                 />
               </div>
@@ -261,7 +261,7 @@ export const AdminBannersPage: React.FC = () => {
                   type="text"
                   value={formData.subtitle}
                   onChange={e => setFormData({ ...formData, subtitle: e.target.value })}
-                  placeholder="Tinh tế trong từng đường may, thanh lịch trong từng chuyển động..."
+                  placeholder="Đỉnh cao thư giãn & chuẩn mực an toàn y khoa cho spa, viện thẩm mỹ và clinic 5 sao..."
                   className="w-full px-3.5 py-2.5 bg-zinc-950 border border-zinc-800 rounded-xl text-xs text-white focus:outline-none"
                 />
               </div>
@@ -312,6 +312,7 @@ export const AdminBannersPage: React.FC = () => {
                     type="text"
                     value={formData.badge}
                     onChange={e => setFormData({ ...formData, badge: e.target.value })}
+                    placeholder="Ví dụ: BÁN CHẠY NHẤT"
                     className="w-full px-3.5 py-2.5 bg-zinc-950 border border-zinc-800 rounded-xl text-xs text-white focus:outline-none"
                   />
                 </div>
@@ -324,9 +325,52 @@ export const AdminBannersPage: React.FC = () => {
                     type="text"
                     value={formData.link}
                     onChange={e => setFormData({ ...formData, link: e.target.value })}
+                    placeholder="/products hoặc /category/..."
                     className="w-full px-3.5 py-2.5 bg-zinc-950 border border-zinc-800 rounded-xl text-xs text-white focus:outline-none"
                   />
                 </div>
+              </div>
+
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-xs font-semibold text-zinc-300 mb-1.5">
+                    Chữ trên nút (Button Text)
+                  </label>
+                  <input
+                    type="text"
+                    value={formData.buttonText}
+                    onChange={e => setFormData({ ...formData, buttonText: e.target.value })}
+                    placeholder="Xem ngay / Khám phá ngay"
+                    className="w-full px-3.5 py-2.5 bg-zinc-950 border border-zinc-800 rounded-xl text-xs text-white focus:outline-none"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-xs font-semibold text-zinc-300 mb-1.5">
+                    Vị trí hiển thị (Position)
+                  </label>
+                  <select
+                    value={formData.position}
+                    onChange={e => setFormData({ ...formData, position: e.target.value as 'HERO' | 'PROMO' | 'MIDDLE' })}
+                    className="w-full px-3.5 py-2.5 bg-zinc-950 border border-zinc-800 rounded-xl text-xs text-white focus:outline-none"
+                  >
+                    <option value="HERO">HERO (Đầu trang chủ)</option>
+                    <option value="PROMO">PROMO (Khuyến mãi nổi bật)</option>
+                    <option value="MIDDLE">MIDDLE (Giữa trang)</option>
+                  </select>
+                </div>
+              </div>
+
+              <div className="pt-2">
+                <label className="flex items-center gap-2 cursor-pointer text-xs text-zinc-300">
+                  <input
+                    type="checkbox"
+                    checked={formData.active}
+                    onChange={e => setFormData({ ...formData, active: e.target.checked })}
+                    className="rounded bg-zinc-950 border-zinc-800 text-white w-4 h-4"
+                  />
+                  <span>Kích hoạt hiển thị ngoài trang chủ (Active)</span>
+                </label>
               </div>
 
               <div className="pt-4 border-t border-zinc-800 flex items-center justify-end gap-3">
@@ -341,7 +385,7 @@ export const AdminBannersPage: React.FC = () => {
                   type="submit"
                   className="px-6 py-2.5 rounded-xl bg-white text-zinc-950 text-xs font-bold hover:bg-zinc-200 transition-colors shadow-lg"
                 >
-                  Tạo Banner
+                  {editingBanner ? 'Lưu Thay Đổi' : 'Tạo Banner'}
                 </button>
               </div>
             </form>

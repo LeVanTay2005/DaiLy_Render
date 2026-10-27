@@ -221,7 +221,7 @@ export const AdminCategoriesPage: React.FC = () => {
                   required
                   value={name}
                   onChange={e => setName(e.target.value)}
-                  placeholder="Ví dụ: Áo Sơ Mi Nam"
+                  placeholder="Ví dụ: Giường Massage Gỗ Sồi"
                   className="w-full px-3.5 py-2.5 bg-zinc-950 border border-zinc-800 rounded-xl text-xs text-white focus:outline-none focus:ring-1 focus:ring-white"
                 />
               </div>
