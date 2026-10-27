@@ -1,6 +1,7 @@
 import express, { Request, Response } from 'express';
-import path from 'path';
 import fs from 'fs';
+import path from 'path';
+import crypto from 'crypto';
 import dotenv from 'dotenv';
 import authRoutes from './backend/routes/authRoutes.js';
 import productRoutes from './backend/routes/productRoutes.js';
@@ -25,6 +26,7 @@ app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 // Serve static assets from public/ folder with caching headers for smooth delivery
 app.use(express.static(path.join(process.cwd(), 'public'), { maxAge: '1d' }));
 app.use('/images', express.static(path.join(process.cwd(), 'public', 'images'), { maxAge: '7d' }));
+app.use('/uploads', express.static(path.join(process.cwd(), 'public', 'uploads'), { maxAge: '30d' }));
 
 // Health check
 app.get('/api/health', (_req: Request, res: Response) => {
@@ -99,18 +101,87 @@ app.post('/api/database/sync', async (_req: Request, res: Response) => {
   }
 });
 
-// Image Upload Endpoint (supports Base64 data URL & quick upload)
-app.post('/api/upload', authenticateToken, requireAdmin, (req: Request, res: Response) => {
+// Phase 1.3 — Image Upload Endpoint with SHA-256 Deduplication (Khử trùng lặp file)
+app.post('/api/upload', authenticateToken, requireAdmin, (req: any, res: Response) => {
   try {
     const { image, name } = req.body;
     if (!image) {
       return res.status(400).json({ success: false, message: 'Vui lòng cung cấp dữ liệu hình ảnh' });
     }
-    // Return image url (supports base64 data url directly or provided url)
-    return res.json({
+
+    // Check if input is Base64 data URL
+    const match = image.match(/^data:([a-zA-Z0-9]+\/[a-zA-Z0-9-.+]+);base64,(.+)$/);
+    if (!match) {
+      // If it's already a URL (e.g. Unsplash or external CDN), return as-is
+      return res.json({
+        success: true,
+        url: image,
+        name: name || 'uploaded-image',
+        isDuplicate: false,
+      });
+    }
+
+    const mimeType = match[1];
+    const base64Data = match[2];
+    const buffer = Buffer.from(base64Data, 'base64');
+
+    // 1. Calculate SHA-256 Checksum (Fingerprint)
+    const fileHash = crypto.createHash('sha256').update(buffer).digest('hex');
+
+    // 2. Check if identical file already exists in database (Deduplication)
+    const existingFile = db.findFileByHash(fileHash);
+    if (existingFile) {
+      return res.json({
+        success: true,
+        url: existingFile.url,
+        fileName: existingFile.fileName,
+        originalName: existingFile.originalName,
+        size: existingFile.size,
+        fileHash,
+        isDuplicate: true,
+        message: 'Khử trùng lặp: File này đã tồn tại trên hệ thống, tái sử dụng URL cũ để tiết kiệm dung lượng ổ cứng!',
+      });
+    }
+
+    // 3. Determine file extension
+    let ext = 'jpg';
+    if (mimeType.includes('png')) ext = 'png';
+    else if (mimeType.includes('webp')) ext = 'webp';
+    else if (mimeType.includes('gif')) ext = 'gif';
+    else if (mimeType.includes('svg')) ext = 'svg';
+
+    // 4. Save to disk in public/uploads/
+    const uploadsDir = path.join(process.cwd(), 'public', 'uploads');
+    if (!fs.existsSync(uploadsDir)) {
+      fs.mkdirSync(uploadsDir, { recursive: true });
+    }
+
+    const fileName = `${fileHash.slice(0, 16)}.${ext}`;
+    const filePath = path.join(uploadsDir, fileName);
+    fs.writeFileSync(filePath, buffer);
+
+    const publicUrl = `/uploads/${fileName}`;
+
+    // 5. Store record in database
+    const stored = db.saveStoredFile({
+      fileName,
+      originalName: name || fileName,
+      mimeType,
+      size: buffer.length,
+      url: publicUrl,
+      fileHash,
+      uploadedBy: req.user?.name || 'Admin',
+    });
+
+    return res.status(201).json({
       success: true,
-      url: image,
-      name: name || 'uploaded-image',
+      url: publicUrl,
+      fileName,
+      size: buffer.length,
+      fileHash,
+      isDuplicate: false,
+      message: 'Tải ảnh lên thành công!',
+      data: stored,
     });
   } catch (err: any) {
     return res.status(500).json({ success: false, message: 'Lỗi tải ảnh', error: err.message });

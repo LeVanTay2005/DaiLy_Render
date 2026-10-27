@@ -1,5 +1,6 @@
 import fs from 'fs';
 import path from 'path';
+import { INITIAL_PRODUCTS } from './seedData.js';
 
 function escapeSql(val: any): string {
   if (val === null || val === undefined) return 'NULL';
@@ -30,6 +31,8 @@ USE [maison_fashion];
 GO
 
 -- XÓA BẢNG CŨ NẾU ĐÃ TỒN TẠI ĐỂ TẠO MỚI SẠCH SẼ (THEO THỨ TỰ KHÓA NGOẠI)
+IF OBJECT_ID('dbo.inventory_logs', 'U') IS NOT NULL DROP TABLE dbo.inventory_logs;
+IF OBJECT_ID('dbo.stored_files', 'U') IS NOT NULL DROP TABLE dbo.stored_files;
 IF OBJECT_ID('dbo.order_items', 'U') IS NOT NULL DROP TABLE dbo.order_items;
 IF OBJECT_ID('dbo.payments', 'U') IS NOT NULL DROP TABLE dbo.payments;
 IF OBJECT_ID('dbo.coupon_usages', 'U') IS NOT NULL DROP TABLE dbo.coupon_usages;
@@ -101,6 +104,7 @@ CREATE TABLE dbo.products (
     brand NVARCHAR(100) DEFAULT N'DaiLy Spa',
     price DECIMAL(18, 2) NOT NULL,
     sale_price DECIMAL(18, 2) NULL,
+    cost_price DECIMAL(18, 2) NULL DEFAULT 0,  -- Giá vốn nhập xưởng (Phase 1.1)
     description NVARCHAR(MAX) NULL,
     details NVARCHAR(MAX) NULL,
     rating DECIMAL(3, 1) DEFAULT 5.0,
@@ -234,6 +238,47 @@ CREATE TABLE dbo.order_items (
 );
 GO
 
+-- ==============================================================================
+-- Phần thêm mới Phase 1: INVENTORY LOG + STORED FILES
+-- ==============================================================================
+
+-- Bảng nhật ký biến động kho (Thẻ kho / Stock Card) — Phase 1.2
+CREATE TABLE dbo.inventory_logs (
+    id VARCHAR(50) PRIMARY KEY,
+    product_id VARCHAR(36) NOT NULL,
+    product_name NVARCHAR(255) NOT NULL,
+    variant_id VARCHAR(36) NULL,
+    sku NVARCHAR(100) NOT NULL,
+    reason VARCHAR(30) NOT NULL CHECK (reason IN (
+        'ORDER_PLACED', 'ORDER_CANCELLED', 'MANUAL_ADJUST',
+        'IMPORT_STOCK', 'RETURN_GOODS', 'STOCKTAKE_FIX'
+    )),
+    reason_label NVARCHAR(100) NOT NULL,
+    quantity_before INT NOT NULL DEFAULT 0,
+    quantity_change INT NOT NULL,          -- Dương = nhập thêm, âm = xuất ra
+    quantity_after INT NOT NULL DEFAULT 0,
+    order_id VARCHAR(36) NULL,
+    order_code VARCHAR(50) NULL,
+    note NVARCHAR(500) NULL,
+    performed_by NVARCHAR(150) NOT NULL DEFAULT 'System',
+    created_at DATETIME2 NOT NULL DEFAULT GETDATE()
+);
+GO
+
+-- Bảng lưu trữ file ảnh thực (SHA-256 Deduplication) — Phase 1.3
+CREATE TABLE dbo.stored_files (
+    id VARCHAR(50) PRIMARY KEY,
+    file_name NVARCHAR(255) NOT NULL,
+    original_name NVARCHAR(255) NOT NULL,
+    mime_type VARCHAR(100) NOT NULL DEFAULT 'image/jpeg',
+    size BIGINT NOT NULL DEFAULT 0,
+    url NVARCHAR(500) NOT NULL,            -- URL truy cập công khai
+    file_hash VARCHAR(64) NOT NULL UNIQUE, -- SHA-256 (64 ký tự hex) chống trùng lập
+    uploaded_by NVARCHAR(150) NULL,
+    created_at DATETIME2 NOT NULL DEFAULT GETDATE()
+);
+GO
+
 -- Bảng lịch sử sử dụng mã giảm giá
 CREATE TABLE dbo.coupon_usages (
     id VARCHAR(36) PRIMARY KEY,
@@ -330,7 +375,9 @@ GO
   // Products, Images & Variants
   sql += `\n-- 3.3. Products, Images & Variants\n`;
   for (const p of store.products) {
-    sql += `INSERT INTO dbo.products (id, name, slug, category_id, brand, price, sale_price, description, details, rating, review_count, sold_count, is_featured, is_new_arrival, is_flash_sale, status, created_at, updated_at) VALUES (${escapeSql(p.id)}, ${escapeSql(p.name)}, ${escapeSql(p.slug)}, ${escapeSql(p.categoryId)}, ${escapeSql(p.brand || 'DaiLy Spa')}, ${p.price}, ${p.salePrice || 'NULL'}, ${escapeSql(p.description)}, ${escapeSql(p.details ? JSON.stringify(p.details) : null)}, ${p.rating || 5.0}, ${p.reviewCount || 0}, ${p.soldCount || 0}, ${p.isFeatured ? 1 : 0}, ${p.isNewArrival ? 1 : 0}, ${p.isFlashSale ? 1 : 0}, ${escapeSql(p.status || 'ACTIVE')}, ${escapeSql(p.createdAt)}, GETDATE());\n`;
+    const seedProd = INITIAL_PRODUCTS.find((sp: any) => sp.id === p.id);
+    const costPrice = p.costPrice || seedProd?.costPrice || Math.round((p.salePrice || p.price) * 0.60);
+    sql += `INSERT INTO dbo.products (id, name, slug, category_id, brand, price, sale_price, cost_price, description, details, rating, review_count, sold_count, is_featured, is_new_arrival, is_flash_sale, status, created_at, updated_at) VALUES (${escapeSql(p.id)}, ${escapeSql(p.name)}, ${escapeSql(p.slug)}, ${escapeSql(p.categoryId)}, ${escapeSql(p.brand || 'DaiLy Spa')}, ${p.price}, ${p.salePrice || 'NULL'}, ${costPrice}, ${escapeSql(p.description)}, ${escapeSql(p.details ? JSON.stringify(p.details) : null)}, ${p.rating || 5.0}, ${p.reviewCount || 0}, ${p.soldCount || 0}, ${p.isFeatured ? 1 : 0}, ${p.isNewArrival ? 1 : 0}, ${p.isFlashSale ? 1 : 0}, ${escapeSql(p.status || 'ACTIVE')}, ${escapeSql(p.createdAt)}, GETDATE());\n`;
 
     if (Array.isArray(p.images)) {
       for (let i = 0; i < p.images.length; i++) {
@@ -397,6 +444,15 @@ GO
   if (store.settings) {
     const s = store.settings;
     sql += `INSERT INTO dbo.store_settings (id, store_name, phone, email, address, opening_hours, shipping_fee_standard, free_shipping_threshold, bank_name, bank_account_number, bank_account_name, updated_at) VALUES (${escapeSql('main-settings')}, ${escapeSql(s.storeName)}, ${escapeSql(s.phone)}, ${escapeSql(s.email)}, ${escapeSql(s.address)}, ${escapeSql(s.openingHours)}, ${s.shippingFeeStandard}, ${s.freeShippingThreshold}, ${escapeSql(s.bankName)}, ${escapeSql(s.bankAccountNumber)}, ${escapeSql(s.bankAccountName)}, GETDATE());\n`;
+    sql += `GO\n`;
+  }
+
+  // Inventory Logs (Phase 1.2)
+  if (Array.isArray(store.inventoryLogs) && store.inventoryLogs.length > 0) {
+    sql += `\n-- 3.9. Inventory Logs (Thẻ kho mẫu)\n`;
+    for (const log of store.inventoryLogs) {
+      sql += `INSERT INTO dbo.inventory_logs (id, product_id, product_name, variant_id, sku, reason, reason_label, quantity_before, quantity_change, quantity_after, order_id, order_code, note, performed_by, created_at) VALUES (${escapeSql(log.id)}, ${escapeSql(log.productId)}, ${escapeSql(log.productName)}, ${escapeSql(log.variantId)}, ${escapeSql(log.sku)}, ${escapeSql(log.reason)}, ${escapeSql(log.reasonLabel)}, ${log.quantityBefore}, ${log.quantityChange}, ${log.quantityAfter}, ${escapeSql(log.orderId)}, ${escapeSql(log.orderCode)}, ${escapeSql(log.note)}, ${escapeSql(log.performedBy)}, ${escapeSql(log.createdAt)});\n`;
+    }
     sql += `GO\n`;
   }
 

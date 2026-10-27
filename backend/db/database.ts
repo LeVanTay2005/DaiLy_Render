@@ -93,6 +93,39 @@ interface DatabaseState {
   banners: BannerData[];
   reviews: ReviewData[];
   settings: StoreSettings;
+  inventoryLogs: InventoryLogEntry[];  // Phase 1.2
+  storedFiles: StoredFileEntry[];      // Phase 1.3
+}
+
+// In-memory structures for Phase 1
+interface InventoryLogEntry {
+  id: string;
+  productId: string;
+  productName: string;
+  variantId?: string;
+  sku: string;
+  reason: string;
+  reasonLabel: string;
+  quantityBefore: number;
+  quantityChange: number;
+  quantityAfter: number;
+  orderId?: string;
+  orderCode?: string;
+  note?: string;
+  performedBy: string;
+  createdAt: string;
+}
+
+interface StoredFileEntry {
+  id: string;
+  fileName: string;
+  originalName: string;
+  mimeType: string;
+  size: number;
+  url: string;
+  fileHash: string;
+  uploadedBy?: string;
+  createdAt: string;
 }
 
 import dotenv from 'dotenv';
@@ -153,9 +186,30 @@ class DatabaseEngine {
       if (fs.existsSync(DATA_FILE)) {
         const raw = fs.readFileSync(DATA_FILE, 'utf-8');
         const parsed = JSON.parse(raw);
-        // ensure default admin exists and seed if empty
         if (parsed.users && parsed.users.length > 0 && parsed.products && parsed.products.length > 0) {
-          return parsed;
+          let needsSave = false;
+          // Phase 1.1: Auto-migrate costPrice for products if missing
+          for (const p of parsed.products) {
+            if (p.costPrice === undefined || p.costPrice === null) {
+              const seedProd = INITIAL_PRODUCTS.find(sp => sp.id === p.id);
+              p.costPrice = seedProd?.costPrice || Math.round((p.salePrice || p.price) * 0.60);
+              needsSave = true;
+            }
+          }
+          // Phase 1.2: Ensure initial inventory logs exist
+          if (!parsed.inventoryLogs || parsed.inventoryLogs.length === 0) {
+            parsed.inventoryLogs = this.getDefaultInventoryLogs();
+            needsSave = true;
+          }
+          // Phase 1.3: Ensure storedFiles exists
+          if (!parsed.storedFiles) {
+            parsed.storedFiles = [];
+            needsSave = true;
+          }
+          if (needsSave) {
+            this.saveState(parsed as DatabaseState);
+          }
+          return parsed as DatabaseState;
         }
       }
     } catch (err) {
@@ -163,6 +217,75 @@ class DatabaseEngine {
     }
 
     return this.createSeedState();
+  }
+
+  private getDefaultInventoryLogs(): InventoryLogEntry[] {
+    return [
+      {
+        id: 'log-seed-1',
+        productId: 'prod-1',
+        productName: 'Giường Tiêm Thẩm Mỹ Chỉnh Điện 3 Động Cơ Cao Cấp Hi-Tech S3',
+        variantId: 'v-101',
+        sku: 'MS-S3-WHT',
+        reason: 'IMPORT_STOCK',
+        reasonLabel: 'Nhập hàng từ xưởng sản xuất',
+        quantityBefore: 0,
+        quantityChange: 15,
+        quantityAfter: 15,
+        note: 'Nhập lô hàng đầu tháng từ xưởng Bình Dương',
+        performedBy: 'Trần Văn Quản Trị (Admin)',
+        createdAt: '2025-01-15T08:30:00Z',
+      },
+      {
+        id: 'log-seed-2',
+        productId: 'prod-1',
+        productName: 'Giường Tiêm Thẩm Mỹ Chỉnh Điện 3 Động Cơ Cao Cấp Hi-Tech S3',
+        variantId: 'v-101',
+        sku: 'MS-S3-WHT',
+        reason: 'ORDER_PLACED',
+        reasonLabel: 'Khách đặt đơn hàng',
+        quantityBefore: 15,
+        quantityChange: -1,
+        quantityAfter: 14,
+        orderId: 'ord-1001',
+        orderCode: 'ORD-250101',
+        note: 'Đơn hàng ORD-250101 khách Nguyễn Thúy Vy',
+        performedBy: 'Hệ thống tự động',
+        createdAt: '2025-01-18T10:30:00Z',
+      },
+      {
+        id: 'log-seed-3',
+        productId: 'prod-3',
+        productName: 'Giường Gội Đầu Dưỡng Sinh Tai Thỏ Bồn Sứ Vòm Tuần Hoàn Nước',
+        variantId: 'v-301',
+        sku: 'MS-GDS-CFE',
+        reason: 'IMPORT_STOCK',
+        reasonLabel: 'Nhập hàng từ xưởng sản xuất',
+        quantityBefore: 0,
+        quantityChange: 20,
+        quantityAfter: 20,
+        note: 'Lô bồn sứ Đài Loan nhập khẩu',
+        performedBy: 'Trần Văn Quản Trị (Admin)',
+        createdAt: '2025-01-16T09:00:00Z',
+      },
+      {
+        id: 'log-seed-4',
+        productId: 'prod-3',
+        productName: 'Giường Gội Đầu Dưỡng Sinh Tai Thỏ Bồn Sứ Vòm Tuần Hoàn Nước',
+        variantId: 'v-301',
+        sku: 'MS-GDS-CFE',
+        reason: 'ORDER_PLACED',
+        reasonLabel: 'Khách đặt đơn hàng',
+        quantityBefore: 20,
+        quantityChange: -2,
+        quantityAfter: 18,
+        orderId: 'ord-1002',
+        orderCode: 'ORD-250102',
+        note: 'Đơn hàng ORD-250102 khách Lê Minh Tuấn',
+        performedBy: 'Hệ thống tự động',
+        createdAt: '2025-01-21T09:15:00Z',
+      },
+    ];
   }
 
   private createSeedState(): DatabaseState {
@@ -368,6 +491,8 @@ class DatabaseEngine {
       bankAccountName: 'CONG TY TNHH DAILY GIUONG SPA',
     };
 
+    const initialInventoryLogs = this.getDefaultInventoryLogs();
+
     const newState: DatabaseState = {
       users: initialUsers,
       categories: INITIAL_CATEGORIES,
@@ -377,6 +502,8 @@ class DatabaseEngine {
       banners: INITIAL_BANNERS,
       reviews: INITIAL_REVIEWS,
       settings: initialSettings,
+      inventoryLogs: initialInventoryLogs,
+      storedFiles: [],
     };
 
     this.saveState(newState);
@@ -461,6 +588,9 @@ class DatabaseEngine {
             brand: p.brand || 'DaiLy Spa',
             price: Number(p.price),
             salePrice: p.sale_price !== null ? Number(p.sale_price) : undefined,
+            costPrice: (p.cost_price && Number(p.cost_price) > 0)
+              ? Number(p.cost_price)
+              : (INITIAL_PRODUCTS.find(sp => sp.id === p.id)?.costPrice || Math.round(Number(p.sale_price || p.price) * 0.60)),
             description: p.description || '',
             details: detailsArr,
             images: prodImages,
@@ -599,6 +729,32 @@ class DatabaseEngine {
           bankAccountNumber: s.bank_account_number || '',
           bankAccountName: s.bank_account_name || '',
         };
+      }
+
+      // 9. Inventory Logs (Phase 1.2)
+      try {
+        const logRes = await pool.request().query('SELECT * FROM dbo.inventory_logs ORDER BY created_at DESC');
+        if (logRes.recordset && logRes.recordset.length > 0) {
+          this.state.inventoryLogs = logRes.recordset.map((l: any) => ({
+            id: l.id,
+            productId: l.product_id,
+            productName: l.product_name,
+            variantId: l.variant_id || undefined,
+            sku: l.sku,
+            reason: l.reason,
+            reasonLabel: l.reason_label,
+            quantityBefore: Number(l.quantity_before),
+            quantityChange: Number(l.quantity_change),
+            quantityAfter: Number(l.quantity_after),
+            orderId: l.order_id || undefined,
+            orderCode: l.order_code || undefined,
+            note: l.note || undefined,
+            performedBy: l.performed_by,
+            createdAt: l.created_at ? new Date(l.created_at).toISOString() : new Date().toISOString(),
+          }));
+        }
+      } catch {
+        // Table may not exist yet in older SQL Server instances
       }
 
       this.saveState();
@@ -1451,14 +1607,105 @@ class DatabaseEngine {
     return items;
   }
 
-  public updateVariantStock(productId: string, variantId: string, newStock: number): boolean {
+  public updateVariantStock(
+    productId: string,
+    variantId: string,
+    newStock: number,
+    opts?: { reason?: string; reasonLabel?: string; note?: string; orderId?: string; orderCode?: string; performedBy?: string }
+  ): boolean {
     const prod = this.state.products.find(p => p.id === productId);
     if (!prod) return false;
     const variant = prod.variants.find(v => v.id === variantId);
     if (!variant) return false;
+    const before = variant.stock;
     variant.stock = Math.max(0, newStock);
+    const after = variant.stock;
+
+    // Phase 1.2 — Auto-log inventory change
+    this.addInventoryLog({
+      productId: prod.id,
+      productName: prod.name,
+      variantId: variant.id,
+      sku: variant.sku,
+      reason: opts?.reason || 'MANUAL_ADJUST',
+      reasonLabel: opts?.reasonLabel || 'Admin điều chỉnh tồn kho',
+      quantityBefore: before,
+      quantityChange: after - before,
+      quantityAfter: after,
+      orderId: opts?.orderId,
+      orderCode: opts?.orderCode,
+      note: opts?.note,
+      performedBy: opts?.performedBy || 'Admin',
+    });
+
     this.saveState();
     return true;
+  }
+
+  // ============================================================
+  // Phase 1.2 — INVENTORY LOGS (Stock Card / Thẻ kho)
+  // ============================================================
+  public addInventoryLog(entry: Omit<InventoryLogEntry, 'id' | 'createdAt'>): InventoryLogEntry {
+    if (!this.state.inventoryLogs) this.state.inventoryLogs = [];
+    const log: InventoryLogEntry = {
+      ...entry,
+      id: `log-${Date.now()}-${Math.random().toString(36).substr(2, 4)}`,
+      createdAt: new Date().toISOString(),
+    };
+    this.state.inventoryLogs.unshift(log); // newest first
+    // keep last 1000 entries to avoid memory bloat
+    if (this.state.inventoryLogs.length > 1000) {
+      this.state.inventoryLogs = this.state.inventoryLogs.slice(0, 1000);
+    }
+    this.saveState();
+    return log;
+  }
+
+  public getInventoryLogs(opts?: {
+    productId?: string;
+    variantId?: string;
+    reason?: string;
+    limit?: number;
+    page?: number;
+  }): { logs: InventoryLogEntry[]; total: number; page: number; totalPages: number } {
+    if (!this.state.inventoryLogs) this.state.inventoryLogs = [];
+    let logs = [...this.state.inventoryLogs];
+
+    if (opts?.productId) logs = logs.filter(l => l.productId === opts.productId);
+    if (opts?.variantId) logs = logs.filter(l => l.variantId === opts.variantId);
+    if (opts?.reason)    logs = logs.filter(l => l.reason === opts.reason);
+
+    const total = logs.length;
+    const page = opts?.page || 1;
+    const limit = opts?.limit || 30;
+    const totalPages = Math.ceil(total / limit) || 1;
+    const paginated = logs.slice((page - 1) * limit, page * limit);
+    return { logs: paginated, total, page, totalPages };
+  }
+
+  // ============================================================
+  // Phase 1.3 — STORED FILES (Upload ảnh + SHA-256)
+  // ============================================================
+  public findFileByHash(hash: string): StoredFileEntry | undefined {
+    if (!this.state.storedFiles) this.state.storedFiles = [];
+    return this.state.storedFiles.find(f => f.fileHash === hash);
+  }
+
+  public saveStoredFile(file: Omit<StoredFileEntry, 'id' | 'createdAt'>): StoredFileEntry {
+    if (!this.state.storedFiles) this.state.storedFiles = [];
+    const stored: StoredFileEntry = {
+      ...file,
+      id: `file-${Date.now()}-${Math.random().toString(36).substr(2, 4)}`,
+      createdAt: new Date().toISOString(),
+    };
+    this.state.storedFiles.unshift(stored);
+    this.saveState();
+    return stored;
+  }
+
+  public listStoredFiles(limit = 50): StoredFileEntry[] {
+    if (!this.state.storedFiles) return [];
+    return this.state.storedFiles.slice(0, limit);
   }
 
   // --- SETTINGS ---
@@ -1543,6 +1790,25 @@ class DatabaseEngine {
       .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
       .slice(0, 5);
 
+    // Phase 1.1 — Profit metrics
+    // Estimate cost of delivered orders based on product.costPrice
+    const deliveredOrders = this.state.orders.filter(o => o.orderStatus === 'DELIVERED');
+    let totalCostPrice = 0;
+    for (const ord of deliveredOrders) {
+      for (const item of ord.items) {
+        const prod = this.state.products.find(p => p.id === item.productId);
+        if (prod && prod.costPrice) {
+          totalCostPrice += prod.costPrice * item.quantity;
+        } else {
+          // Fallback: estimate cost at 60% of sale price
+          totalCostPrice += item.price * item.quantity * 0.60;
+        }
+      }
+    }
+    const deliveredRevenue = deliveredOrders.reduce((sum, o) => sum + o.totalAmount, 0);
+    const grossProfit = deliveredRevenue - totalCostPrice;
+    const profitMarginPct = deliveredRevenue > 0 ? Math.round((grossProfit / deliveredRevenue) * 1000) / 10 : 0;
+
     return {
       overview: {
         totalRevenue,
@@ -1552,6 +1818,10 @@ class DatabaseEngine {
         pendingOrders,
         completedOrders,
         lowStockCount,
+        // Phase 1.1 — Profit metrics
+        totalCostPrice,
+        grossProfit,
+        profitMarginPct,
       },
       revenueByDay: days,
       revenueByMonth: months,

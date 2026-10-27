@@ -44,6 +44,7 @@ export interface Product {
   brand: string;
   price: number;
   salePrice?: number;
+  costPrice?: number;       // ← Giá vốn nhập xưởng (Phase 1.1)
   description: string;
   details?: string[];
   images: string[];
@@ -181,6 +182,10 @@ export interface AdminDashboardOverview {
   pendingOrders: number;
   completedOrders: number;
   lowStockCount: number;
+  // Phase 1.1 — Profit metrics
+  totalCostPrice: number;       // Tổng giá vốn tất cả đơn đã giao
+  grossProfit: number;          // Lợi nhuận gộp = Doanh thu - Giá vốn
+  profitMarginPct: number;      // Tỷ suất lợi nhuận (%) = grossProfit / totalRevenue * 100
 }
 
 export interface RevenueDayPoint {
@@ -225,4 +230,45 @@ export interface InventoryItem {
   stock: number;
   price: number;
   isLowStock: boolean;
+}
+
+// Phase 1.2 — Inventory Log (Stock Card / Thẻ kho)
+export type InventoryLogReason =
+  | 'ORDER_PLACED'       // Khách đặt hàng → trừ kho
+  | 'ORDER_CANCELLED'    // Huỷ đơn → hoàn kho
+  | 'MANUAL_ADJUST'      // Admin điều chỉnh tay
+  | 'IMPORT_STOCK'       // Nhập hàng từ xưởng
+  | 'RETURN_GOODS'       // Đổi/trả hàng
+  | 'STOCKTAKE_FIX';     // Kiểm kê cân bằng kho
+
+export interface InventoryLog {
+  id: string;
+  productId: string;
+  productName: string;
+  variantId?: string;
+  sku: string;
+  reason: InventoryLogReason;
+  reasonLabel: string;
+  quantityBefore: number;
+  quantityChange: number;   // Dương = nhập thêm, Âm = xuất ra
+  quantityAfter: number;
+  orderId?: string;
+  orderCode?: string;
+  note?: string;
+  performedBy: string;      // Tên hoặc ID người thực hiện
+  createdAt: string;
+}
+
+// Phase 1.3 — Stored File (Upload ảnh + SHA-256)
+export interface StoredFile {
+  id: string;
+  fileName: string;
+  originalName: string;
+  mimeType: string;
+  size: number;
+  url: string;             // URL truy cập công khai
+  fileHash: string;        // SHA-256 để chống trùng lặp
+  isDuplicate?: boolean;   // true = file đã tồn tại, tái sử dụng
+  uploadedBy?: string;
+  createdAt: string;
 }

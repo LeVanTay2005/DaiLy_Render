@@ -27,6 +27,7 @@ export interface ProductData {
   brand: string;
   price: number;
   salePrice?: number;
+  costPrice?: number;   // ← Giá vốn nhập xưởng (Phase 1.1)
   description: string;
   details: string[];
   images: string[];
@@ -137,6 +138,7 @@ export const INITIAL_PRODUCTS: ProductData[] = [
     brand: 'DaiLy Spa',
     price: 15800000,
     salePrice: 13900000,
+    costPrice: 8500000,   // Giá vốn xưởng 3 động cơ
     description: 'Mẫu giường tiêm filler, botox và phẫu thuật thẩm mỹ bán chạy số 1. Trang bị 3 động cơ điện tử tiêu chuẩn CE độc lập nâng hạ chiều cao, tựa lưng và phần chân cực êm ái. Bọc da PU y tế kháng khuẩn, đệm mút D40 đúc nguyên khối chống lún bền bỉ.',
     details: [
       '3 động cơ điện tử độc lập siêu êm tiêu chuẩn CE Châu Âu',
@@ -171,6 +173,7 @@ export const INITIAL_PRODUCTS: ProductData[] = [
     brand: 'DaiLy Spa',
     price: 19500000,
     salePrice: 17500000,
+    costPrice: 11000000,  // Giá vốn xưởng 4 động cơ
     description: 'Dòng giường phẫu thuật tạo hình và tiêm thẩm mỹ 5 sao. Tích hợp 4 động cơ điện tử công nghệ Đức hỗ trợ nghiêng toàn thân góc Trendelenburg 15 độ, bọc da Microfiber cao cấp mềm mại như da thật.',
     details: [
       '4 động cơ điện tử mạnh mẽ đạt chuẩn phòng mổ quốc tế',
@@ -203,6 +206,7 @@ export const INITIAL_PRODUCTS: ProductData[] = [
     brand: 'DaiLy Spa',
     price: 5800000,
     salePrice: 4950000,
+    costPrice: 2900000,   // Giá vốn bồn gội tai thỏ
     description: 'Giường gội đầu dưỡng sinh 2 trong 1 tích hợp vòm tuần hoàn nước ấm massage da đầu thư giãn trị liệu. Bồn gội tai thỏ chất liệu sứ tráng men nano chống ố vàng, kèm kệ để dầu gội và đệm bọc da chống thấm nước.',
     details: [
       'Bồn sứ tai thỏ cao cấp tráng men tuyết chống ố vàng',
@@ -236,6 +240,7 @@ export const INITIAL_PRODUCTS: ProductData[] = [
     brand: 'DaiLy Spa',
     price: 7200000,
     salePrice: 6400000,
+    costPrice: 3800000,   // Giá vốn gỗ tuyết tùng + xông dưỡc
     description: 'Thiết kế cao cấp độc quyền kết hợp thùng xông đầu thảo dược bằng gỗ tuyết tùng tỏa hương thơm ngát tự nhiên. Hỗ trợ giảm đau nửa đầu, lưu thông khí huyết và trị liệu chứng mất ngủ cho khách hàng.',
     details: [
       'Thùng xông hơi đầu gỗ tuyết tùng nguyên khối tự nhiên',
@@ -267,6 +272,7 @@ export const INITIAL_PRODUCTS: ProductData[] = [
     brand: 'DaiLy Spa',
     price: 4200000,
     salePrice: 3690000,
+    costPrice: 2100000,   // Giá vốn gỗ sồi tự nhiên
     description: 'Khung giường gỗ sồi tự nhiên nhập khẩu sấy tẩm công nghệ cao chống co ngót cong vênh. Mộng ghép khóa đôi vững chãi, đệm mút D40 dày 10cm êm ái bọc da PU bóng bẩy, có lỗ thở chuẩn spa massage trị liệu.',
     details: [
       'Khung 100% gỗ sồi tự nhiên chịu tải 350kg',
@@ -300,6 +306,7 @@ export const INITIAL_PRODUCTS: ProductData[] = [
     brand: 'DaiLy Spa',
     price: 2800000,
     salePrice: 2450000,
+    costPrice: 1400000,   // Giá vốn gỗ tràm
     description: 'Lựa chọn tiết kiệm chi phí số 1 cho các spa, thẩm mỹ viện mới setup. Khung gỗ tràm chắc nịch sơn PU 3 lớp bóng bẩy, chân vuông 10x10cm có thanh giằng ngang chịu lực cao, độ bền trên 10 năm.',
     details: [
       'Khung gỗ tràm tự nhiên sơn PU màu cánh gián / đen',
@@ -331,6 +338,7 @@ export const INITIAL_PRODUCTS: ProductData[] = [
     brand: 'DaiLy Spa',
     price: 1850000,
     salePrice: 1590000,
+    costPrice: 900000,    // Giá vốn khung sắt
     description: 'Khung sắt ống phi 42 dày 1.4mm sơn tĩnh điện chống rỉ sét, có tầng để khăn và dụng cụ thẩm mỹ bên dưới. Đệm bọc da simili cao cấp có lỗ úp mặt thoáng khí, gọn gàng và bền bỉ.',
     details: [
       'Khung sắt ống tròn phi 42 sơn tĩnh điện bền màu',
@@ -362,6 +370,7 @@ export const INITIAL_PRODUCTS: ProductData[] = [
     brand: 'DaiLy Spa',
     price: 2600000,
     salePrice: 2290000,
+    costPrice: 1300000,   // Giá vốn inox 304
     description: 'Khung inox 304 sáng bóng vĩnh viễn không hoen rỉ, đầu giường trang bị thanh răng trợ lực nâng gập từ 0 đến 60 độ, phù hợp chăm sóc da mặt, nối mi, tiêm filler và massage cổ vai gáy.',
     details: [
       'Inox 304 chuẩn y tế dày 1.2mm sáng bóng',
@@ -393,6 +402,7 @@ export const INITIAL_PRODUCTS: ProductData[] = [
     brand: 'DaiLy Spa',
     price: 1950000,
     salePrice: 1650000,
+    costPrice: 950000,    // Giá vốn hợp kim nhôm
     description: 'Giường spa xếp gọn dạng vali tiện lợi nhất cho thợ làm đẹp di động. Chân hợp kim nhôm máy bay siêu nhẹ chỉ nặng 12kg nhưng chịu tải trọng tới 200kg, gập lại chỉ bằng một chiếc vali du lịch.',
     details: [
       'Chân hợp kim nhôm siêu nhẹ, trọng lượng toàn giường chỉ 12kg',
@@ -426,6 +436,7 @@ export const INITIAL_PRODUCTS: ProductData[] = [
     brand: 'DaiLy Spa',
     price: 2400000,
     salePrice: 2050000,
+    costPrice: 1200000,   // Giá vốn gỗ 3 khúc
     description: 'Giường vali chân gỗ sồi sang trọng có thể nâng phần chân tạo tư thế nằm thư giãn, trang bị đầy đủ bộ tựa tay bên hông, giá đỡ mặt rời và túi xách vải dù cao cấp chống bám bụi.',
     details: [
       'Khung chân gỗ sồi sang trọng tự nhiên',
@@ -457,6 +468,7 @@ export const INITIAL_PRODUCTS: ProductData[] = [
     brand: 'DaiLy Spa',
     price: 3500000,
     salePrice: 2990000,
+    costPrice: 1700000,   // Giá vốn ghế xoay thuỷ lực
     description: 'Mẫu ghế giường xoay 360 độ chuyên dụng cho tiệm phun xăm thẩm mỹ, nối mi và chăm sóc da mặt. Chân trụ mâm mạ crom sáng bóng, nâng hạ ben hơi thủy lực êm ru, tựa lưng ngả phẳng 180 độ.',
     details: [
       'Xoay tròn 360 độ có khóa hãm cố định vị trí',
@@ -489,6 +501,7 @@ export const INITIAL_PRODUCTS: ProductData[] = [
     brand: 'DaiLy Spa',
     price: 9800000,
     salePrice: 8600000,
+    costPrice: 5000000,   // Giá vốn 1 động cơ
     description: 'Giường tiêm giá tốt trang bị 1 động cơ điện tử nâng hạ chiều cao tự động từ 60cm đến 85cm bằng remote, tựa lưng và chân chỉnh bằng cơ tay tiện dụng, tiết kiệm điện năng và kinh tế.',
     details: [
       '1 động cơ điện tử nâng hạ độ cao nhẹ nhàng',
@@ -520,6 +533,7 @@ export const INITIAL_PRODUCTS: ProductData[] = [
     brand: 'DaiLy Spa',
     price: 8500000,
     salePrice: 7500000,
+    costPrice: 4500000,   // Giá vốn đá muối himalaya
     description: 'Thiết kế cao cấp lót 24 viên đá muối Himalaya nguyên khối dưới lưng nằm, tích hợp hệ thống gia nhiệt đèn hồng ngoại sưởi ấm lưu thông khí huyết cho spa Đông Y và trung tâm chăm sóc sức khỏe.',
     details: [
       '24 viên đá muối khoáng Himalaya nguyên khối tự nhiên',

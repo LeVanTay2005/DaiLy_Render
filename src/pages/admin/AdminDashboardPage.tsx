@@ -59,6 +59,9 @@ export const AdminDashboardPage: React.FC = () => {
     pendingOrders: 0,
     completedOrders: 0,
     lowStockCount: 0,
+    totalCostPrice: 0,
+    grossProfit: 0,
+    profitMarginPct: 0,
   };
 
   const statCards = [
@@ -149,6 +152,58 @@ export const AdminDashboardPage: React.FC = () => {
             </div>
           );
         })}
+      </div>
+
+      {/* Profit & Margin Metrics Section (Phase 1.1) */}
+      <div className="bg-gradient-to-r from-emerald-950/40 via-zinc-950 to-emerald-950/20 border border-emerald-500/20 rounded-2xl p-6 shadow-xl relative overflow-hidden">
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-4 border-b border-zinc-800/80 mb-5">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 rounded-xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center border border-emerald-500/30">
+              <TrendingUp className="w-5 h-5" />
+            </div>
+            <div>
+              <h2 className="text-base font-bold text-white flex items-center gap-2">
+                Báo Cáo Lợi Nhuận Thực Tế & Giá Vốn Xưởng
+                <span className="text-[10px] font-semibold uppercase px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">
+                  Thời Gian Thực
+                </span>
+              </h2>
+              <p className="text-xs text-zinc-400">
+                Tính toán tự động theo giá vốn xưởng từng dòng sản phẩm trên các đơn hàng đã giao hoàn tất
+              </p>
+            </div>
+          </div>
+          <div className="text-xs text-zinc-400 bg-zinc-900/80 px-3 py-1.5 rounded-xl border border-zinc-800 flex items-center gap-1.5">
+            <CheckCircle className="w-4 h-4 text-emerald-400" />
+            Đã giao: <strong className="text-white">{overview.completedOrders}</strong> đơn hàng
+          </div>
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          <div className="bg-zinc-900/60 border border-zinc-800/80 rounded-xl p-4">
+            <span className="text-xs font-medium text-zinc-400">Tổng Giá Vốn Xưởng (COGS)</span>
+            <div className="text-xl font-bold text-zinc-200 mt-1">
+              {(overview.totalCostPrice || 0).toLocaleString('vi-VN')}đ
+            </div>
+            <p className="text-[11px] text-zinc-500 mt-1">Chi phí linh kiện & sản xuất xưởng</p>
+          </div>
+
+          <div className="bg-emerald-950/30 border border-emerald-500/30 rounded-xl p-4">
+            <span className="text-xs font-medium text-emerald-400">Lợi Nhuận Gộp (Gross Profit)</span>
+            <div className="text-xl font-bold text-emerald-400 mt-1">
+              {(overview.grossProfit || 0).toLocaleString('vi-VN')}đ
+            </div>
+            <p className="text-[11px] text-emerald-500/80 mt-1">Doanh thu thu về trừ giá vốn xưởng</p>
+          </div>
+
+          <div className="bg-zinc-900/60 border border-zinc-800/80 rounded-xl p-4">
+            <span className="text-xs font-medium text-zinc-400">Tỷ Suất Lợi Nhuận (Margin)</span>
+            <div className="text-xl font-bold text-amber-400 mt-1">
+              {overview.profitMarginPct || 0}%
+            </div>
+            <p className="text-[11px] text-zinc-500 mt-1">Biên lợi nhuận gộp trung bình</p>
+          </div>
+        </div>
       </div>
 
       {/* Secondary Status Alert Row */}

@@ -59,6 +59,7 @@ router.post('/products', (req: AuthRequest, res: Response) => {
       brand,
       price,
       salePrice,
+      costPrice,
       description,
       details,
       images,
@@ -104,6 +105,7 @@ router.post('/products', (req: AuthRequest, res: Response) => {
       brand: brand ? brand.trim() : 'DaiLy Spa',
       price: Number(price),
       salePrice: salePrice ? Number(salePrice) : undefined,
+      costPrice: costPrice ? Number(costPrice) : undefined,
       description: description ? description.trim() : '',
       details: Array.isArray(details) ? details : [],
       images: Array.isArray(images) && images.length > 0 ? images : ['/images/products/giuong-massage-go.png'],
@@ -347,7 +349,11 @@ router.put('/inventory/:productId/:variantId', (req: AuthRequest, res: Response)
       return res.status(400).json({ success: false, message: 'Số lượng tồn kho không được âm' });
     }
 
-    const success = db.updateVariantStock(productId, variantId, Number(stock));
+    const success = db.updateVariantStock(productId, variantId, Number(stock), {
+      reason: 'MANUAL_ADJUST',
+      reasonLabel: 'Admin điều chỉnh số lượng',
+      performedBy: req.user?.name || 'Admin',
+    });
     if (!success) {
       return res.status(404).json({ success: false, message: 'Không tìm thấy sản phẩm hoặc biến thể để cập nhật tồn kho' });
     }
@@ -355,6 +361,56 @@ router.put('/inventory/:productId/:variantId', (req: AuthRequest, res: Response)
     return res.json({ success: true, message: 'Cập nhật số lượng tồn kho thành công' });
   } catch (error: any) {
     return res.status(500).json({ success: false, message: 'Lỗi cập nhật tồn kho', error: error.message });
+  }
+});
+
+// Phase 1.2 — Lấy nhật ký biến động kho (Thẻ kho)
+router.get('/inventory/logs', (req: AuthRequest, res: Response) => {
+  try {
+    const { productId, variantId, reason, page, limit } = req.query;
+    const result = db.getInventoryLogs({
+      productId: productId as string,
+      variantId: variantId as string,
+      reason: reason as string,
+      page: page ? Number(page) : 1,
+      limit: limit ? Number(limit) : 30,
+    });
+    return res.json({ success: true, data: result });
+  } catch (error: any) {
+    return res.status(500).json({ success: false, message: 'Lỗi tải lịch sử biến động kho', error: error.message });
+  }
+});
+
+// Phase 1.2 — Nhập hàng / Cân bằng kho thủ công kèm lý do & ghi chú
+router.post('/inventory/adjust', (req: AuthRequest, res: Response) => {
+  try {
+    const { productId, variantId, quantityChange, reason, reasonLabel, note } = req.body;
+    if (!productId || !variantId || quantityChange === undefined) {
+      return res.status(400).json({ success: false, message: 'Vui lòng cung cấp productId, variantId và quantityChange' });
+    }
+
+    const prod = db.findProductById(productId);
+    if (!prod) return res.status(404).json({ success: false, message: 'Không tìm thấy sản phẩm' });
+    const variant = prod.variants.find(v => v.id === variantId);
+    if (!variant) return res.status(404).json({ success: false, message: 'Không tìm thấy biến thể' });
+
+    const newStock = Math.max(0, variant.stock + Number(quantityChange));
+    const adminName = req.user?.name || 'Admin';
+
+    db.updateVariantStock(productId, variantId, newStock, {
+      reason: reason || 'MANUAL_ADJUST',
+      reasonLabel: reasonLabel || 'Điều chỉnh kho thủ công',
+      note: note || '',
+      performedBy: adminName,
+    });
+
+    return res.json({
+      success: true,
+      message: `Đã cập nhật kho SKU ${variant.sku}: tồn cũ ${variant.stock} → tồn mới ${newStock}`,
+      data: { newStock },
+    });
+  } catch (error: any) {
+    return res.status(500).json({ success: false, message: 'Lỗi điều chỉnh tồn kho', error: error.message });
   }
 });
 

@@ -132,6 +132,7 @@
       "brand": "DaiLy Spa",
       "price": 15800000,
       "salePrice": 13900000,
+      "costPrice": null,
       "description": "Mẫu giường tiêm filler, botox và phẫu thuật thẩm mỹ bán chạy số 1. Trang bị 3 động cơ điện tử tiêu chuẩn CE độc lập nâng hạ chiều cao, tựa lưng và phần chân cực êm ái. Bọc da PU y tế kháng khuẩn, đệm mút D40 đúc nguyên khối chống lún bền bỉ.",
       "details": [
         "3 động cơ điện tử độc lập siêu êm tiêu chuẩn CE Châu Âu",
@@ -191,6 +192,7 @@
       "brand": "DaiLy Spa",
       "price": 2400000,
       "salePrice": 2050000,
+      "costPrice": null,
       "description": "Giường vali chân gỗ sồi sang trọng có thể nâng phần chân tạo tư thế nằm thư giãn, trang bị đầy đủ bộ tựa tay bên hông, giá đỡ mặt rời và túi xách vải dù cao cấp chống bám bụi.",
       "details": [
         "Khung chân gỗ sồi sang trọng tự nhiên",
@@ -238,6 +240,7 @@
       "brand": "DaiLy Spa",
       "price": 3500000,
       "salePrice": 2990000,
+      "costPrice": null,
       "description": "Mẫu ghế giường xoay 360 độ chuyên dụng cho tiệm phun xăm thẩm mỹ, nối mi và chăm sóc da mặt. Chân trụ mâm mạ crom sáng bóng, nâng hạ ben hơi thủy lực êm ru, tựa lưng ngả phẳng 180 độ.",
       "details": [
         "Xoay tròn 360 độ có khóa hãm cố định vị trí",
@@ -286,6 +289,7 @@
       "brand": "DaiLy Spa",
       "price": 9800000,
       "salePrice": 8600000,
+      "costPrice": null,
       "description": "Giường tiêm giá tốt trang bị 1 động cơ điện tử nâng hạ chiều cao tự động từ 60cm đến 85cm bằng remote, tựa lưng và chân chỉnh bằng cơ tay tiện dụng, tiết kiệm điện năng và kinh tế.",
       "details": [
         "1 động cơ điện tử nâng hạ độ cao nhẹ nhàng",
@@ -334,6 +338,7 @@
       "brand": "DaiLy Spa",
       "price": 8500000,
       "salePrice": 7500000,
+      "costPrice": null,
       "description": "Thiết kế cao cấp lót 24 viên đá muối Himalaya nguyên khối dưới lưng nằm, tích hợp hệ thống gia nhiệt đèn hồng ngoại sưởi ấm lưu thông khí huyết cho spa Đông Y và trung tâm chăm sóc sức khỏe.",
       "details": [
         "24 viên đá muối khoáng Himalaya nguyên khối tự nhiên",
@@ -372,6 +377,7 @@
       "brand": "DaiLy Spa",
       "price": 3200000,
       "salePrice": 2750000,
+      "costPrice": null,
       "description": "Giải pháp cho salon tóc và spa diện tích nhỏ. Chiều dài chỉ 175cm, bồn gội nhựa ABS siêu bền chống nứt vỡ, đệm êm ái xả nước nhanh chóng, dễ dàng lắp đặt.",
       "details": [
         "Chiều dài tối ưu 175cm vừa vặn phòng nhỏ",
@@ -419,6 +425,7 @@
       "brand": "DaiLy Spa",
       "price": 22000000,
       "salePrice": 19800000,
+      "costPrice": null,
       "description": "Giường nắn chỉnh xương khớp chuyên sâu chuẩn y khoa Chiropractic. Cơ chế thả đoạn Drop Piece chính xác hỗ trợ trị liệu thoái hóa cột sống cổ, ngực và thắt lưng hiệu quả cao.",
       "details": [
         "Cơ chế thả đoạn Drop Piece chuẩn y khoa Hoa Kỳ",
@@ -457,6 +464,7 @@
       "brand": "DaiLy Spa",
       "price": 12500000,
       "salePrice": 11200000,
+      "costPrice": null,
       "description": "Ghế làm móng và ngâm chân dưỡng sinh thư giãn cao cấp cho tiệm nail & spa. Bồn ngâm sục massage nước nam châm từ tính, đèn LED đổi màu, ghế ngả lưng có con lăn massage lưng thư giãn.",
       "details": [
         "Bồn sục thủy lực nam châm chống tràn nước",
@@ -504,6 +512,7 @@
       "brand": "DaiLy Spa",
       "price": 19500000,
       "salePrice": 17500000,
+      "costPrice": null,
       "description": "Dòng giường phẫu thuật tạo hình và tiêm thẩm mỹ 5 sao. Tích hợp 4 động cơ điện tử công nghệ Đức hỗ trợ nghiêng toàn thân góc Trendelenburg 15 độ, bọc da Microfiber cao cấp mềm mại như da thật.",
       "details": [
         "4 động cơ điện tử mạnh mẽ đạt chuẩn phòng mổ quốc tế",
@@ -553,6 +562,7 @@
       "brand": "DaiLy Spa",
       "price": 5800000,
       "salePrice": 4950000,
+      "costPrice": null,
       "description": "Giường gội đầu dưỡng sinh 2 trong 1 tích hợp vòm tuần hoàn nước ấm massage da đầu thư giãn trị liệu. Bồn gội tai thỏ chất liệu sứ tráng men nano chống ố vàng, kèm kệ để dầu gội và đệm bọc da chống thấm nước.",
       "details": [
         "Bồn sứ tai thỏ cao cấp tráng men tuyết chống ố vàng",
@@ -610,6 +620,7 @@
       "brand": "DaiLy Spa",
       "price": 7200000,
       "salePrice": 6400000,
+      "costPrice": null,
       "description": "Thiết kế cao cấp độc quyền kết hợp thùng xông đầu thảo dược bằng gỗ tuyết tùng tỏa hương thơm ngát tự nhiên. Hỗ trợ giảm đau nửa đầu, lưu thông khí huyết và trị liệu chứng mất ngủ cho khách hàng.",
       "details": [
         "Thùng xông hơi đầu gỗ tuyết tùng nguyên khối tự nhiên",
@@ -657,6 +668,7 @@
       "brand": "DaiLy Spa",
       "price": 4200000,
       "salePrice": 3690000,
+      "costPrice": null,
       "description": "Khung giường gỗ sồi tự nhiên nhập khẩu sấy tẩm công nghệ cao chống co ngót cong vênh. Mộng ghép khóa đôi vững chãi, đệm mút D40 dày 10cm êm ái bọc da PU bóng bẩy, có lỗ thở chuẩn spa massage trị liệu.",
       "details": [
         "Khung 100% gỗ sồi tự nhiên chịu tải 350kg",
@@ -714,6 +726,7 @@
       "brand": "DaiLy Spa",
       "price": 2800000,
       "salePrice": 2450000,
+      "costPrice": null,
       "description": "Lựa chọn tiết kiệm chi phí số 1 cho các spa, thẩm mỹ viện mới setup. Khung gỗ tràm chắc nịch sơn PU 3 lớp bóng bẩy, chân vuông 10x10cm có thanh giằng ngang chịu lực cao, độ bền trên 10 năm.",
       "details": [
         "Khung gỗ tràm tự nhiên sơn PU màu cánh gián / đen",
@@ -761,6 +774,7 @@
       "brand": "DaiLy Spa",
       "price": 1850000,
       "salePrice": 1590000,
+      "costPrice": null,
       "description": "Khung sắt ống phi 42 dày 1.4mm sơn tĩnh điện chống rỉ sét, có tầng để khăn và dụng cụ thẩm mỹ bên dưới. Đệm bọc da simili cao cấp có lỗ úp mặt thoáng khí, gọn gàng và bền bỉ.",
       "details": [
         "Khung sắt ống tròn phi 42 sơn tĩnh điện bền màu",
@@ -808,6 +822,7 @@
       "brand": "DaiLy Spa",
       "price": 2600000,
       "salePrice": 2290000,
+      "costPrice": null,
       "description": "Khung inox 304 sáng bóng vĩnh viễn không hoen rỉ, đầu giường trang bị thanh răng trợ lực nâng gập từ 0 đến 60 độ, phù hợp chăm sóc da mặt, nối mi, tiêm filler và massage cổ vai gáy.",
       "details": [
         "Inox 304 chuẩn y tế dày 1.2mm sáng bóng",
@@ -855,6 +870,7 @@
       "brand": "DaiLy Spa",
       "price": 1950000,
       "salePrice": 1650000,
+      "costPrice": null,
       "description": "Giường spa xếp gọn dạng vali tiện lợi nhất cho thợ làm đẹp di động. Chân hợp kim nhôm máy bay siêu nhẹ chỉ nặng 12kg nhưng chịu tải trọng tới 200kg, gập lại chỉ bằng một chiếc vali du lịch.",
       "details": [
         "Chân hợp kim nhôm siêu nhẹ, trọng lượng toàn giường chỉ 12kg",
@@ -1019,62 +1035,6 @@
   ],
   "coupons": [
     {
-      "id": "coup-daily13h",
-      "code": "DAILY13H",
-      "description": "Flash Sale 1H Chiều (13H): Giảm 15% tối đa 1.500.000đ",
-      "discountType": "PERCENT",
-      "discountValue": 15,
-      "minOrderValue": 4000000,
-      "maxDiscount": 1500000,
-      "usageLimit": 300,
-      "usedCount": 39,
-      "startDate": "2025-01-01",
-      "endDate": "2026-12-31",
-      "status": "ACTIVE"
-    },
-    {
-      "id": "coup-daily7h",
-      "code": "DAILY7H",
-      "description": "Flash Sale 7H Sáng: Giảm 10% tối đa 800.000đ",
-      "discountType": "PERCENT",
-      "discountValue": 10,
-      "minOrderValue": 1500000,
-      "maxDiscount": 800000,
-      "usageLimit": 300,
-      "usedCount": 28,
-      "startDate": "2025-01-01",
-      "endDate": "2026-12-31",
-      "status": "ACTIVE"
-    },
-    {
-      "id": "coup-13h",
-      "code": "SAN13H",
-      "description": "Voucher Săn 1H Chiều (13H): Giảm 1.000.000đ cho đơn từ 5.000.000đ",
-      "discountType": "FIXED",
-      "discountValue": 1000000,
-      "minOrderValue": 5000000,
-      "maxDiscount": 1000000,
-      "usageLimit": 500,
-      "usedCount": 65,
-      "startDate": "2025-01-01",
-      "endDate": "2026-12-31",
-      "status": "ACTIVE"
-    },
-    {
-      "id": "coup-7h",
-      "code": "SAN7H",
-      "description": "Voucher Săn 7H Sáng: Giảm 500.000đ cho đơn từ 2.000.000đ",
-      "discountType": "FIXED",
-      "discountValue": 500000,
-      "minOrderValue": 2000000,
-      "maxDiscount": 500000,
-      "usageLimit": 500,
-      "usedCount": 42,
-      "startDate": "2025-01-01",
-      "endDate": "2026-12-31",
-      "status": "ACTIVE"
-    },
-    {
       "id": "coup-1",
       "code": "SETUP500",
       "description": "Giảm ngay 500.000đ cho đơn hàng mua giường từ 5.000.000đ",
@@ -1216,5 +1176,72 @@
     "bankName": "Techcombank (Ngân hàng TMCP Kỹ thương Việt Nam)",
     "bankAccountNumber": "19036888999888",
     "bankAccountName": "CONG TY TNHH DAILY GIUONG SPA"
-  }
+  },
+  "inventoryLogs": [
+    {
+      "id": "log-seed-1",
+      "productId": "prod-1",
+      "productName": "Giường Tiêm Thẩm Mỹ Chỉnh Điện 3 Động Cơ Cao Cấp Hi-Tech S3",
+      "variantId": "v-101",
+      "sku": "MS-S3-WHT",
+      "reason": "IMPORT_STOCK",
+      "reasonLabel": "Nhập hàng từ xưởng sản xuất",
+      "quantityBefore": 0,
+      "quantityChange": 15,
+      "quantityAfter": 15,
+      "note": "Nhập lô hàng đầu tháng từ xưởng Bình Dương",
+      "performedBy": "Trần Văn Quản Trị (Admin)",
+      "createdAt": "2025-01-15T08:30:00Z"
+    },
+    {
+      "id": "log-seed-2",
+      "productId": "prod-1",
+      "productName": "Giường Tiêm Thẩm Mỹ Chỉnh Điện 3 Động Cơ Cao Cấp Hi-Tech S3",
+      "variantId": "v-101",
+      "sku": "MS-S3-WHT",
+      "reason": "ORDER_PLACED",
+      "reasonLabel": "Khách đặt đơn hàng",
+      "quantityBefore": 15,
+      "quantityChange": -1,
+      "quantityAfter": 14,
+      "orderId": "ord-1001",
+      "orderCode": "ORD-250101",
+      "note": "Đơn hàng ORD-250101 khách Nguyễn Thúy Vy",
+      "performedBy": "Hệ thống tự động",
+      "createdAt": "2025-01-18T10:30:00Z"
+    },
+    {
+      "id": "log-seed-3",
+      "productId": "prod-3",
+      "productName": "Giường Gội Đầu Dưỡng Sinh Tai Thỏ Bồn Sứ Vòm Tuần Hoàn Nước",
+      "variantId": "v-301",
+      "sku": "MS-GDS-CFE",
+      "reason": "IMPORT_STOCK",
+      "reasonLabel": "Nhập hàng từ xưởng sản xuất",
+      "quantityBefore": 0,
+      "quantityChange": 20,
+      "quantityAfter": 20,
+      "note": "Lô bồn sứ Đài Loan nhập khẩu",
+      "performedBy": "Trần Văn Quản Trị (Admin)",
+      "createdAt": "2025-01-16T09:00:00Z"
+    },
+    {
+      "id": "log-seed-4",
+      "productId": "prod-3",
+      "productName": "Giường Gội Đầu Dưỡng Sinh Tai Thỏ Bồn Sứ Vòm Tuần Hoàn Nước",
+      "variantId": "v-301",
+      "sku": "MS-GDS-CFE",
+      "reason": "ORDER_PLACED",
+      "reasonLabel": "Khách đặt đơn hàng",
+      "quantityBefore": 20,
+      "quantityChange": -2,
+      "quantityAfter": 18,
+      "orderId": "ord-1002",
+      "orderCode": "ORD-250102",
+      "note": "Đơn hàng ORD-250102 khách Lê Minh Tuấn",
+      "performedBy": "Hệ thống tự động",
+      "createdAt": "2025-01-21T09:15:00Z"
+    }
+  ],
+  "storedFiles": []
 }

@@ -238,7 +238,37 @@ export const api = {
           method: 'PUT',
           body: JSON.stringify({ stock }),
         }),
+      getLogs: (params?: { productId?: string; variantId?: string; reason?: string; page?: number; limit?: number }): Promise<{
+        success: boolean;
+        data: { logs: import('../types').InventoryLog[]; total: number; page: number; totalPages: number };
+      }> => {
+        const query = new URLSearchParams();
+        if (params?.productId) query.append('productId', params.productId);
+        if (params?.variantId) query.append('variantId', params.variantId);
+        if (params?.reason) query.append('reason', params.reason);
+        if (params?.page) query.append('page', String(params.page));
+        if (params?.limit) query.append('limit', String(params.limit));
+        const qs = query.toString();
+        return fetchWithAuth(`/api/admin/inventory/logs${qs ? `?${qs}` : ''}`);
+      },
+      adjustStock: (data: {
+        productId: string;
+        variantId: string;
+        quantityChange: number;
+        reason: import('../types').InventoryLogReason;
+        reasonLabel: string;
+        note?: string;
+      }) =>
+        fetchWithAuth('/api/admin/inventory/adjust', {
+          method: 'POST',
+          body: JSON.stringify(data),
+        }),
     },
+    uploadImage: (image: string, name?: string): Promise<{ success: boolean; url: string; isDuplicate?: boolean; message?: string }> =>
+      fetchWithAuth('/api/upload', {
+        method: 'POST',
+        body: JSON.stringify({ image, name }),
+      }),
 
     coupons: {
       getAll: (): Promise<{ success: boolean; data: Coupon[] }> =>

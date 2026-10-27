@@ -38,6 +38,7 @@ export const AdminProductsPage: React.FC = () => {
     brand: 'DaiLy Spa',
     price: 0,
     salePrice: 0,
+    costPrice: 0,
     description: '',
     images: ['/images/products/giuong-massage-go.png'],
     isFeatured: false,
@@ -90,6 +91,7 @@ export const AdminProductsPage: React.FC = () => {
       brand: 'DaiLy Spa',
       price: 2500000,
       salePrice: 0,
+      costPrice: 1500000,
       description: '',
       images: ['/images/products/giuong-massage-go.png'],
       isFeatured: false,
@@ -112,6 +114,7 @@ export const AdminProductsPage: React.FC = () => {
       brand: p.brand || 'DaiLy Spa',
       price: p.price,
       salePrice: p.salePrice || 0,
+      costPrice: p.costPrice || 0,
       description: p.description,
       images: p.images.length ? p.images : ['https://images.unsplash.com/photo-1521572267360-ee0c2909d518?w=800'],
       isFeatured: Boolean(p.isFeatured),
@@ -138,13 +141,35 @@ export const AdminProductsPage: React.FC = () => {
         return;
       }
       const reader = new FileReader();
-      reader.onload = () => {
+      reader.onload = async () => {
         if (typeof reader.result === 'string') {
-          setFormData(prev => ({
-            ...prev,
-            images: [reader.result as string, ...prev.images.slice(1)],
-          }));
-          success('Đã tải ảnh thành công!');
+          try {
+            // Upload through deduplication API with SHA-256 Checksum
+            const uploadRes = await api.admin.uploadImage(reader.result, file.name);
+            if (uploadRes.success) {
+              setFormData(prev => ({
+                ...prev,
+                images: [uploadRes.url, ...prev.images.slice(1)],
+              }));
+              if (uploadRes.isDuplicate) {
+                success('Khử trùng lặp file: Đã phát hiện ảnh trùng trên server & tái sử dụng (tiết kiệm dung lượng)!');
+              } else {
+                success('Đã tải ảnh lên server thành công (SHA-256 Hash)!');
+              }
+            } else {
+              setFormData(prev => ({
+                ...prev,
+                images: [reader.result as string, ...prev.images.slice(1)],
+              }));
+              success('Đã nạp ảnh thành công');
+            }
+          } catch {
+            setFormData(prev => ({
+              ...prev,
+              images: [reader.result as string, ...prev.images.slice(1)],
+            }));
+            success('Đã nạp ảnh thành công');
+          }
         }
       };
       reader.readAsDataURL(file);
@@ -341,6 +366,11 @@ export const AdminProductsPage: React.FC = () => {
                             {p.price.toLocaleString('vi-VN')}đ
                           </p>
                         )}
+                        {p.costPrice ? (
+                          <p className="text-[10px] text-emerald-400 font-mono mt-0.5">
+                            Vốn xưởng: {p.costPrice.toLocaleString('vi-VN')}đ
+                          </p>
+                        ) : null}
                       </td>
 
                       <td className="px-4 py-4">
@@ -489,11 +519,11 @@ export const AdminProductsPage: React.FC = () => {
                 </div>
               </div>
 
-              {/* Price & Sale Price */}
-              <div className="grid grid-cols-2 gap-4">
+              {/* Price, Sale Price & Cost Price */}
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                 <div>
                   <label className="block text-xs font-semibold text-zinc-300 mb-1.5">
-                    Giá gốc (VNĐ) *
+                    Giá niêm yết (VNĐ) *
                   </label>
                   <input
                     type="number"
@@ -502,13 +532,13 @@ export const AdminProductsPage: React.FC = () => {
                     step={1000}
                     value={formData.price}
                     onChange={e => setFormData({ ...formData, price: Number(e.target.value) })}
-                    className="w-full px-3.5 py-2.5 bg-zinc-950 border border-zinc-800 rounded-xl text-xs text-white focus:outline-none"
+                    className="w-full px-3 py-2 bg-zinc-950 border border-zinc-800 rounded-xl text-xs text-white focus:outline-none"
                   />
                 </div>
 
                 <div>
                   <label className="block text-xs font-semibold text-zinc-300 mb-1.5">
-                    Giá khuyến mãi (VNĐ) (để 0 nếu không giảm)
+                    Giá bán thực tế (VNĐ)
                   </label>
                   <input
                     type="number"
@@ -516,10 +546,37 @@ export const AdminProductsPage: React.FC = () => {
                     step={1000}
                     value={formData.salePrice}
                     onChange={e => setFormData({ ...formData, salePrice: Number(e.target.value) })}
-                    className="w-full px-3.5 py-2.5 bg-zinc-950 border border-zinc-800 rounded-xl text-xs text-white focus:outline-none"
+                    placeholder="0 nếu không giảm"
+                    className="w-full px-3 py-2 bg-zinc-950 border border-zinc-800 rounded-xl text-xs text-white focus:outline-none"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-xs font-semibold text-emerald-400 mb-1.5">
+                    Giá vốn xưởng (VNĐ)
+                  </label>
+                  <input
+                    type="number"
+                    min={0}
+                    step={1000}
+                    value={formData.costPrice}
+                    onChange={e => setFormData({ ...formData, costPrice: Number(e.target.value) })}
+                    placeholder="Giá xưởng nhập"
+                    className="w-full px-3 py-2 bg-zinc-950 border border-emerald-900/60 rounded-xl text-xs text-emerald-300 focus:outline-none"
                   />
                 </div>
               </div>
+
+              {/* Profit Margin Preview Helper */}
+              {formData.costPrice > 0 && (formData.salePrice > 0 || formData.price > 0) && (
+                <div className="bg-emerald-950/20 border border-emerald-500/20 rounded-xl px-3.5 py-2 flex items-center justify-between text-xs">
+                  <span className="text-zinc-400">Ước tính lợi nhuận mỗi cái bán ra:</span>
+                  <span className="font-bold text-emerald-400 font-mono">
+                    +{((formData.salePrice || formData.price) - formData.costPrice).toLocaleString('vi-VN')}đ (
+                    {Math.round((((formData.salePrice || formData.price) - formData.costPrice) / (formData.salePrice || formData.price)) * 100)}% biên)
+                  </span>
+                </div>
+              )}
 
               {/* Image URL & File Upload */}
               <div>

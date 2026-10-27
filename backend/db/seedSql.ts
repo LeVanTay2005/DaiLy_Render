@@ -36,6 +36,8 @@ async function seed() {
 
     console.log('[Seed] Xoá dữ liệu cũ theo thứ tự khoá ngoại...');
     await request.query(`
+      IF OBJECT_ID('inventory_logs', 'U') IS NOT NULL DELETE FROM inventory_logs;
+      IF OBJECT_ID('stored_files', 'U') IS NOT NULL DELETE FROM stored_files;
       DELETE FROM order_items;
       DELETE FROM orders;
       DELETE FROM coupon_usages;
@@ -113,6 +115,7 @@ async function seed() {
       r.input('brand', sql.NVarChar(100), p.brand || 'DaiLy Spa');
       r.input('price', sql.Decimal(18, 2), p.price);
       r.input('sale_price', sql.Decimal(18, 2), p.salePrice || null);
+      r.input('cost_price', sql.Decimal(18, 2), p.costPrice || 0);
       r.input('description', sql.NVarChar(sql.MAX), p.description || null);
       r.input('details', sql.NVarChar(sql.MAX), p.details ? JSON.stringify(p.details) : null);
       r.input('rating', sql.Decimal(3, 1), p.rating || 5.0);
@@ -126,8 +129,8 @@ async function seed() {
       r.input('updated_at', sql.DateTime2, new Date());
 
       await r.query(`
-        INSERT INTO products (id, name, slug, category_id, brand, price, sale_price, description, details, rating, review_count, sold_count, is_featured, is_new_arrival, is_flash_sale, status, created_at, updated_at)
-        VALUES (@id, @name, @slug, @category_id, @brand, @price, @sale_price, @description, @details, @rating, @review_count, @sold_count, @is_featured, @is_new_arrival, @is_flash_sale, @status, @created_at, @updated_at)
+        INSERT INTO products (id, name, slug, category_id, brand, price, sale_price, cost_price, description, details, rating, review_count, sold_count, is_featured, is_new_arrival, is_flash_sale, status, created_at, updated_at)
+        VALUES (@id, @name, @slug, @category_id, @brand, @price, @sale_price, @cost_price, @description, @details, @rating, @review_count, @sold_count, @is_featured, @is_new_arrival, @is_flash_sale, @status, @created_at, @updated_at)
       `);
 
       // Images
@@ -316,6 +319,34 @@ async function seed() {
         INSERT INTO store_settings (id, store_name, phone, email, address, opening_hours, shipping_fee_standard, free_shipping_threshold, bank_name, bank_account_number, bank_account_name, updated_at)
         VALUES (@id, @store_name, @phone, @email, @address, @opening_hours, @shipping_fee_standard, @free_shipping_threshold, @bank_name, @bank_account_number, @bank_account_name, GETDATE())
       `);
+    }
+
+    // 8. Inventory Logs (Phase 1.2)
+    if (Array.isArray(store.inventoryLogs) && store.inventoryLogs.length > 0) {
+      console.log(`[Seed] Nạp ${store.inventoryLogs.length} thẻ kho mẫu...`);
+      for (const log of store.inventoryLogs) {
+        const r = new sql.Request(transaction);
+        r.input('id', sql.VarChar(50), log.id);
+        r.input('product_id', sql.VarChar(36), log.productId);
+        r.input('product_name', sql.NVarChar(255), log.productName);
+        r.input('variant_id', sql.VarChar(36), log.variantId || null);
+        r.input('sku', sql.NVarChar(100), log.sku);
+        r.input('reason', sql.VarChar(30), log.reason);
+        r.input('reason_label', sql.NVarChar(100), log.reasonLabel);
+        r.input('quantity_before', sql.Int, log.quantityBefore);
+        r.input('quantity_change', sql.Int, log.quantityChange);
+        r.input('quantity_after', sql.Int, log.quantityAfter);
+        r.input('order_id', sql.VarChar(36), log.orderId || null);
+        r.input('order_code', sql.VarChar(50), log.orderCode || null);
+        r.input('note', sql.NVarChar(500), log.note || null);
+        r.input('performed_by', sql.NVarChar(150), log.performedBy || 'System');
+        r.input('created_at', sql.DateTime2, log.createdAt ? new Date(log.createdAt) : new Date());
+
+        await r.query(`
+          INSERT INTO inventory_logs (id, product_id, product_name, variant_id, sku, reason, reason_label, quantity_before, quantity_change, quantity_after, order_id, order_code, note, performed_by, created_at)
+          VALUES (@id, @product_id, @product_name, @variant_id, @sku, @reason, @reason_label, @quantity_before, @quantity_change, @quantity_after, @order_id, @order_code, @note, @performed_by, @created_at)
+        `);
+      }
     }
 
     await transaction.commit();
