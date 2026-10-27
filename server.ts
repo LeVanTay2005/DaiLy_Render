@@ -1,5 +1,6 @@
 import express, { Request, Response } from 'express';
 import path from 'path';
+import fs from 'fs';
 import dotenv from 'dotenv';
 import authRoutes from './backend/routes/authRoutes.js';
 import productRoutes from './backend/routes/productRoutes.js';
@@ -136,8 +137,11 @@ app.use('/api', (err: any, _req: Request, res: Response, _next: any) => {
 });
 
 async function startServer() {
-  if (process.env.NODE_ENV !== 'production') {
-    // Vite middleware for development
+  const isRunningFromDist = Boolean(process.argv[1]?.includes('dist') || process.argv[1]?.endsWith('server.cjs'));
+  const isProduction = process.env.NODE_ENV === 'production' || isRunningFromDist;
+
+  if (!isProduction) {
+    // Vite middleware for development (chỉ dùng khi chạy tsx server.ts)
     const { createServer: createViteServer } = await import('vite');
     const vite = await createViteServer({
       server: { middlewareMode: true },
@@ -145,8 +149,11 @@ async function startServer() {
     });
     app.use(vite.middlewares);
   } else {
-    // Production static files
-    const distPath = path.join(process.cwd(), 'dist');
+    // Production static files (phục vụ giao diện React đã build)
+    const distPath = fs.existsSync(path.join(process.cwd(), 'dist', 'index.html'))
+      ? path.join(process.cwd(), 'dist')
+      : (typeof __dirname !== 'undefined' ? __dirname : path.join(process.cwd(), 'dist'));
+    console.log(`[DaiLy Giuong Spa] Kích hoạt chế độ Production, phục vụ giao diện từ: ${distPath}`);
     app.use(express.static(distPath));
     app.get('*', (_req: Request, res: Response) => {
       res.sendFile(path.join(distPath, 'index.html'));
